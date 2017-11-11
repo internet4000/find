@@ -47,6 +47,7 @@
 
   // start
 	var userQuery = decodeUserQuery(getURLParameter('q'));
+	if(!userQuery) { return };
 	openSearchResults(userQuery.siteURL, userQuery.siteQuery);
 
 	console.log('userQuery', userQuery);
