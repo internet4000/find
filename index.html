@@ -7,34 +7,46 @@
     <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find!" />
     <script src="./main.js"></script>
     <style>
-     html {
-	 background-color: lightgray;
-	 font-size: 17px;
-	 font-family: monospace;
-	 letter-spacing: 1.2px;
-	 line-height: 1.5;
-     }
-     body {
-	 margin: 0;
-	 height: 100vh;
-	 display: flex;
-	 flex-direction: column;
-	 align-items: center;
-	 justify-content: center;
-     }
-     .Header {
-	 padding: 2rem;
-     }
-     .Header-title {
-	 margin-top: 0;
-     }
+			html {
+				background-color: lightgray;
+				font-size: 17px;
+				font-family: monospace;
+				letter-spacing: 1.2px;
+				line-height: 1.5;
+			}
+			body {
+				margin: 0;
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+			.Header {
+				padding: 2rem;
+				max-width: 30rem;
+			}
+			.Header-title {
+				margin-top: 0;
+			}
     </style>
   </head>
 
   <body>
     <section class="Header">
       <h1 class="Header-title"><a href="/">Find!</a></h1>
-      <p class="Header-subtitle">Google searches, we <strong>find</strong> (and respect your privacy).</p>
+			<p><strong>Step 1</strong>: define this page as your default search engine.</p>
+			<p><strong>Step 2</strong>: type your search in the URL bar.</p>
+			<p>You can use the following <strong>syntax</strong> to prefix your search term:</p>
+			<ul>
+				<li>!d duckduckgo (default)</li>
+				<li>!g google encrypted</li>
+				<li>!m google maps</li>
+				<li>!w wikipedia</li>
+				<li>!y youtube</li>
+				<li>!dd devdocs</li>
+				<li>!lp lpepfinder</li>
+			</ul>
       <p><a href="https://github.com/hugurp/find" target="_blank">How to use this website?</a></p>
     </section>
   </body>
