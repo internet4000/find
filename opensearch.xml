@@ -4,7 +4,7 @@
    <Description>Find anything anywhere</Description>
    <Tags>find now productivity search</Tags>
    <Contact>hugo.vieilledent+find@gmail.com</Contact>
-   <Url type="text/html" template="https://f.hugurp.org/?q={searchTerms}"/>
+   <Url type="text/html" template="https://find.hugurp.org?q={searchTerms}"/>
    <LongName>
      When you're looking for something, and you know where to find it,
      don't lose a second, let's go! Find!
