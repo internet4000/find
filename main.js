@@ -1,12 +1,14 @@
 (function() {
 
-	// site keyword : site URL
   var searchEngines = {
     d: 'https://duckduckgo.com/?q=',
     g: 'https://encrypted.google.com/search?q=',
+		m: 'https://www.google.com/maps/search/'
+		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
-    dd: 'http://devdocs.io/#q='
-  }
+		dd: 'http://devdocs.io/#q=',
+		lp: 'https://lpepfinder.com/#gsc.q=',
+  };
 
   function getURLParameter(name) {
     var param = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''];
@@ -24,7 +26,6 @@
 
     if(terms.length > 1 && new RegExp(regexBang).test(terms[0])) {
 			siteKeyword = terms[0].replace(regexBang, '');
-			// searchEngines.hasOwnProperty(siteKeyword) &&
       siteURL = searchEngines[siteKeyword] || null;
 			siteQuery = terms.splice(1, terms.length).join(' ');
     } else {
