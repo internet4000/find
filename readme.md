@@ -27,10 +27,12 @@ track you".
 But all the idea with `Find!` is to use the following `keywords` as
 search triggers:
 
-| d  | duckduckgo       |
-| g  | google encrypted |
-| y  | youtube          |
-| lp | lpepfinder       |
+| keyword | site             |
+| ---     | ---              |
+| d       | duckduckgo       |
+| g       | google encrypted |
+| y       | youtube          |
+| lp      | lpepfinder       |
 
 
 To use these triggers, for exemple with the search query `foo`:
