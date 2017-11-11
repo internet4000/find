@@ -4,15 +4,15 @@ Simply find what you want, where you know you'll find it.
 
 ## Setup
 
-- Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
-- Add this webpage as your search engine. Here is where how, with:
--- Firefox, click the magnifying glass icon (it has a green "+") in
+* Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
+* Add this webpage as your search engine. Here is where how, with:
+** Firefox, click the magnifying glass icon (it has a green "+") in
 the search bar, then click the `Add "Find!" button`. [Check if it
 worked here](about:preferences#search), it should now appear in the
 "One-click search engines" list. You can double click its `Keyword`
 column to customize how it will be triggered, we recommand you to put
 the letter `f` (short for "find").
--- For Chrome/Chromium, go to [the search engines settings
+** For Chrome/Chromium, go to [the search engines settings
 page](chrome://settings/searchEngines). In the "Other search engines"
 section, click the "add" button. Add the search engine with the
 following values: Seach engine: `Find`, Keyword: `f`, Query URL: `https://find.hugurp.org?q=%s`.
