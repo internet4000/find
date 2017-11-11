@@ -6,10 +6,33 @@
     <meta name="viewport" content="width=device-width">
     <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find!" />
     <script src="./main.js"></script>
+    <style>
+     html {
+	 background-color: lightgray;
+	 font-size: 17px;
+     }
+     body {
+	 margin: 0;
+	 height: 100vh;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+	 justify-content: center;
+     }
+     .Header {
+	 padding: 2rem;
+     }
+     .Header-title {
+	 margin-top: 0;
+     }
+    </style>
   </head>
 
   <body>
-    <h1>Find!</h1>
-    <p>To start using "Find!", add this page as a search engine in your web browser.</p>
+    <section class="Header">
+      <h1 class="Header-title"><a href="/">Find!</a></h1>
+      <p class="Header-subtitle">Google searches, we <strong>find</strong> (and respect your privacy).</p>
+      <p><a href="https://github.com/hugurp/find" target="_blank">How to use this website?</a></p>
+    </section>
   </body>
 </html>
