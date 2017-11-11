@@ -3,11 +3,11 @@
   var searchEngines = {
     d: 'https://duckduckgo.com/?q=',
     g: 'https://encrypted.google.com/search?q=',
-		m: 'https://www.google.com/maps/search/'
+		m: 'https://www.google.com/maps/search/',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
 		dd: 'http://devdocs.io/#q=',
-		lp: 'https://lpepfinder.com/#gsc.q=',
+		lp: 'https://lpepfinder.com/#gsc.q='
   };
 
   function getURLParameter(name) {
