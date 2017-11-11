@@ -2,6 +2,7 @@
 
   var searchEngines = {
 		a: 'https://www.amazon.com/s/field-keywords=',
+		c: 'https://contacts.google.com/search/',
     d: 'https://duckduckgo.com/?q=',
     g: 'https://encrypted.google.com/search?q=',
 		m: 'https://www.google.com/maps/search/',
