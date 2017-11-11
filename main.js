@@ -1,13 +1,16 @@
 (function() {
 
   var searchEngines = {
+		a: 'https://www.amazon.com/s/field-keywords=',
     d: 'https://duckduckgo.com/?q=',
     g: 'https://encrypted.google.com/search?q=',
 		m: 'https://www.google.com/maps/search/',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
 		dd: 'http://devdocs.io/#q=',
-		lp: 'https://lpepfinder.com/#gsc.q='
+		lp: 'https://lpepfinder.com/#gsc.q=',
+		ciu: 'https://caniuse.com/#search=',
+		osm: 'https://www.openstreetmap.org/search?q='
   };
 
   function getURLParameter(name) {
