@@ -5,6 +5,7 @@
 		<title>Find!</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
+		<meta name="description" content="Find exactly what you're looking for.">
 
 		<link rel="apple-touch-icon" sizes="180x180" href="./public/favicons/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="./public/favicons/favicon-32x32.png">
@@ -39,11 +40,13 @@
 				align-items: center;
 				justify-content: center;
 			}
-			ul {
+			.BrowserList {
 				padding-left: 1.5rem;
 				margin: 0;
-				list-style-type: square;
+				list-style-type: none;
 				list-style-position: inside;
+				max-height: 9rem;
+				overflow-y: scroll;
 			}
 			.Header {
 				padding: 1rem;
@@ -77,10 +80,10 @@
 					Find!
 				</a>
 			</h1>
-			<p><strong>Step 1</strong>: define this page as your <strong>default search engine</strong>.</p>
+			<p><strong>Step 1</strong>: make Find! your <strong>default search engine</strong>.</p>
 			<p><strong>Step 2</strong>: type your search in the URL bar.</p>
-			<p>You can use the following <strong>syntax</strong> to prefix your search term, and search directly on the corresponding site:</p>
-			<ul>
+			<p>Use the following <strong>!keywords</strong> before your query to go directly on the corresponding site.</p>
+			<ul class="BrowserList" title="'!w hello world', will search 'Hello world' on Wikipedia">
 				<li>!a = amazon.com</li>
 				<li>!c = contacts.google.com</li>
 				<li>!ciu = caniuse.com</li>
@@ -94,8 +97,8 @@
 				<li>!w = en.wikipedia.org</li>
 				<li>!y = youtube.com</li>
 			</ul>
-			<p>Learn more and audit the code on <a href="https://github.com/hugurp/find" target="_blank">Github</a>.</p>
-			<p>One last thing, the keyboard shortcut to move your cursor directly inside your browser URL bar is <strong>Ctrl + l</strong> (all browsers). Try it!</p>
+			<p>The <strong>Ctrl-l</strong> keyboard shortcut, on any page and in any browser, will focus the URL bar.</p>
+			<p>Learn more on <a href="https://github.com/hugurp/find" target="_blank">Github</a>.</p>
 		</section>
 	</body>
 </html>
