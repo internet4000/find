@@ -4,13 +4,13 @@
 		 searchEngines: Object { keyword: 'site open search template'}
 	 */
   var searchEngines = {
-		a: 'https://www.amazon.com/s/field-keywords=',
+		a: 'https://www.amazon.com/gp/search?tag=internet4000&keywords=',
 		c: 'https://contacts.google.com/search/',
 		ciu: 'https://caniuse.com/#search=',
     d: 'https://duckduckgo.com/?q=',
 		dd: 'http://devdocs.io/#q=',
 		dr: 'https://drive.google.com/drive/search?q=',
-		e: 'https://www.ebay.com/sch/i.html?_nkw='
+		e: 'https://www.ebay.com/sch/i.html?_nkw=',
     g: 'https://encrypted.google.com/search?q=',
 		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
