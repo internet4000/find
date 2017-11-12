@@ -20,7 +20,7 @@
 		osm: 'https://www.openstreetmap.org/search?query=',
 		tr: 'https://translate.google.com/#auto/#auto/',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
-		wo: 'http://www.wolframalpha.com/input/?i=',
+		wa: 'http://www.wolframalpha.com/input/?i=',
     y: 'https://www.youtube.com/results?search_query=',
   };
 
