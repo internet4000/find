@@ -29,30 +29,30 @@
   function decodeUserQuery(userQuery) {
     if(!userQuery) { return }
 
-		var siteQuery,
+		var siteQuery = userQuery,
 				regexBang = /^!/,
 				siteKeyword,
 				siteURL,
 				terms = userQuery.split(' ');
 
-    if(terms.length > 1 && new RegExp(regexBang).test(terms[0])) {
+    if(new RegExp(regexBang).test(terms[0])) {
 			siteKeyword = terms[0].replace(regexBang, '');
-      siteURL = searchEngines[siteKeyword] || null;
-			siteQuery = terms.splice(1, terms.length).join(' ');
-    } else {
-			siteQuery = userQuery;
-		}
+
+			if(searchEngines.hasOwnProperty(siteKeyword)) {
+				siteURL = searchEngines[siteKeyword];
+				siteQuery = terms.splice(1, terms.length).join(' ');
+			} else {
+				siteURL = searchEngines.d;
+			}
+    }
 
 		return {
-			siteURL: siteURL || null,
+			siteURL: siteURL,
 			siteQuery: siteQuery
 		};
   }
 
 	function openSearchResults(siteURL, siteQuery) {
-		if(!siteURL) {
-			siteURL = searchEngines.d;
-		}
 		window.open(siteURL + siteQuery, '_self');
 	}
 
