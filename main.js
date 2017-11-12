@@ -4,7 +4,7 @@
 		 searchEngines: Object { keyword: 'site open search template'}
 	 */
   var searchEngines = {
-		a: 'https://www.amazon.com/gp/search?tag=internet4000&keywords=',
+		a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords=',
 		c: 'https://contacts.google.com/search/',
 		ciu: 'https://caniuse.com/#search=',
     d: 'https://duckduckgo.com/?q=',
