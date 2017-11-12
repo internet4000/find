@@ -75,25 +75,68 @@ moto makes a lot of sense, to start usage very quickly.
 
 ## Customization
 
-No configuration does not mean you cannot customize your usage. If you
-would like, this software is [Free
-software](https://en.wikipedia.org/wiki/Free_software).
+No configuration does not mean you cannot customize your usage. Since
+this software is [Free
+software](https://en.wikipedia.org/wiki/Free_software), you can easily
+deploy and customize your own instance.
 
-You can find the code on [Github](https://github.com/hugurp/find), and
+Find the code on [Github](https://github.com/hugurp/find), and
 customize as you want.
 
+### Host your own instance 
+
+You will have to change the following:
+
+- in `opensearch.xml`, the line `<Url type="text/html"
+  template="https://find.hugurp.org?q={searchTerms}"/>`, should be
+  updated to reflect where you site will be hosted.
+
+### How to add new search engine websites
+
+Go to the website you would like to add, search for `foo` in the
+search input, and wait for the search result to appear. Now copy the
+URL of the search result page, and it should have `foo` in it (usually
+after a parameter called `q`, or `query`, but it could be a different
+pattern). Copy everything, from the `scheme://` to `foo` (excluded).
+
+Now update the `searchEngines` Javascript `Object`
+in the file `main.js`, with the URL you copied before (without `foo`).
+
+It shoud look like this:
+
+```
+// `f` is the key that will trigger the site search, `!f`
+// and between the `` is the site (to which you removed `foo`)
+// of course all the websites you want should appear here
+
+var searchEngines = {
+  f: 'https://your-new-website.org/search?q=',
+}
+```
 
 ## Hosting
 
 This website is hosted on [Netlify](https://www.netlify.com/), auto
 deployed when new commits are pushed to the `master` branch of this
-git repository.
+git repository. You can of course setup the same behavior.
+
 
 ## Privacy
 
-No data is stored, audit the code.
+No data is stored, audit the code. Therefore you can either use this
+instance of the code, or host your own.
+
 
 ## License
 
 This software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html).
+
+## Improvement to this software
+
+This version is a pure frontend version, written in Javscript. It is
+super easy to host and deploy, but one of the downside is speed, even
+though after the first visit the complete code is cached by the
+browser. If a similar code were to be implement directly on a server,
+there would be one less client request, but it would be less easy to
+host and deploy.
