@@ -2,10 +2,30 @@
 
 Simply find what you want, where you know you'll find it.
 
+The URL bar of modern web browsers is a place we write many things. We
+write websites we want to access, or search queries that should help
+us find what we're looking for.
+
+Overhall we use it as a CLI (command line interface) to complete
+actions on the web. In Chrome/Chromium, Google calls it the
+Omnibox. Omni is a Latin prefix meaning "all" or "every", since we use
+it to *input everything**.
+
+*Find!* aims to be a simple way to enhance your experience, easy to
+setup and use. Also, it is Free software, and can be customized and
+hosted at your convenience.
+
+The fastest way to start is to make it your web browser's
+default search engine. No more. Then everything happens in your URL bar.
+
+[Try Find! here](https://find.hugurp.org).
+
+Continue reading for more details.
+
 ## Setup
 
-* Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
-* Add this webpage as your search engine. Here is where how, with:
+1. Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
+2. Add this webpage as your search engine. Here is where how, with:
   * Firefox, click the magnifying glass icon (it has a green "+") in
 the search bar, then click the `Add "Find!" button`. [Check if it
 worked here](about:preferences#search), it should now appear in the
@@ -15,17 +35,19 @@ the letter `f` (short for "find").
   * For Chrome/Chromium, go to [the search engines settings
 page](chrome://settings/searchEngines). In the "Other search engines"
 section, click the "add" button. Add the search engine with the
-following values: Seach engine: `Find`, Keyword: `f`, Query URL: `https://find.hugurp.org?q=%s`.
+following values: Seach engine: `Find`, Keyword: `f`, Query URL:
+`https://find.hugurp.org?q=%s`.
+3. Search using `!` prefixes in your browser's URL bar.
 
 
 ## Usage
 
-By default, your search queries will go to
-[DuckDuckGo](https://duckduckgo.com), "the search engine that doesn't
-track you".
+By default (if you don't use any `!` prefix), your search queries will
+go to [DuckDuckGo](https://duckduckgo.com), "the search engine that
+doesn't track you".
 
-But all the idea with `Find!` is to use the following `keywords` as
-search triggers:
+But all the idea with `Find!` is to use the following `!keywords`
+prefixes as search triggers:
 
 | keyword | site                 |
 | ---     | ---                  |
@@ -45,19 +67,19 @@ search triggers:
 
 To use these triggers, for exemple with the search query `foo`:
 - Put your cursor in the URL bar of your browser
-- Type the website's `keyword` (the website on which you want to
-  search. ex: `y` for Youtube).
+- Type the website's `!keyword` (the website on which you want to
+  search. ex: `!y` for Youtube), prefixed with a `!`.
 - After the keyword, add a `space` (just normally as in between two
   words), and type your *search query*, in this exemple we said
   `foo`
-- At this point the URL bar should have this written in `y foo` (there
-  is a space in between `y` and `foo`).
+- At this point the URL bar should have this written in `!y foo` (there
+  is a space in between `!y` and `foo`).
 - Press `enter` (the return key), to validate your search.
 - Now you should be on Youtube, with the search results for your
   search querry `foo`.
 
 Note: in the exemple above `Find!` is considered to be your default
-search engine. If it is not, and you use it as of Firefox's "one click
+search engine. If it is not, and you use it as one of Firefox's "one click
 search engine", or Chrome/Chromium's "other search engine", you have
 to follow the same steps as above but as a first step you need to
 *trigger the search `Find!` search engine*.
@@ -66,7 +88,7 @@ to follow the same steps as above but as a first step you need to
 
 Except the `keyword` you will use to trigger the search engine (we
 recommand `f`), or setting `Find!` as your *default search engine* in
-your web browser, there is no configuration.
+your web browsers, there is no configuration.
 
 In this case we think the [Convention over
 configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
@@ -76,8 +98,7 @@ moto makes a lot of sense, to start usage very quickly.
 ## Customization
 
 No configuration does not mean you cannot customize your usage. Since
-this software is [Free
-software](https://en.wikipedia.org/wiki/Free_software), you can easily
+this software is free software, you can easily
 deploy and customize your own instance.
 
 Find the code on [Github](https://github.com/hugurp/find), and
@@ -130,7 +151,8 @@ instance of the code, or host your own.
 ## License
 
 This software uses the [GNU General Public License
-v3](https://www.gnu.org/licenses/gpl.html).
+v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
+software](https://en.wikipedia.org/wiki/Free_software).
 
 ## Improvement to this software
 
