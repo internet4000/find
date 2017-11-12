@@ -29,13 +29,18 @@
   function decodeUserQuery(userQuery) {
     if(!userQuery) { return }
 
-		var siteQuery = userQuery,
-				regexBang = /^!/,
-				siteKeyword,
+		var regexBang = /^!/,
 				siteURL,
+				siteQuery,
+				siteKeyword,
 				terms = userQuery.split(' ');
 
-    if(new RegExp(regexBang).test(terms[0])) {
+    if(!new RegExp(regexBang).test(terms[0])) {
+			return {
+				siteURL: searchEngines.d,
+				siteQuery: userQuery
+			};
+    } else {
 			siteKeyword = terms[0].replace(regexBang, '');
 
 			if(searchEngines.hasOwnProperty(siteKeyword)) {
@@ -43,23 +48,25 @@
 				siteQuery = terms.splice(1, terms.length).join(' ');
 			} else {
 				siteURL = searchEngines.d;
+				siteQuery = userQuery;
 			}
-    }
-
-		return {
-			siteURL: siteURL,
-			siteQuery: siteQuery
-		};
+			return {
+				siteURL: siteURL,
+				siteQuery: siteQuery
+			};
+		}
   }
 
 	function openSearchResults(siteURL, siteQuery) {
-		window.open(siteURL + siteQuery, '_self');
+		/* window.open(siteURL + siteQuery, '_self');*/
+		console.log('Opening URL')
+			console.log('decodedUserQuery', decodedUserQuery);
 	}
 
-  // start
-	var userQuery = decodeUserQuery(getURLParameter('q'));
-	if(!userQuery) { return };
-	openSearchResults(userQuery.siteURL, userQuery.siteQuery);
-
-	console.log('userQuery', userQuery);
+  /*
+		 Decode user query and open the site
+	 */
+	var decodedUserQuery = decodeUserQuery(getURLParameter('q'));
+	if(!decodedUserQuery) { return };
+	openSearchResults(decodedUserQuery.siteURL, decodedUserQuery.siteQuery);
 })();
