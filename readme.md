@@ -83,6 +83,16 @@ You can find the code on [Github](https://github.com/hugurp/find), and
 customize as you want.
 
 
+## Hosting
+
+This website is hosted on [Netlify](https://www.netlify.com/), auto
+deployed when new commits are pushed to the `master` branch of this
+git repository.
+
+## Privacy
+
+No data is stored, audit the code.
+
 ## License
 
 This software uses the [GNU General Public License
