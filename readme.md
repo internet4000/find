@@ -49,20 +49,21 @@ doesn't track you".
 But all the idea with `Find!` is to use the following `!keywords`
 prefixes as search triggers:
 
-| keyword | site                 |
-| ---     | ---                  |
-| a       | www.amazon.com       |
-| c       | contacts.google.com  |
-| ciu     | caniuse.com          |
-| d       | duckduckgo.com       |
-| dd      | devdocs.io           |
-| dr      | drive.google.com     |
-| g       | encrypted.google.com |
-| lp      | lpepfinder.com       |
-| m       | maps.google.com      |
-| osm     | openstreetmap.org    |
-| w       | en.wikipedia.org     |
-| y       | www.youtube.com      |
+| keyword   | site                                            |
+| ---       | ---                                             |
+| a         | www.amazon.com                                  |
+| c         | contacts.google.com                             |
+| ciu       | caniuse.com                                     |
+| d         | duckduckgo.com                                  |
+| dd        | devdocs.io                                      |
+| dr        | drive.google.com                                |
+| g         | encrypted.google.com                            |
+| lp        | lpepfinder.com                                  |
+| m         | maps.google.com                                 |
+| osm       | openstreetmap.org                               |
+| w         | en.wikipedia.org                                |
+| y         | www.youtube.com                                 |
+| <unknown> | the !keyword and queries fallback to duckduckgo |
 
 
 To use these triggers, for exemple with the search query `foo`:
