@@ -10,6 +10,7 @@
     d: 'https://duckduckgo.com/?q=',
 		dd: 'http://devdocs.io/#q=',
 		dr: 'https://drive.google.com/drive/search?q=',
+		e: 'https://www.ebay.com/sch/i.html?_nkw='
     g: 'https://encrypted.google.com/search?q=',
 		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
