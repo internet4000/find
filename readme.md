@@ -27,12 +27,20 @@ track you".
 But all the idea with `Find!` is to use the following `keywords` as
 search triggers:
 
-| keyword | site             |
-| ---     | ---              |
-| d       | duckduckgo       |
-| g       | google encrypted |
-| y       | youtube          |
-| lp      | lpepfinder       |
+| keyword | site                 |
+| ---     | ---                  |
+| a       | www.amazon.com       |
+| c       | contacts.google.com  |
+| ciu     | caniuse.com          |
+| d       | duckduckgo.com       |
+| dd      | devdocs.io           |
+| dr      | drive.google.com     |
+| g       | encrypted.google.com |
+| lp      | lpepfinder.com       |
+| m       | maps.google.com      |
+| osm     | openstreetmap.org    |
+| w       | en.wikipedia.org     |
+| y       | www.youtube.com      |
 
 
 To use these triggers, for exemple with the search query `foo`:
@@ -58,7 +66,7 @@ to follow the same steps as above but as a first step you need to
 
 Except the `keyword` you will use to trigger the search engine (we
 recommand `f`), or setting `Find!` as your *default search engine* in
-your web browser, there are no configuration.
+your web browser, there is no configuration.
 
 In this case we think the [Convention over
 configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
@@ -71,7 +79,7 @@ No configuration does not mean you cannot customize your usage. If you
 would like, this software is [Free
 software](https://en.wikipedia.org/wiki/Free_software).
 
-You can find the code on (Github)[https://github.com/hugurp/find], and
+You can find the code on [Github](https://github.com/hugurp/find), and
 customize as you want.
 
 
