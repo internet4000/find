@@ -1,5 +1,8 @@
 (function() {
 
+	/*
+		 searchEngines: Object { keyword: 'site open search template'}
+	 */
   var searchEngines = {
 		a: 'https://www.amazon.com/s/field-keywords=',
 		c: 'https://contacts.google.com/search/',
@@ -10,7 +13,7 @@
     g: 'https://encrypted.google.com/search?q=',
 		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
-		osm: 'https://www.openstreetmap.org/search?q=',
+		osm: 'https://www.openstreetmap.org/search?query=',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
   };
