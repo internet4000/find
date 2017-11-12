@@ -10,7 +10,7 @@
     g: 'https://encrypted.google.com/search?q=',
 		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
-		osm: 'https://www.openstreetmap.org/search?q='
+		osm: 'https://www.openstreetmap.org/search?q=',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
   };
