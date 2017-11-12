@@ -3,15 +3,16 @@
   var searchEngines = {
 		a: 'https://www.amazon.com/s/field-keywords=',
 		c: 'https://contacts.google.com/search/',
+		ciu: 'https://caniuse.com/#search=',
     d: 'https://duckduckgo.com/?q=',
+		dd: 'http://devdocs.io/#q=',
+		dr: 'https://drive.google.com/drive/search?q=',
     g: 'https://encrypted.google.com/search?q=',
+		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
+		osm: 'https://www.openstreetmap.org/search?q='
 		w: 'https://en.wikipedia.org/w/index.php?search=',
     y: 'https://www.youtube.com/results?search_query=',
-		dd: 'http://devdocs.io/#q=',
-		lp: 'https://lpepfinder.com/#gsc.q=',
-		ciu: 'https://caniuse.com/#search=',
-		osm: 'https://www.openstreetmap.org/search?q='
   };
 
   function getURLParameter(name) {
