@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Find</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+	<head>
+		<title>Find</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
 
 		<link rel="apple-touch-icon" sizes="180x180" href="./public/favicons/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="./public/favicons/favicon-32x32.png">
@@ -14,11 +14,11 @@
 		<meta name="msapplication-config" content="./public/favicons/browserconfig.xml">
 		<meta name="theme-color" content="#ffffff">
 
-    <link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find!" />
+		<link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find!" />
 
 		<script src="./main.js"></script>
 
-    <style>
+		<style>
 			html {
 				background-color: lightgray;
 				font-size: 14px;
@@ -56,13 +56,27 @@
 			}
 			.Header-title {
 				margin-top: 0;
+				position: relative;
 			}
-    </style>
-  </head>
+			.Header-title a {
+				text-decoration: none;
+			}
+			.Header-title img {
+				position: absolute;
+				top: -2.3rem;
+				left: -1.3rem;
+			}
+		</style>
+	</head>
 
-  <body>
-    <section class="Header">
-      <h1 class="Header-title"><a href="/">Find!</a></h1>
+	<body>
+		<section class="Header">
+			<h1 class="Header-title">
+				<a href="/">
+					<img src="./public/favicons/favicon-32x32.png"/>
+					Find!
+				</a>
+			</h1>
 			<p><strong>Step 1</strong>: define this page as your default search engine.</p>
 			<p><strong>Step 2</strong>: type your search in the URL bar.</p>
 			<p>You can use the following <strong>syntax</strong> to prefix your search term:</p>
@@ -75,7 +89,7 @@
 				<li>!dd devdocs</li>
 				<li>!lp lpepfinder</li>
 			</ul>
-      <p><a href="https://github.com/hugurp/find" target="_blank">How to use this website?</a></p>
-    </section>
-  </body>
+			<p><a href="https://github.com/hugurp/find" target="_blank">How to use this website?</a></p>
+		</section>
+	</body>
 </html>
