@@ -58,15 +58,14 @@
   }
 
 	function openSearchResults(siteURL, siteQuery) {
-		/* window.open(siteURL + siteQuery, '_self');*/
-		console.log('Opening URL')
-			console.log('decodedUserQuery', decodedUserQuery);
+		window.open(siteURL + siteQuery, '_self');
 	}
 
   /*
-		 Decode user query and open the site
+		 Decode user query then open the site
 	 */
 	var decodedUserQuery = decodeUserQuery(getURLParameter('q'));
 	if(!decodedUserQuery) { return };
+	console.log('decodedUserQuery', decodedUserQuery);
 	openSearchResults(decodedUserQuery.siteURL, decodedUserQuery.siteQuery);
 })();
