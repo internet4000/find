@@ -39,9 +39,11 @@ triggered, we recommand you to put the letter `f`, short for "find"
 	* For *Chrome/Chromium*, go to its settings page
 (`chrome://settings/searchEngines`); in the "Other search engines"
 section, click the "add" button and use the following values:
-> Search engine: `Find`
-> Keyword: `f`
-> Query URL: `https://find.hugurp.org?q=%s`
+```
+Search engine: `Find`
+Keyword: `f`
+Query URL: `https://find.hugurp.org?q=%s`
+```
 
 3. Search using `!` prefixes in your browser's URL bar.
 
@@ -153,9 +155,10 @@ software](https://en.wikipedia.org/wiki/Free_software).
 
 ## Improvement to this software
 
-This version is a pure frontend version, written in Javscript. It is
-super easy to host and deploy, but one of the downside is speed, even
-though after the first visit the complete code is cached by the
-browser. If a similar code were to be implement directly on a server,
+This version is a pure frontend written in Javascript. It is super
+easy to host and deploy, but one of the downside is speed, even though
+after the first visit the complete code is cached by the browser.
+
+If a similar code were to be implement directly on a server,
 there would be one less client request, but it would be less easy to
-host and deploy.
+host and deploy, and audit which information the server stores.
