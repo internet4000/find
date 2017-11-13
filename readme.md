@@ -22,6 +22,15 @@ default search engine; then everything happens in your URL bar.
 
 Continue reading for more details.
 
+## Disclaimer
+
+This project is inspired by Chrome/Chromium's Omnibox TAB trigger, Firefox's
+custom search UX (keyword + space) and DuckDuckGo's !bangs action.
+So nothing revolutionary here but you can self host your instance and
+customize your keywords (!bang), and you won't have to set up custom
+search engines in your browser ever again.
+Cheers
+
 ## Setup details
 
 1. Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
