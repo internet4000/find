@@ -22,6 +22,7 @@
 		w: 'https://en.wikipedia.org/w/index.php?search=',
 		wa: 'http://www.wolframalpha.com/input/?i=',
     y: 'https://www.youtube.com/results?search_query=',
+		'?': 'https://find.internet4000.com'
   };
 
   function getURLParameter(name) {
