@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -35,6 +34,7 @@
 			}
 			body {
 				margin: 0;
+				padding-top: 2rem;
 				min-height: 100vh;
 				display: flex;
 				flex-direction: column;
@@ -82,31 +82,31 @@
 					Find!
 				</a>
 			</h1>
-			<p><strong>Step 1</strong>: make Find! your <strong>default search engine</strong>.</p>
-			<p><strong>Step 2</strong>: type your search in the URL bar.</p>
-			<p>Use the following <strong>!keywords</strong> before your query to go directly on the corresponding site.</p>
-			<ul class="BrowserList" title="'!w hello world', will search 'Hello world' on Wikipedia">
-				<li>!a = amazon.com</li>
-				<li>!c = contacts.google.com</li>
-				<li>!ciu = caniuse.com</li>
-				<li>!d = duckduckgo.com</li>
-				<li>!dd = devdocs.io</li>
-				<li>!dr = drive.google.com</li>
-				<li>!e = rover.ebay.com</li>
-				<li>!g = encrypted.google.com</li>
-				<li>!k = keep.google.com</li>
-				<li>!l = linguee.com</li>
-				<li>!lbc = leboncoin.fr</li>
-				<li>!lp = lpepfinder.com</li>
-				<li>!m = maps.google.com</li>
-				<li>!osm = openstreetmap.org</li>
-				<li>!tr = translate.google.com</li>
-				<li>!w = en.wikipedia.org</li>
-				<li>!wa = wolframalpha.com</li>
-				<li>!y = youtube.com</li>
-			</ul>
-			<p>The <strong>Ctrl-l</strong> keyboard shortcut, on any page and in any browser, will focus the URL bar.</p>
-			<p>Learn more on <a href="https://github.com/internet4000/find" target="_blank">Github</a>.</p>
+
+			<p>Find is an action engine.</p>
+
+			<form>
+				<label><small>Try to write</small>
+					<input
+						id="Find"
+						type="search"
+						placeholder="!m brasil"
+						title="In this input try to write the suggested words, exactly how it is written (yes, with the !)" />
+				</label>
+				<button
+					type="submit"
+					onclick="App.find(document.querySelector('#Find').value); return false;">
+					Find!
+				</button>
+			</form>
+
+			<p><strong>!y galaxy</strong> will search for <strong>galaxy</strong> on Youtube.</p>
+
+			<p>
+				<small>
+					For optimal pleasure, use Find! as the default search engine of your web browser, <a href="https://github.com/internet4000/find" target="_blank">learn more</a>.
+				</small>
+			</p>
 		</section>
 	</body>
 </html>
