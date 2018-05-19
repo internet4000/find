@@ -9,6 +9,7 @@
 	 <Url type="application/opensearchdescription+xml"
 				rel="self"
 				template="https://find.internet4000.com/opensearch.xml" />
+	 <Image height="64" width="64" type="image/png">https://find.internet4000.com/public/favicons/favicon-32x32.png</Image>
    <LongName>
      When you're looking for something, and you know where to find it,
      don't lose a second, let's go! Find!
