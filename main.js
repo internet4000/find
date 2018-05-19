@@ -1,9 +1,5 @@
-(function() {
-
-	/*
-		 searchEngines: Object { keyword: 'site open search template'}
-	 */
-  var searchEngines = {
+var App = {
+	searchEngines: {
 		a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords=',
 		c: 'https://contacts.google.com/search/',
 		ciu: 'https://caniuse.com/#search=',
@@ -23,14 +19,13 @@
 		wa: 'http://www.wolframalpha.com/input/?i=',
     y: 'https://www.youtube.com/results?search_query=',
 		'?': 'https://find.internet4000.com'
-  };
-
-  function getURLParameter(name) {
+  },
+	getURLParameter(name) {
     var param = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''];
-    return decodeURIComponent(param[1].replace(/\+/g, '%20')) || null;
-  }
+    return decodeURIComponent(param[1]) || null;
+  },
 
-  function decodeUserQuery(userQuery) {
+	decodeUserQuery(userQuery) {
     if(!userQuery) { return }
 
 		var regexBang = /^!/,
@@ -41,17 +36,17 @@
 
     if(!new RegExp(regexBang).test(terms[0])) {
 			return {
-				siteURL: searchEngines.d,
+				siteURL: this.searchEngines.d,
 				siteQuery: userQuery
 			};
     } else {
 			siteKeyword = terms[0].replace(regexBang, '');
 
-			if(searchEngines.hasOwnProperty(siteKeyword)) {
-				siteURL = searchEngines[siteKeyword];
+			if(this.searchEngines.hasOwnProperty(siteKeyword)) {
+				siteURL = this.searchEngines[siteKeyword];
 				siteQuery = terms.splice(1, terms.length).join(' ');
 			} else {
-				siteURL = searchEngines.d;
+				siteURL = this.searchEngines.d;
 				siteQuery = userQuery;
 			}
 			return {
@@ -59,17 +54,24 @@
 				siteQuery: siteQuery
 			};
 		}
-  }
+  },
 
-	function openSearchResults(siteURL, siteQuery) {
+	openSearchResults(siteURL, siteQuery) {
 		window.open(siteURL + siteQuery, '_self');
-	}
+	},
 
-  /*
-		 Decode user query then open the site
-	 */
-	var decodedUserQuery = decodeUserQuery(getURLParameter('q'));
-	if(!decodedUserQuery) { return };
-	console.log('decodedUserQuery', decodedUserQuery);
-	openSearchResults(decodedUserQuery.siteURL, decodedUserQuery.siteQuery);
-})();
+	find(query) {
+		if(!query) return;
+		var decodedUserQuery = this.decodeUserQuery(query);
+		console.log('decodedUserQuery', decodedUserQuery);
+		this.openSearchResults(decodedUserQuery.siteURL, decodedUserQuery.siteQuery);
+	},
+
+	init() {
+		var query = this.getURLParameter('q');
+		if(!query) return;
+		this.find(query);
+	}
+};
+
+App.init();

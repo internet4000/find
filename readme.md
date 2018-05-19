@@ -18,7 +18,7 @@ hosted at your convenience.
 The fastest way to start is to make it your web browser's
 default search engine; then everything happens in your URL bar.
 
-[Try Find! here](https://find.hugurp.org).
+[Try Find! here](https://find.internet4000.com).
 
 Continue reading for more details.
 

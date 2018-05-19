@@ -1,0 +1,21 @@
+{
+  "name": "find",
+  "version": "1.0.0",
+  "description": "Action engine",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo 'no test yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/internet4000/find.git"
+  },
+  "author": "internet4000 and contributors",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/internet4000/find/issues"
+  },
+  "homepage": "https://github.com/internet4000/find#readme"
+}
