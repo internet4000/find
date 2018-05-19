@@ -18,7 +18,7 @@
 		lp: 'https://lpepfinder.com/#gsc.q=',
 		m: 'https://www.google.com/maps/search/',
 		osm: 'https://www.openstreetmap.org/search?query=',
-		tr: 'https://translate.google.com/#auto/#auto/',
+		tr: 'https://translate.google.com/?q=',
 		w: 'https://en.wikipedia.org/w/index.php?search=',
 		wa: 'http://www.wolframalpha.com/input/?i=',
     y: 'https://www.youtube.com/results?search_query=',
