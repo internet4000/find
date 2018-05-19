@@ -4,7 +4,11 @@
    <Description>Find anything anywhere</Description>
    <Tags>find now productivity search</Tags>
    <Contact>internet4000.com</Contact>
-   <Url type="text/html" template="https://find.internet4000.com?q={searchTerms}"/>
+   <Url type="text/html"
+				template="https://find.internet4000.com?q={searchTerms}"/>
+	 <Url type="application/opensearchdescription+xml"
+				rel="self"
+				template="https://find.internet4000.com/opensearch.xml" />
    <LongName>
      When you're looking for something, and you know where to find it,
      don't lose a second, let's go! Find!
