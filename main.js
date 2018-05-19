@@ -20,11 +20,6 @@ var App = {
     y: 'https://www.youtube.com/results?search_query=',
 		'?': 'https://find.internet4000.com'
   },
-	getURLParameter(name) {
-    var param = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''];
-    return decodeURIComponent(param[1]) || null;
-  },
-
 	decodeUserQuery(userQuery) {
     if(!userQuery) { return }
 
@@ -68,7 +63,8 @@ var App = {
 	},
 
 	init() {
-		var query = this.getURLParameter('q');
+		var url = new URL(window.location.href);
+		var query = url.searchParams.get('q');
 		if(!query) return;
 		this.find(query);
 	}
