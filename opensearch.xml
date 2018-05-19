@@ -14,8 +14,6 @@
      When you're looking for something, and you know where to find it,
      don't lose a second, let's go! Find!
    </LongName>
-   <Image height="64" width="64" type="image/png"></Image>
-   <Image height="48" width="48" type="image/vnd.microsoft.icon"></Image>
    <Query role="example" searchTerms="test" />
    <Developer>Internet4000</Developer>
    <Attribution>
