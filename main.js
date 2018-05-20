@@ -88,7 +88,7 @@ var App = {
 		if(!request) return;
 		var url = this.decodeUserRequest(request);
 		console.log('Opening url', url);
-		// this.openUrl(url);
+		this.openUrl(url);
 	},
 
 	init() {
