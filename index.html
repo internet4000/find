@@ -23,6 +23,20 @@
 		<script src="./main.js"></script>
 		<link href="./styles.css" rel="stylesheet" type="text/css" />
 
+
+		<script>
+			var findSearch = function () {
+				App.find(input.value);
+				return false;
+			}
+
+			document.addEventListener("DOMContentLoaded", function(event) {
+				var input = document.querySelector('#Find');
+				input.focus();
+				input.select();
+			});
+		</script>
+
 	</head>
 
 	<body>
@@ -38,11 +52,11 @@
 					<input
 						id="Find"
 						type="search"
-						placeholder="!m brasil"
+						placeholder=" !m brazil"
 						title="In this input try to write the suggested words, exactly how it is written (yes, with the !)" />
 					<button
 						type="submit"
-						onclick="App.find(document.querySelector('#Find').value); return false;">
+						onclick="findSearch">
 						Find!
 					</button>
 				</form>
@@ -51,11 +65,11 @@
 			<section class="App-body">
 				<p><strong>!y galaxy</strong> will search for <strong>galaxy</strong> on <strong>y</strong>outube.</p>
 
-				<p><strong>+r4 youtu.be/KoyVGrrhHKc</strong> will add this video in <strong>r</strong>adio<strong>4</strong>000</p>
+				<p><strong>+r4 youtu.be/oWIRe5BdrPk</strong> will add this video in <strong>r</strong>adio<strong>4</strong>000</p>
 
 				<p>
 					<small>
-						Replace your browser's default search engine now, <a href="https://github.com/internet4000/find" target="_blank">learn more</a>.
+						Replace your browser's default search engine, <a href="https://github.com/internet4000/find" target="_blank">learn more</a>.
 					</small>
 				</p>
 			</section>
