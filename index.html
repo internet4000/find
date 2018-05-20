@@ -26,15 +26,13 @@
 
 		<script>
 			var findSearch = function () {
-				App.find(document.querySelector('#Find').value);
-				return false;
-			}
+				var query = document.querySelector('#Find').value;
+				if(!query) return false;
 
-			document.addEventListener("DOMContentLoaded", function(event) {
-				var input = document.querySelector('#Find');
-				input.focus();
-				input.select();
-			});
+				// run animation, then find
+				document.querySelector('.App').classList.add('App--exit')
+				App.find(document.querySelector('#Find').value);
+			};
 		</script>
 
 	</head>
@@ -43,20 +41,21 @@
 		<div class="App">
 
 			<section class="App-header">
-				<a href="/" class="App-title" title="Find!">
+				<a href="/" class="Title" title="Find!">
 					<img src="./public/find-logo.svg" alt="Find!" />
 					<h1>Find!</h1>
 				</a>
 
-				<form class="App-form">
+				<form class="Form" title="Try to write the suggested words, !m brazil" >
 					<input
 						id="Find"
 						type="search"
 						placeholder=" !m brazil"
-						title="In this input try to write the suggested words, exactly how it is written (yes, with the !)" />
+						autofocus
+						required/>
 					<button
 						type="submit"
-						onclick="findSearch">
+						onclick="findSearch(event); return false;">
 						Find!
 					</button>
 				</form>
