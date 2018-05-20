@@ -33,6 +33,10 @@
 				document.querySelector('.App').classList.add('App--exit')
 				App.find(document.querySelector('#Find').value);
 			};
+
+			document.addEventListener("DOMContentLoaded", function(event) {
+				document.querySelector('.App').classList.remove('App--exit');
+			});
 		</script>
 
 	</head>

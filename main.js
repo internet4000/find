@@ -46,7 +46,11 @@ var App = {
 	checkForSymbol(symbolGroup) {
 		var availableSymbols = Object.keys(this.symbols),
 				symbol = symbolGroup.charAt(0);
+
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : null;
+	},
+	checkForEngine(symbol, engineId) {
+		return this.symbols[symbol].engines[engineId];
 	},
 
 	// param:
@@ -66,7 +70,7 @@ var App = {
 		}
 
 		// if there is a symbol, there is a requested engine following
-		var engineId = requestSymbolGroup.slice(1);
+		var engineId = this.checkForEngine(symbol, requestSymbolGroup.slice(1));
 
 		// otherwise the query is everything but
 		// the request's engine group (the first group)
