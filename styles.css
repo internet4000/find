@@ -1,0 +1,68 @@
+html {
+	background-color: lightgray;
+	font-family: monospace;
+}
+@media screen and (min-width: 30rem) {
+	html {
+		font-size: 17px;
+	}
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+
+button {
+	padding: 0.3rem 0.4rem;
+}
+input {
+	padding: 0.5rem 0.8rem;
+	min-width: 17rem;
+}
+
+
+.App-header {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+@media screen and (min-width: 30rem) {
+	.App-header {
+		padding: 2rem;
+	}
+}
+
+.App-title {
+	margin-top: 0;
+	position: relative;
+	text-decoration: none;
+	font-size: 2rem;
+	/* vertical align the image */
+	display: flex;
+	padding-right: 1rem;
+	padding-left: 1rem;
+}
+.App-title img {
+	width: 4rem;
+}
+.App-title h1 {
+	display: none;
+}
+
+.App-form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+}
+.App-form input {
+	margin-right: 1rem;
+}
