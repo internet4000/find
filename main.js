@@ -47,10 +47,10 @@ var App = {
 		var availableSymbols = Object.keys(this.symbols),
 				symbol = symbolGroup.charAt(0);
 
-		return availableSymbols.indexOf(symbol) >= 0 ? symbol : null;
+		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
 	},
 	checkForEngine(symbol, engineId) {
-		return this.symbols[symbol].engines[engineId];
+		return this.symbols[symbol].engines[engineId] ? engineId : false;
 	},
 
 	// param:
@@ -88,7 +88,7 @@ var App = {
 		if(!request) return;
 		var url = this.decodeUserRequest(request);
 		console.log('Opening url', url);
-		this.openUrl(url);
+		// this.openUrl(url);
 	},
 
 	init() {
