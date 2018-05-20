@@ -1,36 +1,67 @@
+/*
+	General styles
+*/
 html {
-	background-color: lightgray;
+	font-size: 17px;
 	font-family: monospace;
 }
-@media screen and (min-width: 30rem) {
+@media screen and (min-width: 70rem) {
 	html {
-		font-size: 17px;
+		font-size: 19px;
 	}
 }
 
 body {
 	margin: 0;
+}
+
+button {
+	padding: 0.7rem 0.8rem;
+  background: transparent;
+}
+input {
+	padding: 0.5rem 0.8rem;
+	width: 100%;
+	max-width: 17rem;
+}
+
+
+/*
+	Application concerns
+*/
+
+.App {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+
+	/* transition */
+	background-color: lightgray;
+	transition: background-color 700ms ease-in-out;
+}
+.App--exit {
+	background-color: white;
 }
 
-
-button {
-	padding: 0.3rem 0.4rem;
+.App-header {
+	opacity: 1;
+	transition: opacity 300ms ease-in, transform 300ms cubic-bezier(.6,-0.13,.45,1.06);
+	transform: translateY(0);
 }
-input {
-	padding: 0.5rem 0.8rem;
-	min-width: 17rem;
-}
-
-
 .App-header {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+.App--exit .App-header {
+	transform: translate(-10%, -140%);
+	opacity: 0;
 }
 
 @media screen and (min-width: 30rem) {
@@ -39,32 +70,55 @@ input {
 	}
 }
 
-.App-title {
+.App--exit .App-body {
+	opacity: 0;
+}
+.App-body {
+	opacity: 1;
+	transition: opacity 200ms 300ms ease-out;
+}
+
+.Title {
 	margin-top: 0;
 	position: relative;
 	text-decoration: none;
 	font-size: 2rem;
-	/* vertical align the image */
-	display: flex;
 	padding-right: 1rem;
 	padding-left: 1rem;
+
+	/* vertical align the image */
+	display: flex;
 }
-.App-title img {
+.Title img {
 	width: 4rem;
 }
-.App-title h1 {
+.Title h1 {
 	display: none;
 }
 
-.App-form {
+.Form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	padding: 1rem;
 }
-.App-form input {
-	margin-right: 1rem;
+@media screen and (min-width: 30rem) {
+	.Form {
+		flex-wrap: nowrap;
+	}
+}
+
+.Form button {
+	/* push it from input, and stay visually centered on mobile */
+  margin-left: 0.7rem;
+	margin-right: 0.7rem;
+}
+.App--exit .Form button {
+  opacity: 0;
+}
+
+.Form input {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
