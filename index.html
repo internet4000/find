@@ -37,6 +37,10 @@
 			document.addEventListener("DOMContentLoaded", function(event) {
 				document.querySelector('.App').classList.remove('App--exit');
 			});
+
+			window.onpageshow = function(event) {
+				document.querySelector('.App').classList.remove('App--exit');
+			};
 		</script>
 
 	</head>
