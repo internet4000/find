@@ -85,6 +85,10 @@ var App = {
   },
 
 	openUrl(url) {
+		// replace history state
+		// so after transition, clicking the back button does not hit find/?q=search
+		// that would transition again to a search result
+		window.history.replaceState({}, 'Find!', window.location.pathname);
 		window.open(url, '_self');
 	},
 
