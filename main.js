@@ -64,16 +64,21 @@ var App = {
 				requestSymbolGroup = requestTerms[0],
 				symbol = this.checkForSymbol(requestSymbolGroup);
 
-		// we don't know the symbol, the whole request is the query
+		// if there is no symbol, the whole userRequest is the query
 		if (!symbol) {
 			return this.buildResult(userRequest);
 		}
 
-		// if there is a symbol, there is a requested engine following
+		// check what is the requested engine
 		var engineId = this.checkForEngine(symbol, requestSymbolGroup.slice(1));
 
-		// otherwise the query is everything but
-		// the request's engine group (the first group)
+		// if we don't know the engine, the whole request is passed as query
+		if (!engineId) {
+			return this.buildResult(userRequest);
+		}
+
+		// if we know the symbol and engine, build request
+		// the actual query is everything but the request's engine group (the first group)
 		var requestQuery = requestTerms.splice(1, requestTerms.length).join(' ');
 
 		return this.buildResult(requestQuery, symbol, engineId);
@@ -87,7 +92,6 @@ var App = {
 	find(request) {
 		if(!request) return;
 		var url = this.decodeUserRequest(request);
-		console.log('Opening url', url);
 		this.openUrl(url);
 	},
 
