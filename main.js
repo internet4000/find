@@ -10,7 +10,7 @@ var App = {
 				c: 'https://contacts.google.com/search/',
 				ciu: 'https://caniuse.com/#search=',
 				d: 'https://duckduckgo.com/?q=',
-				dd: 'http://devdocs.io/#q=',
+				dd: 'https://devdocs.io/#q=',
 				dr: 'https://drive.google.com/drive/search?q=',
 				e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq=',
 				g: 'https://encrypted.google.com/search?q=',
