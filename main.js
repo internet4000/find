@@ -20,6 +20,7 @@ var App = {
 				lp: 'https://lpepfinder.com/#gsc.q=',
 				m: 'https://www.google.com/maps/search/',
 				osm: 'https://www.openstreetmap.org/search?query=',
+				r4: 'https://radio4000.com/search?search=',
 				tr: 'https://translate.google.com/?q=',
 				w: 'https://en.wikipedia.org/w/index.php?search=',
 				wa: 'http://www.wolframalpha.com/input/?i=',
