@@ -33,7 +33,7 @@ Cheers
 
 ## Setup details
 
-1. Visit [find.hugurp.org](https://find.hugurp.org) with your favorite web browser
+1. Visit [find.internet4000.com](https://find.internet4000.com) with your favorite web browser
 
 2. Add this webpage as your search engine. Here is where how, with:
   
@@ -65,9 +65,9 @@ doesn't track you".
 But all the idea with `Find!` is to use the following `!keywords`
 *prefixes as search triggers*:
 
-| keyword         | site                                            |
+| Search keyword  | site                                            |
 | ---             | ---                                             |
-| !a              | www.amazon.com                                  |
+| !a              | amazon.com                                      |
 | !c              | contacts.google.com                             |
 | !ciu            | caniuse.com                                     |
 | !d              | duckduckgo.com                                  |
@@ -78,9 +78,13 @@ But all the idea with `Find!` is to use the following `!keywords`
 | !m              | maps.google.com                                 |
 | !osm            | openstreetmap.org                               |
 | !w              | en.wikipedia.org                                |
-| !y              | www.youtube.com                                 |
+| !y              | youtube.com                                     |
 | unknown keyword | the !keyword and queries fallback to duckduckgo |
 | no keyword      | search goes to duck duck go                     |
+
+| Action keyword  | site                                            |
+| ---             | ---                                             |
+| +r4             | radio4000.com add a new track from URL          |
 
 To use these triggers, for exemple with the search query `foo`:
 - Put your cursor in the URL bar of your browser
@@ -115,13 +119,13 @@ moto makes a sense, to start usage quickly.
 ## Customization
 
 To customize your usage, deploy your own instance. Find the code on
-[Github](https://github.com/hugurp/find), and customize as you want.
+[Github](https://github.com/internet4000/find), and customize as you want.
 
 ### Host your own instance 
 
 1. deploy and host the site on your server
 2. edit the file `opensearch.xml`, the line `<Url type="text/html"
-  template="https://find.hugurp.org?q={searchTerms}"/>`, should be
+  template="https://find.internet4000.com?q={searchTerms}"/>`, should be
   updated to reflect where you site will be hosted.
 
 ### Add new search engines and their keyword
