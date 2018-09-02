@@ -41,7 +41,7 @@ var App = {
       name: 'command',
       fns: {
         add: function(arg) {
-          let [name, url] = arg.split(" ");
+          let [_, name, url] = arg.split(" ");
           addUserEngine(name, url);
         }
       }
@@ -51,7 +51,13 @@ var App = {
 	// returns a result url string to open
 	// default to "search for help if only a symbol"
 	buildResult(userQuery, symbol = '!', engineId = 'd') {
-		var engineUrl = this.symbols[symbol].engines[engineId];
+		var symbol = this.symbols[symbol];
+
+    if (symbol.fns) {
+      return symbol.fns[engineId](userRequest):
+    }
+    
+    var engineUrl = symbol.engines[engineId];
 		return engineUrl + userQuery;
 	},
 
