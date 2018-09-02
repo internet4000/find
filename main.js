@@ -1,4 +1,7 @@
 var App = {
+  localStorageKey: "r4find",
+  userEngines: localStorage.getItem(localStorageKey) || {},
+
 	doEngines: {
 		r4: 'https://radio4000.com/add?url='
 	},
@@ -33,10 +36,19 @@ var App = {
 			engines: {
 				r4: 'https://radio4000.com/add?url='
 			}
-		}
+		},
+    '/': {
+      name: 'command',
+      fns: {
+        add: function(arg) {
+          let [name, url] = arg.split(" ");
+          addUserEngine(name, url);
+        }
+      }
+    }
 	},
 
-	// returns a result url stirng to open
+	// returns a result url string to open
 	// default to "search for help if only a symbol"
 	buildResult(userQuery, symbol = '!', engineId = 'd') {
 		var engineUrl = this.symbols[symbol].engines[engineId];
@@ -101,11 +113,25 @@ var App = {
 	},
 
 	init() {
+    refreshUserEngines();
 		var url = new URL(window.location.href);
 		var request = url.searchParams.get('q');
 		if(!request) return;
 		this.find(request);
 	}
+
+  addUserEngine(name, url) {
+    userEngines[name] = url;
+    localStorage.setItem(localStorageKey, userEngines);
+    refreshUserEngines();
+  }
+
+  refreshUserEngines() {
+    for (var name in userEngines) {
+      var url = userEngines[url];
+      this.symbols["!"]["engines"][name] = url;
+    }
+  }
 };
 
 App.init();

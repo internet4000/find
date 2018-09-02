@@ -9,7 +9,7 @@ us find what we're looking for.
 Overhall we use it as a CLI (command line interface) to complete
 actions on the web. In Chrome/Chromium, Google calls it the
 Omnibox. Omni, the Latin prefix meaning "all" or "every", since we use
-it to *input everything**.
+it to *input everything*.
 
 *Find!* aims to be a simple way to enhance your experience, easy to
 setup and use. Also, it is Free software, and can be customized and
