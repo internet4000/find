@@ -1,6 +1,7 @@
 var App = {
   localStorageKey: "r4find",
-  userEngines: localStorage.getItem(localStorageKey) || {},
+  /* we can’t use localStorageKey here, because it’s undefined */
+  userEngines: JSON.parse(localStorage.getItem("r4find")) || {},
 
 	doEngines: {
 		r4: 'https://radio4000.com/add?url='
@@ -37,12 +38,12 @@ var App = {
 				r4: 'https://radio4000.com/add?url='
 			}
 		},
-    '/': {
+    '#': {
       name: 'command',
       fns: {
-        add: function(arg) {
-          let [_, name, url] = arg.split(" ");
-          addUserEngine(name, url);
+        add: function(app, arg) {
+          let [name, url] = arg.split(" ");
+          app.addUserEngine(name, url);
         }
       }
     }
@@ -54,7 +55,7 @@ var App = {
 		var symbol = this.symbols[symbol];
 
     if (symbol.fns) {
-      return symbol.fns[engineId](userRequest):
+      return symbol.fns[engineId](this, userQuery);
     }
     
     var engineUrl = symbol.engines[engineId];
@@ -69,7 +70,17 @@ var App = {
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
 	},
 	checkForEngine(symbol, engineId) {
-		return this.symbols[symbol].engines[engineId] ? engineId : false;
+    var engines =  this.symbols[symbol].engines;
+    var fns =  this.symbols[symbol].fns;
+		if (engines) {
+      return engines[engineId] ? engineId : false;
+    }
+
+    if (fns) {
+      return fns[engineId] ? engineId : false;
+    }
+
+    return false;
 	},
 
 	// param:
@@ -119,25 +130,25 @@ var App = {
 	},
 
 	init() {
-    refreshUserEngines();
+    this.refreshUserEngines();
 		var url = new URL(window.location.href);
 		var request = url.searchParams.get('q');
 		if(!request) return;
 		this.find(request);
-	}
+	},
 
   addUserEngine(name, url) {
-    userEngines[name] = url;
-    localStorage.setItem(localStorageKey, userEngines);
-    refreshUserEngines();
-  }
+    this.userEngines[name] = url;
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
+    this.refreshUserEngines();
+  },
 
   refreshUserEngines() {
-    for (var name in userEngines) {
-      var url = userEngines[url];
+    for (var name in this.userEngines) {
+      var url = this.userEngines[name];
       this.symbols["!"]["engines"][name] = url;
     }
-  }
+  },
 };
 
 App.init();
