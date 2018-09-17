@@ -86,6 +86,10 @@ But all the idea with `Find!` is to use the following `!keywords`
 | ---             | ---                                             |
 | +r4             | radio4000.com add a new track from URL          |
 
+| Function keyword      | site                                            |
+| ---                   | ---                                             |
+| #add \<name\> \<url\> | add a custom `!` search, e.g. `#add gh https://github.com/search?q=` |
+
 To use these triggers, for exemple with the search query `foo`:
 - Put your cursor in the URL bar of your browser
 - Type the website's `!keyword` (the website on which you want to
