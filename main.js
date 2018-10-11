@@ -1,4 +1,8 @@
 var App = {
+  localStorageKey: "r4find",
+  /* we can’t use localStorageKey here, because it’s undefined */
+  userEngines: JSON.parse(localStorage.getItem("r4find")) || {},
+
 	doEngines: {
 		r4: 'https://radio4000.com/add?url='
 	},
@@ -33,13 +37,28 @@ var App = {
 			engines: {
 				r4: 'https://radio4000.com/add?url='
 			}
-		}
+		},
+    '#': {
+      name: 'command',
+      fns: {
+        add: function(app, arg) {
+          let [name, url] = arg.split(" ");
+          app.addUserEngine(name, url);
+        }
+      }
+    }
 	},
 
-	// returns a result url stirng to open
+	// returns a result url string to open
 	// default to "search for help if only a symbol"
 	buildResult(userQuery, symbol = '!', engineId = 'd') {
-		var engineUrl = this.symbols[symbol].engines[engineId];
+		var symbol = this.symbols[symbol];
+
+    if (symbol.fns) {
+      return symbol.fns[engineId](this, userQuery);
+    }
+    
+    var engineUrl = symbol.engines[engineId];
 		return engineUrl + userQuery;
 	},
 
@@ -51,7 +70,17 @@ var App = {
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
 	},
 	checkForEngine(symbol, engineId) {
-		return this.symbols[symbol].engines[engineId] ? engineId : false;
+    var engines =  this.symbols[symbol].engines;
+    var fns =  this.symbols[symbol].fns;
+		if (engines) {
+      return engines[engineId] ? engineId : false;
+    }
+
+    if (fns) {
+      return fns[engineId] ? engineId : false;
+    }
+
+    return false;
 	},
 
 	// param:
@@ -101,11 +130,25 @@ var App = {
 	},
 
 	init() {
+    this.refreshUserEngines();
 		var url = new URL(window.location.href);
 		var request = url.searchParams.get('q');
 		if(!request) return;
 		this.find(request);
-	}
+	},
+
+  addUserEngine(name, url) {
+    this.userEngines[name] = url;
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
+    this.refreshUserEngines();
+  },
+
+  refreshUserEngines() {
+    for (var name in this.userEngines) {
+      var url = this.userEngines[name];
+      this.symbols["!"]["engines"][name] = url;
+    }
+  },
 };
 
 App.init();
