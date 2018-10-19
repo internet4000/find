@@ -20,7 +20,7 @@ button {
   background: transparent;
 }
 input {
-	padding: 0.5rem 0.8rem;
+	padding: 0.5rem;
 	width: 100%;
 	max-width: 17rem;
 }
@@ -60,6 +60,7 @@ li {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	width: 100%;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 }
@@ -81,14 +82,12 @@ li {
 	position: relative;
 	text-decoration: none;
 	font-size: 2rem;
-	padding-right: 1rem;
-	padding-left: 1rem;
 
 	/* vertical align the image */
 	display: flex;
 }
 .Title img {
-	width: 4rem;
+	width: 7rem;
 }
 .Title h1 {
 	display: none;
@@ -100,6 +99,8 @@ li {
 	justify-content: center;
 	align-items: center;
 	padding: 1rem;
+	width: 100%;
+	max-width: 21rem;
 }
 @media screen and (min-width: 30rem) {
 	.Form {
@@ -109,14 +110,30 @@ li {
 
 .Form button {
 	/* push it from input, and stay visually centered on mobile */
-  margin-left: 0.7rem;
-	margin-right: 0.7rem;
+	margin: 0.7rem;
+
+  border: 2px solid white;
+  border-right-color: gray;
+  border-bottom-color: darkslategray;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+	padding: 1.2rem 1.2rem;
+  font-size: 1rem;
+
+	cursor: zoom-in;
+
 }
+.Form butto:active {
+	background-color: #7ce5ff;
+
+}
+
 .App--exit .Form button {
   opacity: 0;
 }
 
 .Form input {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	-webkit-appearance: inherit;
+	font-size: 1rem;
 }
