@@ -35,7 +35,11 @@ var App = {
 		'+': {
 			name: 'do',
 			engines: {
-				r4: 'https://radio4000.com/add?url='
+				r4: 'https://radio4000.com/add?url=',
+				draw: 'https://docs.google.com/drawings/create?title=',
+				doc: 'https://docs.google.com/document/create?title=',
+				sheet: 'https://docs.google.com/spreadsheets/create?title=',
+				gmail: 'https://mail.google.com/mail/#inbox?compose=new'
 			}
 		},
     '#': {
@@ -57,7 +61,7 @@ var App = {
     if (symbol.fns) {
       return symbol.fns[engineId](this, userQuery);
     }
-    
+
     var engineUrl = symbol.engines[engineId];
 		return engineUrl + userQuery;
 	},
