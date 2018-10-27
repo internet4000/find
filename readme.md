@@ -84,7 +84,11 @@ But all the idea with `Find!` is to use the following `!keywords`
 
 | Action keyword  | site                                            |
 | ---             | ---                                             |
-| +r4             | radio4000.com add a new track from URL          |
+| +r4 [url]       | radio4000.com add a new track from URL          |
+| +draw [title]   | open a new drawing in Google Drive Draw         |
+| +doc [title]    | open a new Google Docs document                 |
+| +sheet          | open a new Google Spreadsheets document         |
+| +gmail          | open a new Gmail (Google Mail) email            |
 
 | Function keyword      | site                                            |
 | ---                   | ---                                             |
