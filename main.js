@@ -39,7 +39,7 @@ var App = {
 				draw: 'https://docs.google.com/drawings/create?title=',
 				doc: 'https://docs.google.com/document/create?title=',
 				sheet: 'https://docs.google.com/spreadsheets/create?title=',
-				gmail: 'https://mail.google.com/mail/#inbox?compose=new?title='
+				gmail: 'https://mail.google.com/mail/#inbox?compose=new&title='
 			}
 		},
     '#': {
