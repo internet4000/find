@@ -19,33 +19,10 @@
 				 `title` property should match `ShortName` key of the xml -->
 		<link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find" />
 
-		<!-- read script first as it is more important that styles in our case -->
-		<script src="./main.js"></script>
-		<link href="./styles.css" rel="stylesheet" type="text/css" />
-
-
-		<script>
-			var findSearch = function () {
-				var query = document.querySelector('#Find').value;
-				if(!query) return false;
-
-				// run animation, then find
-				document.querySelector('.App').classList.add('App--exit')
-				App.find(document.querySelector('#Find').value);
-			};
-
-			document.addEventListener("DOMContentLoaded", function(event) {
-				document.querySelector('.App').classList.remove('App--exit');
-			});
-
-			window.onpageshow = function(event) {
-				document.querySelector('.App').classList.remove('App--exit');
-			};
-		</script>
-
+		<link href="./styles.css" rel="stylesheet">
 	</head>
-
 	<body>
+
 		<div class="App">
 
 			<section class="App-header">
@@ -81,5 +58,26 @@
 				</p>
 			</section>
 		</div>
+
+		<script src="./main.js"></script>
+		<script>
+			var findSearch = function () {
+				var query = document.querySelector('#Find').value;
+				if(!query) return false;
+
+				// run animation, then find
+				document.querySelector('.App').classList.add('App--exit')
+				App.find(document.querySelector('#Find').value);
+			};
+
+			document.addEventListener("DOMContentLoaded", function(event) {
+				document.querySelector('.App').classList.remove('App--exit');
+			});
+
+			window.onpageshow = function(event) {
+				document.querySelector('.App').classList.remove('App--exit');
+			};
+		</script>
+
 	</body>
 </html>
