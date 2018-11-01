@@ -108,6 +108,11 @@ li {
 	}
 }
 
+.Form input {
+	-webkit-appearance: inherit;
+	font-size: 1rem;
+}
+
 .Form button {
 	/* push it from input, and stay visually centered on mobile */
 	margin: 0.7rem;
@@ -120,11 +125,10 @@ li {
   letter-spacing: 1.2px;
 	padding: 1.2rem 1.2rem;
   font-size: 1rem;
-
 	cursor: zoom-in;
-
 }
-.Form butto:active {
+
+.Form button:active {
 	background-color: #7ce5ff;
 
 }
@@ -133,7 +137,3 @@ li {
   opacity: 0;
 }
 
-.Form input {
-	-webkit-appearance: inherit;
-	font-size: 1rem;
-}
