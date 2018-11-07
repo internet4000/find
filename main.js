@@ -118,12 +118,17 @@ var App = {
 		return this.buildResult(requestQuery, symbol, engineId);
   },
 
+	// check whether URL starts with a scheme
+	checkUrl(url) {
+		return url.startsWith("//") || url.includes("://");
+	},
+
 	openUrl(url) {
 		// replace history state
 		// so after transition, clicking the back button does not hit find/?q=search
 		// that would transition again to a search result
-		window.history.replaceState({}, 'Find!', window.location.pathname);
-		window.open(url, '_self');
+		if (!this.checkUrl(url)) url = "//" + url;
+		location.replace(url);
 	},
 
 	// takes a string, request query of a user
@@ -134,25 +139,48 @@ var App = {
 	},
 
 	init() {
-    this.refreshUserEngines();
+		this.refreshUserEngines();
 		var url = new URL(window.location.href);
 		var request = url.searchParams.get('q');
+		window.onload= this.showCustoms.bind(this);
 		if(!request) return;
 		this.find(request);
 	},
 
-  addUserEngine(name, url) {
-    this.userEngines[name] = url;
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
-    this.refreshUserEngines();
-  },
+	addUserEngine(name, url) {
+		this.userEngines[name] = url;
+		localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
+		this.refreshUserEngines();
+	},
 
-  refreshUserEngines() {
-    for (var name in this.userEngines) {
-      var url = this.userEngines[name];
-      this.symbols["!"]["engines"][name] = url;
-    }
-  },
+	refreshUserEngines() {
+		for (var name in this.userEngines) {
+			var url = this.userEngines[name];
+			this.symbols["!"]["engines"][name] = url;
+		}
+	},
+
+	showCustoms() {
+		var lst = document.getElementById("Customs-table");
+
+		if(!lst) return;
+
+		for (var name in this.userEngines) {
+			var row = lst.insertRow(-1);
+			var nameCell = row.insertCell(0);
+			nameCell.innerHTML = name;
+			var urlCell = row.insertCell(1);
+			urlCell.innerHTML = this.userEngines[name];
+			var deleteCell = row.insertCell(2);
+			deleteCell.classList.add("Customs-deleter");
+			deleteCell.innerHTML = "X";
+			deleteCell.addEventListener("click", function() {
+				delete this.userEngines[name];
+				localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
+				this.openUrl(location.href);
+			}.bind(this));
+		}
+	},
 };
 
 App.init();
