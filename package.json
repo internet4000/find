@@ -4,9 +4,17 @@
   "description": "Action engine",
   "main": "main.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "cypress": "^3.1.1",
+    "serve": "^10.0.2",
+    "start-server-and-test": "^1.7.9"
+  },
   "scripts": {
-    "test": "echo 'no test yet'"
+    "start": "serve -p 3030",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "test": "start-server-and-test start http://localhost:3030 cy:run",
+    "test-watch": "start-server-and-test start http://localhost:3030 cy:open"
   },
   "repository": {
     "type": "git",

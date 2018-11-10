@@ -183,3 +183,11 @@ after the first visit the complete code is cached by the browser.
 If a similar code were to be implement directly on a server,
 there would be one less client request, but it would be less easy to
 host and deploy, and audit which information the server stores.
+
+## Testing
+
+- `npm test` runs tests once
+- `npm run test-watch` open the testing interface and rerun on file change
+
+Tests are located in the `cypress/integration` folder.
+
