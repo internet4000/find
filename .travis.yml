@@ -6,9 +6,8 @@ node_js:
 
 # cache both npm modules and Cypress binary
 cache:
+  yarn: true
   npm: true
   directories:
     - ~/.cache
 
-install:
-  - npm ci
