@@ -124,16 +124,26 @@ li {
 	cursor: zoom-in;
 
 }
+
 .Form butto:active {
 	background-color: #7ce5ff;
-
 }
 
 .App--exit .Form button {
-  opacity: 0;
+	opacity: 0;
 }
 
 .Form input {
 	-webkit-appearance: inherit;
 	font-size: 1rem;
+}
+
+#Customs-table {
+	border-collapse: separate;
+	border-spacing: 2rem 0;
+	text-align: left;
+}
+
+.Customs-deleter {
+	cursor: pointer;
 }
