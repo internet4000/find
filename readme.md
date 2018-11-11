@@ -51,7 +51,7 @@ section, click the "add" button and use the following values:
 ```
 Search engine: `Find`
 Keyword: `f`
-Query URL: `https://find.hugurp.org?q=%s`
+Query URL: `https://find.internet4000.com?q=%s`
 ```
 
 3. Search using `!` prefixes in your browser's URL bar.
