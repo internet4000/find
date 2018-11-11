@@ -18,6 +18,7 @@ describe('Find', function() {
 			assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
 			assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
 			assertQuery('+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg', 'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg')
+			assertQuery('!e shoes', 'https://www.ebay.com/sch/i.html?_nkw=shoes')
 		})
 	})
 
