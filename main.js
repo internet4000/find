@@ -3,9 +3,6 @@ var App = {
   /* we can’t use localStorageKey here, because it’s undefined */
   userEngines: JSON.parse(localStorage.getItem("r4find")) || {},
 
-	doEngines: {
-		r4: 'https://radio4000.com/add?url='
-	},
 	symbols: {
 		'!': {
 			name: 'search',
