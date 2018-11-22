@@ -1,13 +1,20 @@
 import { h, Component } from 'preact';
 import logo from './find-logo.svg';
 import EnginesList from './EnginesList';
+import { getEngines }  from './storage'
 
 class App extends Component {
 
 	constructor() {
 		super()
-		this.localStorageKey = 'r4find'
-		this.userEngines = JSON.parse(localStorage.getItem(this.localStorageKey)) || {}
+		this.userEngines = []
+	}
+
+	componentDidMount() {
+		this.setState({
+			userEngines: getEngines()
+		})
+		console.log('userEngines', this.state.userEngines)
 	}
 
   render() {
@@ -18,16 +25,17 @@ class App extends Component {
           <h2>Welcome to !Find settings</h2>
         </div>
 				<p>Explore and customize the available action engines.</p>
-
 				<div className="App-list">
-					{ this.userEngines ? (
-						<EnginesList/>
-						) : (
-						<p>There are no user custom engines</p>
+					{ this.state.userEngines ? (
+						<EnginesList engines={this.state.userEngines}/>
+					) : (
+						<p>There are no custom user engines</p>
 					)}
-				</div>
+			</div>
+
+
       </div>
-    );
+    )
   }
 }
 
