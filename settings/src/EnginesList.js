@@ -1,3 +1,3 @@
-const EnginesList = () => (
-  <p>LIST</p>
-);
+import {h} from 'preact'
+
+export default () => <p>LIST</p>
