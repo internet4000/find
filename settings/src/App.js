@@ -1,20 +1,20 @@
 import { h, Component } from 'preact';
 import logo from './find-logo.svg';
 import EnginesList from './EnginesList';
-import { getSearchEngines }  from './storage'
+import { getSymbols }  from './storage'
 
 class App extends Component {
 
 	constructor() {
 		super()
-		this.userSearchEngines = []
+		this.symbols = {}
 	}
 
 	componentDidMount() {
 		this.setState({
-			userSearchEngines: getSearchEngines()
+			symbols: getSymbols()
 		})
-		console.log('userSearchEngines', this.state.userSearchEngines)
+		console.log('symbols', this.state.symbols)
 	}
 
   render() {
@@ -26,14 +26,12 @@ class App extends Component {
         </div>
 				<p>Explore and customize the available action engines.</p>
 				<div className="App-list">
-					{ this.state.userSearchEngines ? (
-						<EnginesList engines={this.state.userSearchEngines}/>
+					{ this.state.symbols && this.state.symbols['!'] ? (
+						<EnginesList engines={this.state.symbols['!']}/>
 					) : (
 						<p>There are no custom user engines</p>
 					)}
-			</div>
-
-
+			  </div>
       </div>
     )
   }

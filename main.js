@@ -158,29 +158,7 @@ var App = {
 			var url = this.userEngines[name];
 			this.symbols["!"]["engines"][name] = url;
 		}
-	},
-
-	showCustoms() {
-		var lst = document.getElementById("Customs-table");
-
-		if(!lst) return;
-
-		for (var name in this.userEngines) {
-			var row = lst.insertRow(-1);
-			var nameCell = row.insertCell(0);
-			nameCell.innerHTML = name;
-			var urlCell = row.insertCell(1);
-			urlCell.innerHTML = this.userEngines[name];
-			var deleteCell = row.insertCell(2);
-			deleteCell.classList.add("Customs-deleter");
-			deleteCell.innerHTML = "X";
-			deleteCell.addEventListener("click", function() {
-				delete this.userEngines[name];
-				localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
-				this.openUrl(location.href);
-			}.bind(this));
-		}
-	},
+	}
 };
 
 App.init();
