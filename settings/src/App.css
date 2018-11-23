@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+	padding: 2rem;
 }
 
 h1, h2, h3, h4, p {
@@ -11,6 +11,33 @@ h1, h2, h3, h4, p {
 	margin-bottom: 1rem;
 }
 
+.App-header,
+.App-body {
+  padding: 0 2rem 2rem;
+	margin: 0 auto;
+	max-width: 40rem;
+}
+
 .App-header {
-  padding: 2rem;
+	text-align: center;
+}
+
+.EngineList {
+	margin-bottom: 3rem;
+}
+
+.Engine {
+	display: flex;
+	flex-direction: row;
+	wrap: nowrap;
+	margin-bottom: 1rem;
+}
+
+.Engine span {
+	font-size: 2rem;
+	min-width: 5rem;
+	padding-right: 2rem;
+}
+.Engine input {
+	width: 100%;
 }

@@ -2,7 +2,7 @@ import { h } from 'preact'
 import Engine from './Engine'
 
 var EnginesList = ({engines}) => (
-	<div>
+	<div className="EngineList">
 		{
 			Object.keys(engines)
 				.map(id => <Engine

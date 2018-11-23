@@ -23,15 +23,25 @@ class App extends Component {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to !Find settings</h2>
+          <p>Explore and customize the available action engines.</p>
         </div>
-				<p>Explore and customize the available action engines.</p>
-				<div className="App-list">
+
+        <div className="App-body">
+					<h2>Search engines (!)</h2>
 					{ this.state.symbols && this.state.symbols['!'] ? (
-						<EnginesList engines={this.state.symbols['!'].engines}/>
+						<EnginesList
+							engines={this.state.symbols['!'].engines}/>
 					) : (
-						<p>There are no custom user engines</p>
+						<p>There are no search engines</p>
 					)}
-			  </div>
+
+			    <h2>Action engines (+)</h2>
+				  { this.state.symbols && this.state.symbols['+'] ? (
+					  <EnginesList engines={this.state.symbols['+'].engines}/>
+					) : (
+						<p>There are no action engines</p>
+					)}
+        </div>
       </div>
     )
   }
