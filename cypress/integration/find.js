@@ -4,14 +4,14 @@ describe('Find', function() {
 		cy.visit('http://localhost:3030')
 	})
 
-	it('is available as "App" in the global window object', () => {
-		cy.window().should('have.property', 'App')
+	it('is available as "Find" in the global window object', () => {
+		cy.window().should('have.property', 'Find')
 	})
 
 	it('decodes search queries as expected', () => {
 		cy.window().then(win => {
 			function assertQuery(query, expected) {
-				assert.equal(win.App.decodeUserRequest(query), expected, query)
+				assert.equal(win.Find.decodeUserRequest(query), expected, query)
 			}
 
 			assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
