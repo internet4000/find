@@ -3,7 +3,16 @@ const localStorageKey = 'r4find'
 const testStorage = "{\"g\":\"https://github.com/search?q=\",\"gh\":\"https://github.com/search?q=\",\"gbb\":\"https://github.com/search?q=\",\"fff\":\"https://github.com/search?q=\"}"
 
 const getStorage = key => {
-	return localStorage.getItem(key) || '{}' && testStorage
+	let storage = parseEngines(
+		localStorage.getItem(localStorageKey) || testStorage
+	) || {}
+	if (!storage['!']) {
+		return {
+			'!': storage
+		}
+	} else {
+		return storage
+	}
 }
 
 const parseEngines = engines => {
@@ -16,11 +25,13 @@ const parseEngines = engines => {
 	})
 }
 
-const getEngines = () =>  parseEngines(getStorage(localStorageKey))
-
-const addUserEngine = (name, url) => {
-	this.userEngines[name] = url;
-	localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
+const getEnginesFromSymbol = (symbol) => {
+	let allEngines = getStorage()
+	const symbolEngines = allEngines[symbol] || []
+	return symbolEngines
 }
 
-export { getEngines };
+const getSearchEngines = () =>  getEnginesFromSymbol('!')
+const getActionEngines = () =>  getEnginesFromSymbol('+')
+
+export { getSearchEngines };
