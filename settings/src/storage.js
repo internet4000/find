@@ -9,7 +9,15 @@ const userEnginesMock = "{\"g\":\"https://github.com/search?q=\",\"gh\":\"https:
 // string-object needed as doc and default
 const getStorageUserSymbols = () => {
 	let storageSymbols = localStorage.getItem(localStorageKey) || userEnginesMock || '{}'
-	return JSON.parse(storageSymbols)
+	let parsedSymbols = JSON.parse(storageSymbols)
+
+	if (parsedSymbols['!']) {
+		return parsedSymbols
+	} else {
+		return {
+			'!': parsedSymbols
+		}
+	}
 }
 
 // make a list easy to use to build a gui
@@ -25,25 +33,23 @@ const symbolsToList = (symbols) => {
 // merge the user defined symbols into the defaults
 const mergeSymbols = (user, findDefault = defaultSymbols) => {
 	user = user || {}
-	let allSymbols = {}
-	for (let attrName in user) {
-		allSymbols[attrName] = user[attrName]
+
+	const applySymbols = (defaults, s) => {
+		Object.keys(s).forEach(symbol => {
+			defaults[symbol] = defaults[symbol] || {}
+			for (let engineId in s[symbol]) {
+				defaults[symbol].engines[engineId] = s[symbol][engineId]
+			}
+		})
+		return defaults
 	}
-	return allSymbols
+	return applySymbols(findDefault, user)
 }
 
 // API: call to the store to get all symbols
 const getSymbols = () => {
 	let userSymbols = getStorageUserSymbols()
-	let symbols = mergeSymbols(userSymbols)
-
-	if (userSymbols && userSymbols['!']) {
-		return userSymbols
-	} else {
-		return {
-			'!': symbolsToList(userSymbols)
-		}
-	}
+	return mergeSymbols(userSymbols)
 }
 
 export { getSymbols };

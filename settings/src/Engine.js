@@ -1,10 +1,9 @@
 import { h } from 'preact';
 
-var Engine = props => {
-	const {url, shortcut } = props.engine
+var Engine = ({id, url }) => {
 	return (
 		<article>
-			<span>{shortcut}</span>
+			<span>{id}</span>
 			<input value={url} readOnly={true}/>
 		</article>
 	)

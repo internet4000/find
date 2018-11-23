@@ -1,9 +1,14 @@
 import { h } from 'preact'
 import Engine from './Engine'
 
-var EnginesList = props => (
+var EnginesList = ({engines}) => (
 	<div>
-		{ props.engines.map(engine => <Engine engine={engine}/> )}
+		{
+			Object.keys(engines)
+				.map(id => <Engine
+											 id={id}
+											 url={engines[id]}/> )
+		}
 	</div>
 )
 

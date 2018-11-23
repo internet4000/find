@@ -27,7 +27,7 @@ class App extends Component {
 				<p>Explore and customize the available action engines.</p>
 				<div className="App-list">
 					{ this.state.symbols && this.state.symbols['!'] ? (
-						<EnginesList engines={this.state.symbols['!']}/>
+						<EnginesList engines={this.state.symbols['!'].engines}/>
 					) : (
 						<p>There are no custom user engines</p>
 					)}
