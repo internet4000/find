@@ -1,6 +1,6 @@
-import { h, Component } from 'preact';
-import logo from './find-logo.svg';
-import EnginesList from './EnginesList';
+import { h, Component } from 'preact'
+import logo from './find-logo.svg'
+import EnginesList from './EnginesList'
 import { getSymbols }  from './storage'
 
 class App extends Component {
