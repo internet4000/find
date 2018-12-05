@@ -1,23 +1,35 @@
 import { h, Component } from 'preact'
 import logo from './find-logo.svg'
-import EnginesList from './EnginesList'
 import { getSymbols }  from './storage'
+import Symbols from './Symbols'
 
 class App extends Component {
 
 	constructor() {
 		super()
-		this.symbols = {}
+		this.defaultSymbols  = {}
+		this.userSymbols = {}
 	}
 
 	componentDidMount() {
+		const { defaultSymbols, userSymbols } =  getSymbols()
 		this.setState({
-			symbols: getSymbols()
+			defaultSymbols,
+			userSymbols
 		})
-		console.log('symbols', this.state.symbols)
+	}
+
+	onDelete = (engineId, symbol) => {
+		let userSymbols = this.state.userSymbols
+		delete userSymbols[symbol].engines[engineId]
+		this.setState({
+			userSymbols
+		})
 	}
 
   render() {
+		const { defaultSymbols, userSymbols } = this.state
+		const onDelete = this.onDelete
     return (
       <div className="App">
         <div className="App-header">
@@ -28,19 +40,22 @@ class App extends Component {
 
         <div className="App-body">
 					<h2>Search engines (!)</h2>
-					{ this.state.symbols && this.state.symbols['!'] ? (
-						<EnginesList
-							engines={this.state.symbols['!'].engines}/>
-					) : (
-						<p>There are no search engines</p>
-					)}
+					<Symbols
+						symbol="!"
+						symbols={userSymbols}
+						onDelete={onDelete}/>
+					<Symbols
+						symbol="!"
+						symbols={defaultSymbols}/>
 
 			    <h2>Action engines (+)</h2>
-				  { this.state.symbols && this.state.symbols['+'] ? (
-					  <EnginesList engines={this.state.symbols['+'].engines}/>
-					) : (
-						<p>There are no action engines</p>
-					)}
+					<Symbols
+						symbol="+"
+						symbols={userSymbols}
+						onDelete={onDelete}/>
+					<Symbols
+						symbol="+"
+						symbols={defaultSymbols}/>
         </div>
       </div>
     )

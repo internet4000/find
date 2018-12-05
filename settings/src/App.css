@@ -1,3 +1,7 @@
+:root {
+	--color-main: #80e5ff;
+}
+
 .App {
 	padding: 2rem;
 }
@@ -30,7 +34,10 @@ h1, h2, h3, h4, p {
 	display: flex;
 	flex-direction: row;
 	wrap: nowrap;
-	margin-bottom: 1rem;
+	padding: 0.5rem;
+}
+.Engine:hover {
+	background-color: var(--color-main);
 }
 
 .Engine span {

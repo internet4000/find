@@ -15,7 +15,9 @@ const getStorageUserSymbols = () => {
 		return parsedSymbols
 	} else {
 		return {
-			'!': parsedSymbols
+			'!': {
+				engines: parsedSymbols
+			}
 		}
 	}
 }
@@ -48,8 +50,10 @@ const mergeSymbols = (user, findDefault = defaultSymbols) => {
 
 // API: call to the store to get all symbols
 const getSymbols = () => {
-	let userSymbols = getStorageUserSymbols()
-	return mergeSymbols(userSymbols)
+	return {
+		defaultSymbols,
+		userSymbols: getStorageUserSymbols()
+	}
 }
 
 export { getSymbols };
