@@ -14,7 +14,6 @@ class App extends Component {
 		this.setState({
 			symbols: getSymbols()
 		})
-		console.log('symbols', this.state.symbols)
 	}
 
   render() {
@@ -40,6 +39,13 @@ class App extends Component {
 					  <EnginesList engines={this.state.symbols['+'].engines}/>
 					) : (
 						<p>There are no action engines</p>
+					)}
+
+			    <h2>User engines (+)</h2>
+				  { this.state.symbols && Object.keys(this.state.symbols['user'].engines).length ? (
+					  <EnginesList engines={this.state.symbols['user'].engines}/>
+					) : (
+						<p>There are no user engines</p>
 					)}
         </div>
       </div>
