@@ -1,25 +1,38 @@
 import Find from '../../main'
 
 const { symbols: defaultSymbols } = Find
-const localStorageKey = 'r4find'
+const localStorageKey = 'i4find'
 
-const userEnginesMock = "{\"g\":\"https://github.com/search?q=\",\"gh\":\"https://github.com/search?q=\",\"gbb\":\"https://github.com/search?q=\",\"fff\":\"https://github.com/search?q=\"}"
+const newUserSymbols = (symbols = defaultSymbols) => {
+	Object.keys(symbols).forEach(symbol => {
+		symbols[symbol].engines = {}
+		if(symbol === '#') {
+			delete symbols[symbol]
+		}
+	})
+	return symbols
+}
 
 // userEnginesMock is not needed in prod
 // string-object needed as doc and default
 const getStorageUserSymbols = () => {
-	let storageSymbols = localStorage.getItem(localStorageKey) || userEnginesMock || '{}'
-	let parsedSymbols = JSON.parse(storageSymbols)
-
-	if (parsedSymbols['!']) {
-		return parsedSymbols
-	} else {
-		return {
-			'!': {
-				engines: parsedSymbols
-			}
+	let storageSymbols;
+	try {
+		storageSymbols = JSON.parse(
+			localStorage.getItem(localStorageKey)
+		)
+	} catch(e) {
+		if(e.name === 'SyntaxError') {
+			storageSymbols = null
 		}
 	}
+
+	return storageSymbols || newUserSymbols()
+}
+
+const setStorageUserSymbols = symbols => {
+	if (!symbols) return
+	localStorage.setItem(localStorageKey, JSON.stringify(symbols))
 }
 
 // make a list easy to use to build a gui
@@ -56,4 +69,16 @@ const getSymbols = () => {
 	}
 }
 
-export { getSymbols };
+const addEngine = (symbol, engineId, url) => {
+	let userSymbols = getStorageUserSymbols()
+	userSymbols[symbol].engines[engineId] = url
+	setStorageUserSymbols(userSymbols)
+}
+
+const deleteEngine = (symbol, engineId) => {
+	let userSymbols = getStorageUserSymbols()
+	delete userSymbols[symbol].engines[engineId]
+	setStorageUserSymbols(userSymbols)
+}
+
+export { getSymbols, addEngine, deleteEngine };

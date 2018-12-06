@@ -2,13 +2,18 @@ import { h } from 'preact';
 
 var Engine = ({id, url, handleClick, handlesClick = false }) => {
 	return (
-		<article className="Engine">
-			<span>{id}</span>
-			<input value={url} readOnly={true}/>
+		<form className="Engine" onSubmit={ () => {} }>
+			<span className="Engine-id">{id}</span>
+			<input
+				className="Engine-url"
+				type="url"
+				value={url}
+				readOnly={true}/>
 
 			{ handlesClick &&
-			<button onClick={() => handleClick(id)}>Remove</button>}
-		</article>
+				<button type="submit"
+								onClick={() => handleClick(id)}>Remove</button>}
+		</form>
 	)
 }
 

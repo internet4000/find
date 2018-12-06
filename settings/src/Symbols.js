@@ -10,7 +10,7 @@ var Symbols = ({symbols, symbol, onDelete}) => {
 				symbols && symbols[symbol] ? (
 					<EnginesList
 						engines={symbols[symbol].engines}
-						onDelete={(id) => onDelete(id, symbol)}
+						onDelete={(engineId) => onDelete(symbol, engineId)}
 						canDelete={canDelete}/>
 				) : (
 					<p>No custom engines are defined</p>

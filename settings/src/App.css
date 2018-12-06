@@ -40,11 +40,13 @@ h1, h2, h3, h4, p {
 	background-color: var(--color-main);
 }
 
-.Engine span {
+.Engine-id {
+	flex-grow: 1;
 	font-size: 2rem;
-	min-width: 5rem;
-	padding-right: 2rem;
+	max-width: 5rem;
+	margin-right: 2rem;
 }
-.Engine input {
-	width: 100%;
+
+.Engine-url {
+	flex-grow: 1;
 }

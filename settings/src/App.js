@@ -1,7 +1,8 @@
 import { h, Component } from 'preact'
 import logo from './find-logo.svg'
-import { getSymbols }  from './storage'
+import { getSymbols, deleteEngine, addEngine }  from './storage'
 import Symbols from './Symbols'
+import AddEngine from './AddEngine'
 
 class App extends Component {
 
@@ -12,24 +13,31 @@ class App extends Component {
 	}
 
 	componentDidMount() {
+		this.refreshSymbols()
+	}
+
+	refreshSymbols() {
 		const { defaultSymbols, userSymbols } =  getSymbols()
+
 		this.setState({
 			defaultSymbols,
 			userSymbols
 		})
 	}
 
-	onDelete = (engineId, symbol) => {
-		let userSymbols = this.state.userSymbols
-		delete userSymbols[symbol].engines[engineId]
-		this.setState({
-			userSymbols
-		})
+	onAdd = (symbol, engineId, url) => {
+		addEngine(symbol, engineId, url)
+		this.refreshSymbols()
+	}
+
+	onDelete = (symbol, engineId) => {
+		deleteEngine(symbol, engineId)
+		this.refreshSymbols()
 	}
 
   render() {
 		const { defaultSymbols, userSymbols } = this.state
-		const onDelete = this.onDelete
+		const { onDelete, onAdd } = this
     return (
       <div className="App">
         <div className="App-header">
@@ -40,6 +48,9 @@ class App extends Component {
 
         <div className="App-body">
 					<h2>Search engines (!)</h2>
+					<AddEngine
+						symbol="!"
+						onAdd={onAdd}/>
 					<Symbols
 						symbol="!"
 						symbols={userSymbols}
@@ -49,6 +60,9 @@ class App extends Component {
 						symbols={defaultSymbols}/>
 
 			    <h2>Action engines (+)</h2>
+					<AddEngine
+						symbol="+"
+						onAdd={onAdd}/>
 					<Symbols
 						symbol="+"
 						symbols={userSymbols}
