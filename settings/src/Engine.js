@@ -12,7 +12,10 @@ var Engine = ({id, url, handleClick, handlesClick = false }) => {
 
 			{ handlesClick &&
 				<button type="submit"
-								onClick={() => handleClick(id)}>Remove</button>}
+									onClick={(event) => {
+										event.preventDefault()
+										handleClick(id)
+					} }>Remove</button>}
 		</form>
 	)
 }

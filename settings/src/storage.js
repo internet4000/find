@@ -1,6 +1,6 @@
 import Find from '../../main'
 
-const { symbols: defaultSymbols } = Find
+const defaultSymbols = Find.symbols
 const localStorageKey = 'i4find'
 
 const newUserSymbols = (symbols = defaultSymbols) => {
@@ -35,50 +35,22 @@ const setStorageUserSymbols = symbols => {
 	localStorage.setItem(localStorageKey, JSON.stringify(symbols))
 }
 
-// make a list easy to use to build a gui
-const symbolsToList = (symbols) => {
-	return Object.keys(symbols).map(key => {
-		return {
-			shortcut: key,
-			url: symbols[key]
-		}
-	})
-}
-
-// merge the user defined symbols into the defaults
-const mergeSymbols = (user, findDefault = defaultSymbols) => {
-	user = user || {}
-
-	const applySymbols = (defaults, s) => {
-		Object.keys(s).forEach(symbol => {
-			defaults[symbol] = defaults[symbol] || {}
-			for (let engineId in s[symbol]) {
-				defaults[symbol].engines[engineId] = s[symbol][engineId]
-			}
-		})
-		return defaults
-	}
-	return applySymbols(findDefault, user)
-}
-
 // API: call to the store to get all symbols
-const getSymbols = () => {
-	return {
-		defaultSymbols,
-		userSymbols: getStorageUserSymbols()
-	}
-}
+const getDefaultSymbols = () => { return defaultSymbols }
+const getUserSymbols = () => { return  getStorageUserSymbols() }
 
 const addEngine = (symbol, engineId, url) => {
+	if(!symbol || !engineId || !url) return
 	let userSymbols = getStorageUserSymbols()
 	userSymbols[symbol].engines[engineId] = url
 	setStorageUserSymbols(userSymbols)
 }
 
 const deleteEngine = (symbol, engineId) => {
+	if(!symbol || !engineId) return
 	let userSymbols = getStorageUserSymbols()
 	delete userSymbols[symbol].engines[engineId]
 	setStorageUserSymbols(userSymbols)
 }
 
-export { getSymbols, addEngine, deleteEngine };
+export { getDefaultSymbols, getUserSymbols, addEngine, deleteEngine };

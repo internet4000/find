@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import logo from './find-logo.svg'
-import { getSymbols, deleteEngine, addEngine }  from './storage'
+import { getUserSymbols, getDefaultSymbols, deleteEngine, addEngine }  from './storage'
 import Symbols from './Symbols'
 import AddEngine from './AddEngine'
 
@@ -17,12 +17,11 @@ class App extends Component {
 	}
 
 	refreshSymbols() {
-		const { defaultSymbols, userSymbols } =  getSymbols()
-
-		this.setState({
-			defaultSymbols,
-			userSymbols
-		})
+		let state = {
+			defaultSymbols: getDefaultSymbols(),
+			userSymbols: getUserSymbols()
+		}
+		this.setState(state)
 	}
 
 	onAdd = (symbol, engineId, url) => {
