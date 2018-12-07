@@ -69,13 +69,13 @@
 		// returns a result url string to open
 		// default to "search for help if only a symbol"
 		buildResult(userQuery, symbol = '!', engineId = 'd') {
-			var symbol = this.symbols[symbol];
+			symbolEngines = this.symbols[symbol];
 
-			if (symbol.fns) {
-				return symbol.fns[engineId](this, userQuery);
+			if (symbolEngines.fns) {
+				return symbolEngines.fns[engineId](this, userQuery);
 			}
 
-			var engineUrl = symbol.engines[engineId];
+			var engineUrl = symbolEngines.engines[engineId];
 			return engineUrl + userQuery;
 		},
 
@@ -187,6 +187,8 @@
 			return applySymbols(this.symbols, user)
 		}
 	}
+	console.info("Documentation: https://github.com/internet4000/find")
+	console.info("Usage: Find.find('!m brazil')")
 	App.init()
 	return App;
 }));
