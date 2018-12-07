@@ -17,9 +17,8 @@
   // This example returns an object, but the module
   // can return a function as the exported value.
 	var App = {
-		localStorageKey: "r4find",
+		localStorageKey: "i4find",
 		/* we can’t use localStorageKey here, because it’s undefined */
-		userEngines: JSON.parse(localStorage.getItem("r4find")) || {},
 
 		symbols: {
 			'!': {
@@ -35,7 +34,6 @@
 					g: 'https://encrypted.google.com/search?q=',
 					k: 'https://keep.google.com/?q=#search/text%3D',
 					l: 'https://www.linguee.com/search?query=',
-					lbc: 'https://www.leboncoin.fr/annonces/offres/ile_de_france/occasions/?th=1&q=',
 					lp: 'https://lpepfinder.com/#gsc.q=',
 					m: 'https://www.google.com/maps/search/',
 					osm: 'https://www.openstreetmap.org/search?query=',
@@ -61,8 +59,8 @@
 				name: 'command',
 				fns: {
 					add: function(app, arg) {
-						let [name, url] = arg.split(" ");
-						app.addUserEngine(name, url);
+						let [symbol, id, url] = arg.split(" ");
+						console.log('symbol, id, url', symbol, id, url);
 					}
 				}
 			}
@@ -154,28 +152,41 @@
 		},
 
 		init() {
-			this.refreshUserEngines();
+			this.mergeSymbols(this.getUserSymbols());
 			var url = new URL(window.location.href);
 			var request = url.searchParams.get('q');
-			// window.onload= this.showCustoms.bind(this);
 			if(!request) return;
 			this.find(request);
 		},
 
-		addUserEngine(name, url) {
-			this.userEngines[name] = url;
-			localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
-			this.refreshUserEngines();
+		getUserSymbols() {
+			let storageSymbols;
+			try {
+				storageSymbols = JSON.parse(
+					localStorage.getItem('i4find')
+				)
+			} catch(e) {
+				if(e.name === 'SyntaxError') {
+					storageSymbols = null
+				}
+			}
+			return JSON.parse(JSON.stringify(storageSymbols))
 		},
 
-		refreshUserEngines() {
-			for (var name in this.userEngines) {
-				var url = this.userEngines[name];
-				this.symbols["!"]["engines"][name] = url;
+		mergeSymbols(user) {
+			user = user || {}
+			const applySymbols = (defaults, usr) => {
+				Object.keys(usr).forEach(symbol => {
+					defaults[symbol] = defaults[symbol] || {}
+					for (let engineId in usr[symbol]) {
+						defaults[symbol].engines[engineId] = usr[symbol][engineId]
+					}
+				})
+				return defaults
 			}
+			return applySymbols(this.symbols, user)
 		}
-	};
-
-	return App
-  return {};
+	}
+	App.init()
+	return App;
 }));

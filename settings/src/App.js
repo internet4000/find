@@ -1,8 +1,8 @@
 import { h, Component } from 'preact'
 import logo from './find-logo.svg'
-import { getUserSymbols, getDefaultSymbols, deleteEngine, addEngine }  from './storage'
 import Symbols from './Symbols'
 import AddEngine from './AddEngine'
+import withStorage from './withStorage'
 
 class App extends Component {
 
@@ -12,31 +12,23 @@ class App extends Component {
 		this.userSymbols = {}
 	}
 
-	componentDidMount() {
-		this.refreshSymbols()
-	}
-
-	refreshSymbols() {
-		let state = {
-			defaultSymbols: getDefaultSymbols(),
-			userSymbols: getUserSymbols()
-		}
-		this.setState(state)
+	refreshSymbols(updatedUserSymbols) {
+		this.setState({
+			userSymbols: updatedUserSymbols
+		})
 	}
 
 	onAdd = (symbol, engineId, url) => {
-		addEngine(symbol, engineId, url)
-		this.refreshSymbols()
+		this.props.addEngine(symbol, engineId, url)
 	}
-
 	onDelete = (symbol, engineId) => {
-		deleteEngine(symbol, engineId)
-		this.refreshSymbols()
+		this.props.deleteEngine(symbol, engineId)
 	}
 
   render() {
-		const { defaultSymbols, userSymbols } = this.state
+		const { defaultSymbols, userSymbols } = this.props
 		const { onDelete, onAdd } = this
+		if(!defaultSymbols) return <p>Loading</p>
     return (
       <div className="App">
         <div className="App-header">
@@ -75,4 +67,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStorage(App);
