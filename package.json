@@ -1,6 +1,6 @@
 {
   "name": "i4k-find",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Action engine",
   "main": "main.js",
   "dependencies": {},
