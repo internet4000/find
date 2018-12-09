@@ -14,7 +14,9 @@
 }(typeof self !== 'undefined' ? self : this, function () {
 
 
-	// some private methods
+	// some private methods and variables;
+	var localStorageKey = 'i4find';
+
 	// generates new userSymbols from copying original symbols
 	// to be used with Find default symbols (Find.symbols)
 	var newUserSymbols = function() {
@@ -38,7 +40,6 @@
 			this.init()
 		},
 
-		localStorageKey: "i4find",
 		symbols: {
 			'!': {
 				name: 'search',
@@ -217,7 +218,7 @@
 			var storageSymbols;
 			try {
 				storageSymbols = JSON.parse(
-					localStorage.getItem(this.localStorageKey)
+					localStorage.getItem(localStorageKey)
 				);
 			} catch(e) {
 				if(e.name === 'SyntaxError') {
@@ -235,15 +236,16 @@
 		// saves a new set of user symbols to local storage
 		setUserSymbols(newSymbols) {
 			if (!newSymbols) return
-			localStorage.setItem(this.localStorageKey, JSON.stringify(newSymbols))
+			localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
+		},
+		help() {
+			// write user documentation
+			console.info(
+				'Documentation: https://github.com/internet4000/find',
+				"— Usage: Find.find('!m brazil')",
+				"— Explore the Find object"
+			)
 		}
 	}
-
-	// write user documentation
-	console.info(
-		'Documentation: https://github.com/internet4000/find',
-		"— Usage: Find.find('!m brazil')",
-		"— Explore the Find object"
-	)
 	return App;
 }));
