@@ -52,12 +52,15 @@
 					dr: 'https://drive.google.com/drive/search?q=',
 					e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq=',
 					g: 'https://encrypted.google.com/search?q=',
+					gh: 'https://github.com/search?q=',
 					k: 'https://keep.google.com/?q=#search/text%3D',
 					l: 'https://www.linguee.com/search?query=',
 					lp: 'https://lpepfinder.com/#gsc.q=',
 					m: 'https://www.google.com/maps/search/',
+					npm: 'https://www.npmjs.com/search?q=',
 					osm: 'https://www.openstreetmap.org/search?query=',
 					r4: 'https://radio4000.com/search?search=',
+					so: 'https://stackoverflow.com/search?q=',
 					tr: 'https://translate.google.com/?q=',
 					w: 'https://en.wikipedia.org/w/index.php?search=',
 					wa: 'http://www.wolframalpha.com/input/?i=',
@@ -68,11 +71,13 @@
 			'+': {
 				name: 'do',
 				engines: {
-					r4: 'https://radio4000.com/add?url=',
 					draw: 'https://docs.google.com/drawings/create?title=',
 					doc: 'https://docs.google.com/document/create?title=',
+					r4: 'https://radio4000.com/add?url=',
 					sheet: 'https://docs.google.com/spreadsheets/create?title=',
-					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title='
+					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title=',
+					wr: 'https://en.wikipedia.org/wiki/Special:Random',
+					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File'
 				}
 			},
 			'#': {
