@@ -13,10 +13,31 @@
 	}
 }(typeof self !== 'undefined' ? self : this, function () {
 
+
+	// some private methods
+	// generates new userSymbols from copying original symbols
+	// to be used with Find default symbols (Find.symbols)
+	var newUserSymbols = function() {
+		var fromSymbols = App.symbols;
+		var symbols = JSON.parse(JSON.stringify(fromSymbols))
+		Object.keys(symbols).forEach(symbol => {
+			symbols[symbol].engines = {}
+			if(symbol === '#') {
+				delete symbols[symbol]
+			}
+		})
+		return symbols
+	}
+
+
 	// Just return a value to define the module export.
 	// This example returns an object, but the module
 	// can return a function as the exported value.
 	var App = {
+		constructor() {
+			this.init()
+		},
+
 		localStorageKey: "i4find",
 		symbols: {
 			'!': {
@@ -141,7 +162,7 @@
 					requestSymbolGroup = requestTerms[0],
 					requestSymbol = this.checkForSymbol(requestSymbolGroup),
 					requestEngineId = requestSymbolGroup.slice(1),
-					allSymbolGroups= [this.getUserSymbols(), this.symbols];
+					allSymbolGroups = [this.getUserSymbols(), this.symbols];
 
 			// if there is no symbol, the whole userRequest is the query
 			if (!requestSymbol) {
@@ -156,7 +177,6 @@
 			if (!selectedSymbols) {
 				return this.buildResultUrl(userRequest);
 			}
-
 
 			// if we know the symbol and engine,
 			// the actual query is everything but the request's engine group (the first group)
@@ -191,19 +211,6 @@
 			this.find(request);
 		},
 
-		// generates new userSymbols from copying original symbols
-		// to be used with Find default symbols (Find.symbols)
-		newUserSymbols(fromSymbols) {
-			var symbols = JSON.parse(JSON.stringify(fromSymbols))
-			Object.keys(symbols).forEach(symbol => {
-				symbols[symbol].engines = {}
-				if(symbol === '#') {
-					delete symbols[symbol]
-				}
-			})
-			return symbols
-		},
-
 		// get the user symbols from local storage
 		// or returns an empty new set of symbols
 		getUserSymbols() {
@@ -219,7 +226,7 @@
 			}
 
 			if(!storageSymbols) {
-				storageSymbols = this.newUserSymbols(this.symbols);
+				storageSymbols = newUserSymbols();
 			}
 
 			return JSON.parse(JSON.stringify(storageSymbols));
@@ -238,6 +245,5 @@
 		"— Usage: Find.find('!m brazil')",
 		"— Explore the Find object"
 	)
-	App.init()
 	return App;
 }));
