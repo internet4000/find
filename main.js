@@ -1,25 +1,23 @@
 (function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define([], factory);
-  } else if (typeof module === 'object' && module.exports) {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory();
-  } else {
-    // Browser globals (root is window)
-    root.Find = factory();
-  }
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define([], factory);
+	} else if (typeof module === 'object' && module.exports) {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals (root is window)
+		root.Find = factory();
+	}
 }(typeof self !== 'undefined' ? self : this, function () {
 
-  // Just return a value to define the module export.
-  // This example returns an object, but the module
-  // can return a function as the exported value.
+	// Just return a value to define the module export.
+	// This example returns an object, but the module
+	// can return a function as the exported value.
 	var App = {
 		localStorageKey: "i4find",
-		/* we can’t use localStorageKey here, because it’s undefined */
-
 		symbols: {
 			'!': {
 				name: 'search',
@@ -60,44 +58,76 @@
 				fns: {
 					add: function(app, arg) {
 						let [symbol, id, url] = arg.split(" ");
-						console.log('symbol, id, url', symbol, id, url);
+						app.addEngine(
+							app.getUserSymbols(),
+							symbol,
+							id,
+							url)
 					}
 				}
 			}
 		},
 
+		// add a new user engine
+		// to the list of user defined engines in user symbols
+		addEngine(symbols, symbol, engineId, url) {
+			if(symbols[symbol]) {
+				symbols[symbol].engines[engineId] = url;
+				this.setUserSymbols(symbols)
+			} else {
+				console.error('symbol', symbol, 'does not exist in', symbols)
+			}
+		},
+
+		// To get an engine url from its engine id,
+		// also pass a list of symbols and a symbol
+		getEngineUrl(symbols, symbol, engineId) {
+			var symbolEngines = symbols[symbol]
+			var engineUrl = symbolEngines.engines[engineId];
+			return engineUrl
+		},
+
 		// returns a result url string to open
 		// default to "search for help if only a symbol"
-		buildResult(userQuery, symbol = '!', engineId = 'd') {
-			symbolEngines = this.symbols[symbol];
+		buildResultUrl(userQuery, symbols = this.symbols, symbol = '!', engineId = 'd') {
+			var app = this;
 
-			if (symbolEngines.fns) {
-				return symbolEngines.fns[engineId](this, userQuery);
+			// if symbol is fns, don't open url, but run the function
+			if(symbol === '#') {
+				var fns = symbols[symbol].fns[engineId]
+				return fns(app, userQuery);
 			}
 
-			var engineUrl = symbolEngines.engines[engineId];
+			var engineUrl = this.getEngineUrl(symbols, symbol, engineId);
 			return engineUrl + userQuery;
 		},
 
-		// is there a symbol in this query? return it!
+		// is there a symbol in this symbol group? `!ex` return `!` !
 		checkForSymbol(symbolGroup) {
 			var availableSymbols = Object.keys(this.symbols),
 					symbol = symbolGroup.charAt(0);
 
 			return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
 		},
-		checkForEngine(symbol, engineId) {
-			var engines =  this.symbols[symbol].engines;
-			var fns =  this.symbols[symbol].fns;
-			if (engines) {
-				return engines[engineId] ? engineId : false;
-			}
 
-			if (fns) {
-				return fns[engineId] ? engineId : false;
-			}
+		// is an engine available in a array of symbolGroups
+		getSymbolsForEngine(symbolGroups, symbol, engineId) {
+			if(!symbolGroups.length) return false;
+			var filteredGroups = symbolGroups.filter(function(symbols) {
+				if(!symbols || !symbols[symbol]) return false;
+				var engines =	 symbols[symbol].engines;
+				var fns =	 symbols[symbol].fns;
+				if (engines) {
+					return engines[engineId] ? true : false
+				}
+				if (fns) {
+					return fns[engineId] ? true : false
+				}
 
-			return false;
+				return false;
+			})
+			if(!filteredGroups.length) return false
+			return filteredGroups[0]
 		},
 
 		// param:
@@ -109,26 +139,29 @@
 
 			var requestTerms = userRequest.split(' '),
 					requestSymbolGroup = requestTerms[0],
-					symbol = this.checkForSymbol(requestSymbolGroup);
+					requestSymbol = this.checkForSymbol(requestSymbolGroup),
+					requestEngineId = requestSymbolGroup.slice(1),
+					allSymbolGroups= [this.getUserSymbols(), this.symbols];
 
 			// if there is no symbol, the whole userRequest is the query
-			if (!symbol) {
-				return this.buildResult(userRequest);
+			if (!requestSymbol) {
+				return this.buildResultUrl(userRequest);
 			}
 
-			// check what is the requested engine
-			var engineId = this.checkForEngine(symbol, requestSymbolGroup.slice(1));
+			// is the engine referenced in the	userSymbols or symbols
+			// let selectedSymbols = this.getRequestedSymbols(allSymbolGroups, requestSymbol, requestEngineId);
+			var selectedSymbols = this.getSymbolsForEngine(allSymbolGroups, requestSymbol, requestEngineId);
 
-			// if we don't know the engine, the whole request is passed as query
-			if (!engineId) {
-				return this.buildResult(userRequest);
+			// if there are no selectedSymbols, we don't know the engine
+			if (!selectedSymbols) {
+				return this.buildResultUrl(userRequest);
 			}
 
-			// if we know the symbol and engine, build request
+
+			// if we know the symbol and engine,
 			// the actual query is everything but the request's engine group (the first group)
-			var requestQuery = requestTerms.splice(1, requestTerms.length).join(' ');
-
-			return this.buildResult(requestQuery, symbol, engineId);
+			var userRequestNoSymbol = requestTerms.splice(1, requestTerms.length).join(' ');
+			return this.buildResultUrl(userRequestNoSymbol, selectedSymbols, requestSymbol, requestEngineId);
 		},
 
 		// check whether URL starts with a scheme
@@ -140,55 +173,71 @@
 			// replace history state
 			// so after transition, clicking the back button does not hit find/?q=search
 			// that would transition again to a search result
+			if(!url) return
 			if (!this.checkUrl(url)) url = "//" + url;
 			location.replace(url);
 		},
 
 		// takes a string, request query of a user
 		find(request) {
-			if(!request) return;
-			var url = this.decodeUserRequest(request);
-			this.openUrl(url);
+			if(!request) return false;
+			return this.openUrl(this.decodeUserRequest(request));
 		},
 
 		init() {
-			this.mergeSymbols(this.getUserSymbols());
 			var url = new URL(window.location.href);
 			var request = url.searchParams.get('q');
 			if(!request) return;
 			this.find(request);
 		},
 
-		getUserSymbols() {
-			let storageSymbols;
-			try {
-				storageSymbols = JSON.parse(
-					localStorage.getItem('i4find')
-				)
-			} catch(e) {
-				if(e.name === 'SyntaxError') {
-					storageSymbols = null
+		// generates new userSymbols from copying original symbols
+		// to be used with Find default symbols (Find.symbols)
+		newUserSymbols(fromSymbols) {
+			var symbols = JSON.parse(JSON.stringify(fromSymbols))
+			Object.keys(symbols).forEach(symbol => {
+				symbols[symbol].engines = {}
+				if(symbol === '#') {
+					delete symbols[symbol]
 				}
-			}
-			return JSON.parse(JSON.stringify(storageSymbols))
+			})
+			return symbols
 		},
 
-		mergeSymbols(user) {
-			user = user || {}
-			const applySymbols = (defaults, usr) => {
-				Object.keys(usr).forEach(symbol => {
-					defaults[symbol] = defaults[symbol] || {}
-					for (let engineId in usr[symbol]) {
-						defaults[symbol].engines[engineId] = usr[symbol][engineId]
-					}
-				})
-				return defaults
+		// get the user symbols from local storage
+		// or returns an empty new set of symbols
+		getUserSymbols() {
+			var storageSymbols;
+			try {
+				storageSymbols = JSON.parse(
+					localStorage.getItem(this.localStorageKey)
+				);
+			} catch(e) {
+				if(e.name === 'SyntaxError') {
+					storageSymbols = null;
+				}
 			}
-			return applySymbols(this.symbols, user)
+
+			if(!storageSymbols) {
+				storageSymbols = this.newUserSymbols(this.symbols);
+			}
+
+			return JSON.parse(JSON.stringify(storageSymbols));
+		},
+
+		// saves a new set of user symbols to local storage
+		setUserSymbols(newSymbols) {
+			if (!newSymbols) return
+			localStorage.setItem(this.localStorageKey, JSON.stringify(newSymbols))
 		}
 	}
-	console.info("Documentation: https://github.com/internet4000/find")
-	console.info("Usage: Find.find('!m brazil')")
+
+	// write user documentation
+	console.info(
+		'Documentation: https://github.com/internet4000/find',
+		"— Usage: Find.find('!m brazil')",
+		"— Explore the Find object"
+	)
 	App.init()
 	return App;
 }));
