@@ -5,5 +5,5 @@ build-env:
 build-find:
 	cp -r index.html 404.html main.js styles.css opensearch.xml public ./production
 build-find-settings:
-	cd ./settings && yarn build
+	cd ./settings && yarn && yarn build
 	mv ./settings/build ./production/settings
