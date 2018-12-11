@@ -44,40 +44,48 @@
 			'!': {
 				name: 'search',
 				engines: {
-					a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords=',
-					c: 'https://contacts.google.com/search/',
-					ciu: 'https://caniuse.com/#search=',
-					d: 'https://duckduckgo.com/?q=',
-					dd: 'https://devdocs.io/#q=',
-					dr: 'https://drive.google.com/drive/search?q=',
-					e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq=',
-					g: 'https://encrypted.google.com/search?q=',
-					gh: 'https://github.com/search?q=',
-					k: 'https://keep.google.com/?q=#search/text%3D',
-					l: 'https://www.linguee.com/search?query=',
-					lp: 'https://lpepfinder.com/#gsc.q=',
-					m: 'https://www.google.com/maps/search/',
-					npm: 'https://www.npmjs.com/search?q=',
-					osm: 'https://www.openstreetmap.org/search?query=',
-					r4: 'https://radio4000.com/search?search=',
-					so: 'https://stackoverflow.com/search?q=',
-					tr: 'https://translate.google.com/?q=',
-					w: 'https://en.wikipedia.org/w/index.php?search=',
-					wa: 'http://www.wolframalpha.com/input/?i=',
-					y: 'https://www.youtube.com/results?search_query=',
+					a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords={}',
+					c: 'https://contacts.google.com/search/{}',
+					ciu: 'https://caniuse.com/#search={}',
+					d: 'https://duckduckgo.com/?q={}',
+					dd: 'https://devdocs.io/#q={}',
+					dr: 'https://drive.google.com/drive/search?q={}',
+					e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq={}',
+					g: 'https://encrypted.google.com/search?q={}',
+					gh: 'https://github.com/search?q={}',
+					k: 'https://keep.google.com/?q=#search/text%3D{}',
+					l: 'https://www.linguee.com/search?query={}',
+					lp: 'https://lpepfinder.com/#gsc.q={}',
+					m: 'https://www.google.com/maps/search/{}',
+					npm: 'https://www.npmjs.com/search?q={}',
+					osm: 'https://www.openstreetmap.org/search?query={}',
+					r4: 'https://radio4000.com/search?search={}',
+					so: 'https://stackoverflow.com/search?q={}',
+					tr: 'https://translate.google.com/?q={}',
+					w: 'https://en.wikipedia.org/w/index.php?search={}',
+					wa: 'http://www.wolframalpha.com/input/?i={}',
+					y: 'https://www.youtube.com/results?search_query={}',
 					'?': 'https://find.internet4000.com'
 				}
 			},
 			'+': {
 				name: 'do',
 				engines: {
-					draw: 'https://docs.google.com/drawings/create?title=',
-					doc: 'https://docs.google.com/document/create?title=',
-					r4: 'https://radio4000.com/add?url=',
-					sheet: 'https://docs.google.com/spreadsheets/create?title=',
-					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title=',
+					draw: 'https://docs.google.com/drawings/create?title={}',
+					doc: 'https://docs.google.com/document/create?title={}',
+					r4: 'https://radio4000.com/add?url={}',
+					sheet: 'https://docs.google.com/spreadsheets/create?title={}',
+					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title={}',
 					wr: 'https://en.wikipedia.org/wiki/Special:Random',
 					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File'
+				}
+			},
+			'&': {
+				name: 'test',
+				engines: {
+					gh: 'https://github.com/{}/{}',
+					firebase: 'https://console.firebase.google.com/project/{}/overview',
+					netlify: 'https://app.netlify.com/sites/{}/overview'
 				}
 			},
 			'#': {
@@ -106,6 +114,33 @@
 			}
 		},
 
+		// replaces the placeholder () in a url, with the query, if any
+		// otherwise just returns the url
+		replaceUrlPlaceholders(url, query) {
+			if (typeof url != 'string' || typeof query != 'string') return '';
+			var matches = url.match(/\{\}/g);
+			if (!matches.length) return url;
+			if (!query.length) return url.replace(/\/?\{\}\/?/g, '');
+			if (matches.length === 1) return url.replace('\{\}', query);
+
+			query = query.trim();
+			var splitQuery = function() {
+				return query.includes('/') && query.split('/')
+					|| query.includes(' ') && query.split(' ')
+					|| query.split();
+			}();
+
+			matches.forEach(function(queryItem, index) {
+				if (index >= splitQuery.length) {
+					url = url.replace(/\/?\{\}\/?/g, '');
+				} else {
+					url = url.replace('\{\}', encodeURIComponent(splitQuery[index]));
+				}
+			})
+
+			return url;
+		},
+
 		// To get an engine url from its engine id,
 		// also pass a list of symbols and a symbol
 		getEngineUrl(symbols, symbol, engineId) {
@@ -124,9 +159,8 @@
 				var fns = symbols[symbol].fns[engineId]
 				return fns(app, userQuery);
 			}
-
 			var engineUrl = this.getEngineUrl(symbols, symbol, engineId);
-			return engineUrl + userQuery;
+			return this.replaceUrlPlaceholders(engineUrl, userQuery);
 		},
 
 		// is there a symbol in this symbol group? `!ex` return `!` !
@@ -250,6 +284,29 @@
 				"— Usage: Find.find('!m brazil')",
 				"— Explore the Find object"
 			)
+		},
+		importLegacyStorage() {
+			var legacyUserSymbols = JSON.parse(
+				localStorage.getItem('r4find')
+			);
+
+			if (!legacyUserSymbols) {
+				console.log('There are no legacyUserSymbols to import. Your\'re clean!');
+				return false;
+			}
+
+			// var addEngine = this.addEngine;
+			var addEngine = console.log;
+			var getUserSymbols = this.getUserSymbols;
+			let importedObjects = Object.keys(legacyUserSymbols)
+					.map(function(id) {
+						addEngine(getUserSymbols(), '!', id, legacyUserSymbols[id]);
+					})
+
+			console.log('legacy storage:', legacyUserSymbols);
+			console.log('new user symbols:', newUserSymbols);
+			console.log('importedObjects', importedObjects);
+			return true;
 		}
 	}
 	return App;
