@@ -17,27 +17,6 @@
 	// some private methods and variables;
 	var localStorageKey = 'i4find';
 
-	// generates new userSymbols from copying original symbols
-	// to be used with Find default symbols (Find.symbols)
-	var newUserSymbols = function() {
-		var fromSymbols = App.symbols;
-		var symbols = JSON.parse(JSON.stringify(fromSymbols))
-		Object.keys(symbols).forEach(symbol => {
-			symbols[symbol].engines = {}
-			if(symbol === '#') {
-				delete symbols[symbol]
-			}
-		})
-		return symbols
-	}
-
-	// saves a new set of user symbols to local storage
-	var setUserSymbols = function(newSymbols) {
-		if (!newSymbols) return
-		localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
-	}
-
-
 	// Just return a value to define the module export.
 	// This example returns an object, but the module
 	// can return a function as the exported value.
@@ -110,7 +89,7 @@
 		addEngine(symbols, symbol, engineId, url) {
 			if(symbols[symbol]) {
 				symbols[symbol].engines[engineId] = url;
-				setUserSymbols(symbols)
+				this.setUserSymbols(symbols)
 			} else {
 				console.error('symbol', symbol, 'does not exist in', symbols)
 			}
@@ -269,10 +248,30 @@
 			}
 
 			if(!storageSymbols) {
-				storageSymbols = newUserSymbols();
+				storageSymbols = this.newUserSymbols();
 			}
 
 			return JSON.parse(JSON.stringify(storageSymbols));
+		},
+
+		// saves a new set of user symbols to local storage
+		setUserSymbols(newSymbols) {
+			if (!newSymbols) return
+			localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
+		},
+
+		// generates new userSymbols from copying original symbols
+		// to be used with Find default symbols (Find.symbols)
+		newUserSymbols() {
+			var fromSymbols = this.symbols;
+			var symbols = JSON.parse(JSON.stringify(fromSymbols))
+			Object.keys(symbols).forEach(symbol => {
+				symbols[symbol].engines = {}
+				if(symbol === '#') {
+					delete symbols[symbol]
+				}
+			})
+			return symbols
 		},
 
 		help() {
@@ -294,13 +293,11 @@
 			}
 
 			// keep the this context
-			var addEngine = this.addEngine;
-			var getUserSymbols = this.getUserSymbols;
 			// import legacy user symbols objects
 			let importedObjects = Object.keys(legacyUserSymbols)
-					.map(function(id) {
-						addEngine(getUserSymbols(), '!', id, legacyUserSymbols[id]);
-					})
+				.map((id) => {
+					this.addEngine(this.getUserSymbols(), '!', id, legacyUserSymbols[id]);
+				})
 
 			// clean legacy storage item
 			localStorage.removeItem(legacyKey)
@@ -308,7 +305,7 @@
 			// great
 			console.log('Importing legacy symbols worked!')
 			console.log('Imported this legacy stoage:', legacyUserSymbols);
-			console.log('New user symbols are:', getUserSymbols(), 'Thanks!');
+			console.log('Thanks! New user symbols are:', this.getUserSymbols());
 		}
 	}
 
