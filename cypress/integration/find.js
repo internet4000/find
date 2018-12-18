@@ -29,5 +29,14 @@ describe('Find', function() {
 		// which is blocked by iframe cross-origin stuff.
 		// cy.get('form button').click()
 	})
-})
 
+	it('decodes placholders in url', () => {
+		cy.window().then(win => {
+			function assertQuery(query, expected) {
+				assert.equal(win.Find.decodeUserRequest(query), expected, query)
+			}
+			assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
+			assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
+		})
+	})
+})

@@ -31,15 +31,17 @@
 		return symbols
 	}
 
+	// saves a new set of user symbols to local storage
+	var setUserSymbols = function(newSymbols) {
+		if (!newSymbols) return
+		localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
+	}
+
 
 	// Just return a value to define the module export.
 	// This example returns an object, but the module
 	// can return a function as the exported value.
 	var App = {
-		constructor() {
-			this.init()
-		},
-
 		symbols: {
 			'!': {
 				name: 'search',
@@ -108,7 +110,7 @@
 		addEngine(symbols, symbol, engineId, url) {
 			if(symbols[symbol]) {
 				symbols[symbol].engines[engineId] = url;
-				this.setUserSymbols(symbols)
+				setUserSymbols(symbols)
 			} else {
 				console.error('symbol', symbol, 'does not exist in', symbols)
 			}
@@ -118,7 +120,7 @@
 		// otherwise just returns the url
 		replaceUrlPlaceholders(url, query) {
 			if (typeof url != 'string' || typeof query != 'string') return '';
-			var matches = url.match(/\{\}/g);
+			var matches = url.match(/\{\}/g) || [];
 			if (!matches.length) return url;
 			if (!query.length) return url.replace(/\/?\{\}\/?/g, '');
 			if (matches.length === 1) return url.replace('\{\}', query);
@@ -245,6 +247,7 @@
 		},
 
 		init() {
+			console.info('Find.help()')
 			var url = new URL(window.location.href);
 			var request = url.searchParams.get('q');
 			if(!request) return;
@@ -272,42 +275,45 @@
 			return JSON.parse(JSON.stringify(storageSymbols));
 		},
 
-		// saves a new set of user symbols to local storage
-		setUserSymbols(newSymbols) {
-			if (!newSymbols) return
-			localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
-		},
 		help() {
 			// write user documentation
-			console.info(
-				'Documentation: https://github.com/internet4000/find',
-				"— Usage: Find.find('!m brazil')",
-				"— Explore the Find object"
-			)
+			console.info('Documentation: https://github.com/internet4000/find')
+			console.info("— Usage: Find.find('!m brazil')")
+			console.info('— Explore the Find object')
 		},
 		importLegacyStorage() {
+			var legacyKey = 'r4find';
 			var legacyUserSymbols = JSON.parse(
-				localStorage.getItem('r4find')
+				localStorage.getItem(legacyKey)
 			);
 
+			// if no legacy user symbols, just great
 			if (!legacyUserSymbols) {
-				console.log('There are no legacyUserSymbols to import. Your\'re clean!');
-				return false;
+				console.log('There are no legacyUserSymbols to import. Room\'s clean!');
+				return
 			}
 
-			// var addEngine = this.addEngine;
-			var addEngine = console.log;
+			// keep the this context
+			var addEngine = this.addEngine;
 			var getUserSymbols = this.getUserSymbols;
+			// import legacy user symbols objects
 			let importedObjects = Object.keys(legacyUserSymbols)
 					.map(function(id) {
 						addEngine(getUserSymbols(), '!', id, legacyUserSymbols[id]);
 					})
 
-			console.log('legacy storage:', legacyUserSymbols);
-			console.log('new user symbols:', newUserSymbols);
-			console.log('importedObjects', importedObjects);
-			return true;
+			// clean legacy storage item
+			localStorage.removeItem(legacyKey)
+
+			// great
+			console.log('Importing legacy symbols worked!')
+			console.log('Imported this legacy stoage:', legacyUserSymbols);
+			console.log('New user symbols are:', getUserSymbols(), 'Thanks!');
 		}
 	}
+
+	// initialize the app
+	App.init();
+
 	return App;
 }));
