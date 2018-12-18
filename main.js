@@ -226,7 +226,6 @@
 		},
 
 		init() {
-			console.info('Find.help()')
 			var url = new URL(window.location.href);
 			var request = url.searchParams.get('q');
 			if(!request) return;
@@ -289,6 +288,7 @@
 			// if no legacy user symbols, just great
 			if (!legacyUserSymbols) {
 				console.log('There are no legacyUserSymbols to import. Room\'s clean!');
+				console.log('Try Find.help()')
 				return
 			}
 
@@ -303,9 +303,10 @@
 			localStorage.removeItem(legacyKey)
 
 			// great
-			console.log('Importing legacy symbols worked!')
-			console.log('Imported this legacy stoage:', legacyUserSymbols);
-			console.log('Thanks! New user symbols are:', this.getUserSymbols());
+			console.log('It worked!')
+			console.log('It imported this legacy stoage:', legacyUserSymbols);
+			console.log('The new user symbols are:', this.getUserSymbols());
+			this.help();
 		}
 	}
 
