@@ -40,5 +40,23 @@ describe('Find', function() {
 		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
 		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
 	})
+
+	it('has a method to replace a placeholder', () => {
+		assert.equal(typeof Find.replaceUrlPlaceholders, 'function')
+	})
+
+	it('can look up engine url', () => {
+		assert.equal(
+			Find.getEngineUrl(Find.symbols, '!', 'g'),
+			'https://encrypted.google.com/search?q={}'
+		)
+		assert.equal(Find.getEngineUrl(Find.symbols, '!', 'doesntexist'), undefined)
+	})
+
+	it('can check if a query has a symbol', () => {
+		assert.equal(Find.checkForSymbol('!salad'), '!')
+		assert.equal(Find.checkForSymbol('+cheese'), '+')
+		assert.equal(Find.checkForSymbol('*cheese'), '+')
+		assert.equal(Find.checkForSymbol('yolo'), false)
 	})
 })
