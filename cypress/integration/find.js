@@ -7,22 +7,6 @@ describe('Find', function() {
 		cy.window().should('have.property', 'Find')
 	})
 
-	it('decodes search queries as expected', () => {
-		cy.window().then(win => {
-			function assertQuery(query, expected) {
-				assert.equal(win.Find.decodeUserRequest(query), expected, query)
-			}
-
-			assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
-			assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
-			assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
-			assertQuery(
-				'+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg',
-				'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg'
-			)
-		})
-	})
-
 	it('shows a form with input and button', () => {
 		cy.visit('http://localhost:3030')
 		cy.get('form input')
@@ -33,12 +17,20 @@ describe('Find', function() {
 		// cy.get('form button').click()
 	})
 
-	it('decodes placholders in url', () => {
+	it('decodes search queries as expected', () => {
 		function assertQuery(query, expected) {
 			assert.equal(Find.decodeUserRequest(query), expected, query)
 		}
+
+		assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
+		assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
+		assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
+		assertQuery(
+			'+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg',
+			'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg'
+		)
 		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
-		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
+		assertQuery('&gh internet4000 radio4000', 'https://github.com/internet4000/radio4000')
 	})
 
 	it('has a method to replace a placeholder', () => {
