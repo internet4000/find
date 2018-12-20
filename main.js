@@ -308,7 +308,6 @@
 			console.log('It worked!')
 			console.log('It imported this legacy stoage:', legacyUserSymbols);
 			console.log('The new user symbols are:', this.getUserSymbols());
-			this.help();
 		}
 	}
 
