@@ -56,7 +56,7 @@ describe('Find', function() {
 	it('can check if a query has a symbol', () => {
 		assert.equal(Find.checkForSymbol('!salad'), '!')
 		assert.equal(Find.checkForSymbol('+cheese'), '+')
-		assert.equal(Find.checkForSymbol('*cheese'), '+')
+		assert.equal(Find.checkForSymbol('*cheese'), false)
 		assert.equal(Find.checkForSymbol('yolo'), false)
 	})
 })
