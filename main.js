@@ -1,186 +1,318 @@
-var App = {
-  localStorageKey: "r4find",
-  /* we can’t use localStorageKey here, because it’s undefined */
-  userEngines: JSON.parse(localStorage.getItem("r4find")) || {},
+(function (root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define([], factory);
+	} else if (typeof module === 'object' && module.exports) {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals (root is window)
+		root.Find = factory();
+	}
+}(typeof self !== 'undefined' ? self : this, function () {
 
-	doEngines: {
-		r4: 'https://radio4000.com/add?url='
-	},
-	symbols: {
-		'!': {
-			name: 'search',
-			engines: {
-				a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords=',
-				c: 'https://contacts.google.com/search/',
-				ciu: 'https://caniuse.com/#search=',
-				d: 'https://duckduckgo.com/?q=',
-				dd: 'https://devdocs.io/#q=',
-				dr: 'https://drive.google.com/drive/search?q=',
-				e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq=',
-				g: 'https://encrypted.google.com/search?q=',
-				k: 'https://keep.google.com/?q=#search/text%3D',
-				l: 'https://www.linguee.com/search?query=',
-				lbc: 'https://www.leboncoin.fr/annonces/offres/ile_de_france/occasions/?th=1&q=',
-				lp: 'https://lpepfinder.com/#gsc.q=',
-				m: 'https://www.google.com/maps/search/',
-				osm: 'https://www.openstreetmap.org/search?query=',
-				r4: 'https://radio4000.com/search?search=',
-				tr: 'https://translate.google.com/?q=',
-				w: 'https://en.wikipedia.org/w/index.php?search=',
-				wa: 'http://www.wolframalpha.com/input/?i=',
-				y: 'https://www.youtube.com/results?search_query=',
-				'?': 'https://find.internet4000.com'
+
+	// some private methods and variables;
+	var localStorageKey = 'i4find';
+
+	// Just return a value to define the module export.
+	// This example returns an object, but the module
+	// can return a function as the exported value.
+	var App = {
+		symbols: {
+			'!': {
+				name: 'search',
+				engines: {
+					a: 'https://www.amazon.com/gp/search?tag=internet4000-20&keywords={}',
+					c: 'https://contacts.google.com/search/{}',
+					ciu: 'https://caniuse.com/#search={}',
+					d: 'https://duckduckgo.com/?q={}',
+					dd: 'https://devdocs.io/#q={}',
+					dr: 'https://drive.google.com/drive/search?q={}',
+					e: 'http://rover.ebay.com/rover/1/711-53200-19255-0/1?icep_ff3=9&pub=5575347480&toolid=10001&campid=5338215070&icep_sellerId=&icep_ex_kw=&icep_sortBy=12&icep_catId=&icep_minPrice=&icep_maxPrice=&ipn=psmain&icep_vectorid=229466&kwid=902099&mtid=824&kw=lg&icep_uq={}',
+					g: 'https://encrypted.google.com/search?q={}',
+					gh: 'https://github.com/search?q={}',
+					k: 'https://keep.google.com/?q=#search/text%3D{}',
+					l: 'https://www.linguee.com/search?query={}',
+					lp: 'https://lpepfinder.com/#gsc.q={}',
+					m: 'https://www.google.com/maps/search/{}',
+					npm: 'https://www.npmjs.com/search?q={}',
+					osm: 'https://www.openstreetmap.org/search?query={}',
+					r4: 'https://radio4000.com/search?search={}',
+					so: 'https://stackoverflow.com/search?q={}',
+					tr: 'https://translate.google.com/?q={}',
+					w: 'https://en.wikipedia.org/w/index.php?search={}',
+					wa: 'http://www.wolframalpha.com/input/?i={}',
+					y: 'https://www.youtube.com/results?search_query={}',
+					'?': 'https://find.internet4000.com'
+				}
+			},
+			'+': {
+				name: 'do',
+				engines: {
+					draw: 'https://docs.google.com/drawings/create?title={}',
+					doc: 'https://docs.google.com/document/create?title={}',
+					r4: 'https://radio4000.com/add?url={}',
+					r4p: 'https://radio4000.com/{}/play',
+					r4pr: 'https://radio4000.com/{}/play/random',
+					sheet: 'https://docs.google.com/spreadsheets/create?title={}',
+					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title={}',
+					wr: 'https://en.wikipedia.org/wiki/Special:Random',
+					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File'
+				}
+			},
+			'&': {
+				name: 'test',
+				engines: {
+					gh: 'https://github.com/{}/{}',
+					firebase: 'https://console.firebase.google.com/project/{}/overview',
+					netlify: 'https://app.netlify.com/sites/{}/overview'
+				}
+			},
+			'#': {
+				name: 'command',
+				fns: {
+					add: function(app, arg) {
+						let [symbol, id, url] = arg.split(" ");
+						app.addEngine(
+							app.getUserSymbols(),
+							symbol,
+							id,
+							url)
+					}
+				}
 			}
 		},
-		'+': {
-			name: 'do',
-			engines: {
-				r4: 'https://radio4000.com/add?url=',
-				draw: 'https://docs.google.com/drawings/create?title=',
-				doc: 'https://docs.google.com/document/create?title=',
-				sheet: 'https://docs.google.com/spreadsheets/create?title=',
-				gmail: 'https://mail.google.com/mail/#inbox?compose=new&title='
+
+		// add a new user engine
+		// to the list of user defined engines in user symbols
+		addEngine(symbols, symbol, engineId, url) {
+			if(symbols[symbol]) {
+				symbols[symbol].engines[engineId] = url;
+				this.setUserSymbols(symbols)
+			} else {
+				console.error('symbol', symbol, 'does not exist in', symbols)
 			}
 		},
-    '#': {
-      name: 'command',
-      fns: {
-        add: function(app, arg) {
-          let [name, url] = arg.split(" ");
-          app.addUserEngine(name, url);
-        }
-      }
-    }
-	},
 
-	// returns a result url string to open
-	// default to "search for help if only a symbol"
-	buildResult(userQuery, symbol = '!', engineId = 'd') {
-		var symbol = this.symbols[symbol];
+		// replaces the placeholder () in a url, with the query, if any
+		// otherwise just returns the url
+		replaceUrlPlaceholders(url, query) {
+			if (typeof url != 'string' || typeof query != 'string') return '';
+			var matches = url.match(/\{\}/g) || [];
+			if (!matches.length) return url;
+			if (!query.length) return url.replace(/\/?\{\}\/?/g, '');
+			if (matches.length === 1) return url.replace('\{\}', query);
 
-    if (symbol.fns) {
-      return symbol.fns[engineId](this, userQuery);
-    }
+			query = query.trim();
+			var splitQuery = function() {
+				return query.includes('/') && query.split('/')
+					|| query.includes(' ') && query.split(' ')
+					|| query.split();
+			}();
 
-    var engineUrl = symbol.engines[engineId];
-		return engineUrl + userQuery;
-	},
+			matches.forEach(function(queryItem, index) {
+				if (index >= splitQuery.length) {
+					url = url.replace(/\/?\{\}\/?/g, '');
+				} else {
+					url = url.replace('\{\}', encodeURIComponent(splitQuery[index]));
+				}
+			})
 
-	// is there a symbol in this query? return it!
-	checkForSymbol(symbolGroup) {
-		var availableSymbols = Object.keys(this.symbols),
-				symbol = symbolGroup.charAt(0);
+			return url;
+		},
 
-		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
-	},
-	checkForEngine(symbol, engineId) {
-    var engines =  this.symbols[symbol].engines;
-    var fns =  this.symbols[symbol].fns;
-		if (engines) {
-      return engines[engineId] ? engineId : false;
-    }
+		// To get an engine url from its engine id,
+		// also pass a list of symbols and a symbol
+		getEngineUrl(symbols, symbol, engineId) {
+			var symbolEngines = symbols[symbol]
+			var engineUrl = symbolEngines.engines[engineId];
+			return engineUrl
+		},
 
-    if (fns) {
-      return fns[engineId] ? engineId : false;
-    }
+		// returns a result url string to open
+		// default to "search for help if only a symbol"
+		buildResultUrl(userQuery, symbols = this.symbols, symbol = '!', engineId = 'd') {
+			var app = this;
 
-    return false;
-	},
+			// if symbol is fns, don't open url, but run the function
+			if(symbol === '#') {
+				var fns = symbols[symbol].fns[engineId]
+				return fns(app, userQuery);
+			}
+			var engineUrl = this.getEngineUrl(symbols, symbol, engineId);
+			return this.replaceUrlPlaceholders(engineUrl, userQuery);
+		},
 
-	// param:
-	// - userQuery: string `!m new york city`
-	// return:
-	// - url: string to be openned by the browser
-	decodeUserRequest(userRequest) {
-    if(!userRequest) { return false; }
+		// is there a symbol in this symbol group? `!ex` return `!` !
+		checkForSymbol(symbolGroup) {
+			var availableSymbols = Object.keys(this.symbols),
+					symbol = symbolGroup.charAt(0);
 
-		var requestTerms = userRequest.split(' '),
-				requestSymbolGroup = requestTerms[0],
-				symbol = this.checkForSymbol(requestSymbolGroup);
+			return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
+		},
 
-		// if there is no symbol, the whole userRequest is the query
-		if (!symbol) {
-			return this.buildResult(userRequest);
+		// is an engine available in a array of symbolGroups
+		getSymbolsForEngine(symbolGroups, symbol, engineId) {
+			if(!symbolGroups.length) return false;
+			var filteredGroups = symbolGroups.filter(function(symbols) {
+				if(!symbols || !symbols[symbol]) return false;
+				var engines =	 symbols[symbol].engines;
+				var fns =	 symbols[symbol].fns;
+				if (engines) {
+					return engines[engineId] ? true : false
+				}
+				if (fns) {
+					return fns[engineId] ? true : false
+				}
+
+				return false;
+			})
+			if(!filteredGroups.length) return false
+			return filteredGroups[0]
+		},
+
+		// param:
+		// - userQuery: string `!m new york city`
+		// return:
+		// - url: string to be openned by the browser
+		decodeUserRequest(userRequest) {
+			if(!userRequest) { return false; }
+
+			var requestTerms = userRequest.split(' '),
+					requestSymbolGroup = requestTerms[0],
+					requestSymbol = this.checkForSymbol(requestSymbolGroup),
+					requestEngineId = requestSymbolGroup.slice(1),
+					allSymbolGroups = [this.getUserSymbols(), this.symbols];
+
+			// if there is no symbol, the whole userRequest is the query
+			if (!requestSymbol) {
+				return this.buildResultUrl(userRequest);
+			}
+
+			// is the engine referenced in the	userSymbols or symbols
+			// let selectedSymbols = this.getRequestedSymbols(allSymbolGroups, requestSymbol, requestEngineId);
+			var selectedSymbols = this.getSymbolsForEngine(allSymbolGroups, requestSymbol, requestEngineId);
+
+			// if there are no selectedSymbols, we don't know the engine
+			if (!selectedSymbols) {
+				return this.buildResultUrl(userRequest);
+			}
+
+			// if we know the symbol and engine,
+			// the actual query is everything but the request's engine group (the first group)
+			var userRequestNoSymbol = requestTerms.splice(1, requestTerms.length).join(' ');
+			return this.buildResultUrl(userRequestNoSymbol, selectedSymbols, requestSymbol, requestEngineId);
+		},
+
+		// check whether URL starts with a scheme
+		checkUrl(url) {
+			return url.startsWith("//") || url.includes("://");
+		},
+
+		openUrl(url) {
+			// replace history state
+			// so after transition, clicking the back button does not hit find/?q=search
+			// that would transition again to a search result
+			if(!url) return
+			if (!this.checkUrl(url)) url = "//" + url;
+			location.replace(url);
+		},
+
+		// takes a string, request query of a user
+		find(request) {
+			if(!request) return false;
+			return this.openUrl(this.decodeUserRequest(request));
+		},
+
+		init() {
+			var url = new URL(window.location.href);
+			var request = url.searchParams.get('q');
+			if(!request) return;
+			this.find(request);
+		},
+
+		// get the user symbols from local storage
+		// or returns an empty new set of symbols
+		getUserSymbols() {
+			var storageSymbols;
+			try {
+				storageSymbols = JSON.parse(
+					localStorage.getItem(localStorageKey)
+				);
+			} catch(e) {
+				if(e.name === 'SyntaxError') {
+					storageSymbols = null;
+				}
+			}
+
+			if(!storageSymbols) {
+				storageSymbols = this.newUserSymbols();
+			}
+
+			return JSON.parse(JSON.stringify(storageSymbols));
+		},
+
+		// saves a new set of user symbols to local storage
+		setUserSymbols(newSymbols) {
+			if (!newSymbols) return
+			localStorage.setItem(localStorageKey, JSON.stringify(newSymbols))
+		},
+
+		// generates new userSymbols from copying original symbols
+		// to be used with Find default symbols (Find.symbols)
+		newUserSymbols() {
+			var fromSymbols = this.symbols;
+			var symbols = JSON.parse(JSON.stringify(fromSymbols))
+			Object.keys(symbols).forEach(symbol => {
+				symbols[symbol].engines = {}
+				if(symbol === '#') {
+					delete symbols[symbol]
+				}
+			})
+			return symbols
+		},
+
+		help() {
+			// write user documentation
+			console.info('Documentation: https://github.com/internet4000/find')
+			console.info("— Usage: Find.find('!m brazil')")
+			console.info('— Explore the Find object')
+		},
+		importLegacyStorage() {
+			var legacyKey = 'r4find';
+			var legacyUserSymbols = JSON.parse(
+				localStorage.getItem(legacyKey)
+			);
+
+			// if no legacy user symbols, just great
+			if (!legacyUserSymbols) {
+				console.log('There are no legacyUserSymbols to import. Room\'s clean!');
+				console.log('Try Find.help()')
+				return
+			}
+
+			// keep the this context
+			// import legacy user symbols objects
+			let importedObjects = Object.keys(legacyUserSymbols)
+				.map((id) => {
+					this.addEngine(this.getUserSymbols(), '!', id, legacyUserSymbols[id]);
+				})
+
+			// clean legacy storage item
+			localStorage.removeItem(legacyKey)
+
+			// great
+			console.log('It worked!')
+			console.log('It imported this legacy stoage:', legacyUserSymbols);
+			console.log('The new user symbols are:', this.getUserSymbols());
 		}
+	}
 
-		// check what is the requested engine
-		var engineId = this.checkForEngine(symbol, requestSymbolGroup.slice(1));
+	// initialize the app
+	App.init();
 
-		// if we don't know the engine, the whole request is passed as query
-		if (!engineId) {
-			return this.buildResult(userRequest);
-		}
-
-		// if we know the symbol and engine, build request
-		// the actual query is everything but the request's engine group (the first group)
-		var requestQuery = requestTerms.splice(1, requestTerms.length).join(' ');
-
-		return this.buildResult(requestQuery, symbol, engineId);
-  },
-
-	// check whether URL starts with a scheme
-	checkUrl(url) {
-		return url.startsWith("//") || url.includes("://");
-	},
-
-	openUrl(url) {
-		// replace history state
-		// so after transition, clicking the back button does not hit find/?q=search
-		// that would transition again to a search result
-		if (!this.checkUrl(url)) url = "//" + url;
-		location.replace(url);
-	},
-
-	// takes a string, request query of a user
-	find(request) {
-		if(!request) return;
-		var url = this.decodeUserRequest(request);
-		this.openUrl(url);
-	},
-
-	init() {
-		this.refreshUserEngines();
-		var url = new URL(window.location.href);
-		var request = url.searchParams.get('q');
-		window.onload= this.showCustoms.bind(this);
-		if(!request) return;
-		this.find(request);
-	},
-
-	addUserEngine(name, url) {
-		this.userEngines[name] = url;
-		localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
-		this.refreshUserEngines();
-	},
-
-	refreshUserEngines() {
-		for (var name in this.userEngines) {
-			var url = this.userEngines[name];
-			this.symbols["!"]["engines"][name] = url;
-		}
-	},
-
-	showCustoms() {
-		var lst = document.getElementById("Customs-table");
-
-		if(!lst) return;
-
-		for (var name in this.userEngines) {
-			var row = lst.insertRow(-1);
-			var nameCell = row.insertCell(0);
-			nameCell.innerHTML = name;
-			var urlCell = row.insertCell(1);
-			urlCell.innerHTML = this.userEngines[name];
-			var deleteCell = row.insertCell(2);
-			deleteCell.classList.add("Customs-deleter");
-			deleteCell.innerHTML = "X";
-			deleteCell.addEventListener("click", function() {
-				delete this.userEngines[name];
-				localStorage.setItem(this.localStorageKey, JSON.stringify(this.userEngines));
-				this.openUrl(location.href);
-			}.bind(this));
-		}
-	},
-};
-
-App.init();
+	return App;
+}));

@@ -31,7 +31,7 @@
 
 				// run animation, then find
 				document.querySelector('.App').classList.add('App--exit')
-				App.find(document.querySelector('#Find').value);
+				Find.find(document.querySelector('#Find').value);
 			};
 
 			document.addEventListener("DOMContentLoaded", function(event) {
@@ -75,21 +75,10 @@
 				<p><strong>+r4 youtu.be/oWIRe5BdrPk</strong> will add this video in <strong>r</strong>adio<strong>4</strong>000</p>
 
 				<p>
-					<small>
-						Replace your browser's default search engine, <a href="https://github.com/internet4000/find" target="_blank">learn more</a>.
-					</small>
+				    <small>
+					Replace your browser's default search engine, <a href="settings">customize, learn more</a>.
+				    </small>
 				</p>
-			</section>
-
-			<section class="Customs">
-				<p>Custom integrations</p>
-				<table id="Customs-table">
-					<tr>
-						<th>Shorthand</th>
-						<th>Website</th>
-						<th></th>
-					</tr>
-				</table>
 			</section>
 		</div>
 	</body>
