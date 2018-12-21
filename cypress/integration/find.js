@@ -1,27 +1,14 @@
+import Find from '../../main.js'
+
 describe('Find', function() {
-	beforeEach(() => {
+	it('is available as "Find" in the global window object', () => {
 		// Note, the server is started as part of the "test" script in package.json.
 		cy.visit('http://localhost:3030')
-	})
-
-	it('is available as "App" in the global window object', () => {
-		cy.window().should('have.property', 'App')
-	})
-
-	it('decodes search queries as expected', () => {
-		cy.window().then(win => {
-			function assertQuery(query, expected) {
-				assert.equal(win.App.decodeUserRequest(query), expected, query)
-			}
-
-			assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
-			assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
-			assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
-			assertQuery('+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg', 'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg')
-		})
+		cy.window().should('have.property', 'Find')
 	})
 
 	it('shows a form with input and button', () => {
+		cy.visit('http://localhost:3030')
 		cy.get('form input')
 			.type('!discogs hallogalli')
 			.should('have.value', '!discogs hallogalli')
@@ -29,5 +16,39 @@ describe('Find', function() {
 		// which is blocked by iframe cross-origin stuff.
 		// cy.get('form button').click()
 	})
-})
 
+	it('decodes search queries as expected', () => {
+		function assertQuery(query, expected) {
+			assert.equal(Find.decodeUserRequest(query), expected, query)
+		}
+
+		assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
+		assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
+		assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
+		assertQuery(
+			'+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg',
+			'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg'
+		)
+		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
+		assertQuery('&gh internet4000 radio4000', 'https://github.com/internet4000/radio4000')
+	})
+
+	it('has a method to replace a placeholder', () => {
+		assert.equal(typeof Find.replaceUrlPlaceholders, 'function')
+	})
+
+	it('can look up engine url', () => {
+		assert.equal(
+			Find.getEngineUrl(Find.symbols, '!', 'g'),
+			'https://encrypted.google.com/search?q={}'
+		)
+		assert.equal(Find.getEngineUrl(Find.symbols, '!', 'doesntexist'), undefined)
+	})
+
+	it('can check if a query has a symbol', () => {
+		assert.equal(Find.checkForSymbol('!salad'), '!')
+		assert.equal(Find.checkForSymbol('+cheese'), '+')
+		assert.equal(Find.checkForSymbol('*cheese'), false)
+		assert.equal(Find.checkForSymbol('yolo'), false)
+	})
+})
