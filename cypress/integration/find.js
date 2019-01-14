@@ -24,10 +24,12 @@ describe('Find', function() {
 
 		assertQuery('!m brazil', 'https://www.google.com/maps/search/brazil')
 		assertQuery('!g brazil', 'https://encrypted.google.com/search?q=brazil')
-		assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my radio')
+		assertQuery('!r4 my radio', 'https://radio4000.com/search?search=my%20radio')
 		assertQuery(
 			'+r4 https://www.youtube.com/watch?v=sZZlQqG7hEg',
-			'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg'
+			'https://radio4000.com/add?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DsZZlQqG7hEg'
+			// above is same as following, with encoded url
+			// 'https://radio4000.com/add?url=https://www.youtube.com/watch?v=sZZlQqG7hEg'
 		)
 		assertQuery('&gh internet4000/radio4000', 'https://github.com/internet4000/radio4000')
 		assertQuery('&gh internet4000 radio4000', 'https://github.com/internet4000/radio4000')
