@@ -104,7 +104,7 @@
 			var matches = url.match(/\{\}/g) || [];
 			if (!matches.length) return url;
 			if (!query.length) return url.replace(/\/?\{\}\/?/g, '');
-			if (matches.length === 1) return url.replace('\{\}', query);
+			if (matches.length === 1) return url.replace('\{\}', encodeURIComponent(query));
 
 			query = query.trim();
 			var splitQuery = function() {
