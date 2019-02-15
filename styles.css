@@ -44,7 +44,7 @@ li {
 	padding-right: 1.5rem;
 
 	/* transition */
-	background-color: lightgray;
+	background-color: azure;
 	transition: background-color 700ms ease-in-out;
 }
 .App--exit {
