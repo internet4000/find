@@ -64,11 +64,13 @@
 				}
 			},
 			'&': {
-				name: 'test',
+				name: 'build',
 				engines: {
 					gh: 'https://github.com/{}/{}',
+					gl: 'https://gitlab.com/{}/{}',
 					firebase: 'https://console.firebase.google.com/project/{}/overview',
-					netlify: 'https://app.netlify.com/sites/{}/overview'
+					netlify: 'https://app.netlify.com/sites/{}/overview',
+					r4: 'https://radio4000.com/{}'
 				}
 			},
 			'#': {
