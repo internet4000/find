@@ -4,9 +4,9 @@ The URL bar of web-browsers is used to write websites adresses and
 search queries. Find is a tool that offers a user the possibility to
 customize these functionalities.
 
-*Find!* aims to be a simple way to enhance the URL bar user
-experience, easy to use and install. Also, it is Free software, and
-can be customized and hosted quickly at your convenience.
+It aims to be a simple way to enhance the URL bar user-experience,
+easy to use and install. Also, it is Free software, and can be
+customized and hosted quickly at your convenience.
 
 The fastest way to test its features, is by trying the example queries
 on this page: [try Find! here](https://find.internet4000.com).
@@ -21,7 +21,28 @@ your URL bar (tip: focus it with `C-l`).
 > possibility to be inspected freely. This software does not and
 > should not store any user data.
 
-A start to take control back over our inputs.
+A start to take control back over our inputs, and to get full
+advantage about the URI system as a user on the web.
+
+> Note: not all websites and applications with URLs offer
+> functionalities directly from their URL, even though it is super nice.
+
+## Usage example
+
+```
+!osm tokyo
+!gh linux
++wr
++wri
+&gh
+&gh internet4000
+&gh internet4000 find
++sheet
++draw hello world
+```
+
+Write the queries above in a Find input to see the result.
+Read the rest of this document to epxlore more.
 
 ## Setup details
 
@@ -34,8 +55,7 @@ There are two possible setups:
   javascript running in the browser, so it is easy to host anywhere
   for free, and instance for your usage. It is the best for privacy,
   so you're sure of where your search queries are going. To learn more
-  about this, go to the `Host your own instance` paragraph in the
-  `Customize` section bellow.
+  about this, go to the `Host your own instance` header
 - use an instance hosted by someone else; this is the version
   proposed here, hosted from this repository to Netlify.
 	
@@ -64,39 +84,47 @@ Query URL: `https://find.internet4000.com?q=%s`
 ```
 
 3. Make the new Find search engine your default search engine.
-4. Now you should be able to use the functionalities from your URL bar.
+4. Now you should be able to use the functionalities from your URL
+   bar.
+
+The mobile installation is not the easiest, but works on
+Firefox; web-browsers are making their bread and butter on the default
+search engines, and our queries.
 
 ## Usage details
 
-By default (if you don't use any `!` prefix, or if it is not used), your search queries will
-go to [DuckDuckGo](https://duckduckgo.com), "the search engine that
-doesn't track you".
+By default (if you don't use any symbol prefix, or the one you use
+does not exist), your search queries will go to
+[DuckDuckGo](https://duckduckgo.com) ("the search engine that doesn't
+track you").
 
-> Note: it is possible and easy to change your default search
-> engine. It is explained later, for example your could Write `#add !
-> d https://encrypted.google.com/search?q={}` to make it Google
+> Note: it is possible and easy to change your default search engine,
+> just overwrite the engine under the id `d` (`!d`; **d** for
+> default). It is explained later, but for example your could write `#add !
+> d https://encrypted.google.com/search?q={}` to make Google your
+> default search engine.
 
-All the idea with `Find!` is to use the following **symbols** and
-**engines** in your search.
+All the idea with Find is to use the following **symbols** and
+**engines** in your search (and define your custom).
 
 ### Symbols
 
-Symbols offer a way to give semantic meaning to engines, to organize
-what the engines do:
+If what you write in Find starts by one of these **symbols**, Find
+will try to decrypt your query to see if it can do something iwth it.
+
+All available symbols are:
 - `!` = search
 - `+` = action
 - `&` = build
 - `#` = command (no custom engines)
+- no symbol, your query goes untouched to the default search engine
 
-If what you write in Find starts by one of these **symbols**, Find will
-check the query to see if it contains an **engine**.
-- if there are no engine, your query just goes to the default search
-  engine
-- if there is an engine, find will use it with your query
+Symbols are a way to give semantic meaning to engines. It should help
+organize what the engines do, what parameter and query they can take.
 
 Let's see what engines are available for each symbols.
 
-### Engines by Symbols
+### Engines by symbols
 
 For an up-to date list of default engines by symbols, you can look at the
 beginning of the `main.js` file. All the symbols and engines are
@@ -104,9 +132,12 @@ written the same way as in the following tables (but complete).
 
 Alternatively, this project can come with a graphical user interface
 to explore all available engines, as well as your custom engines (see
-if you access the settings page in your instance).
+if you can access the settings page in your instance).
 
 #### ! search
+
+These engines are stored under this `!` symbol, because they provide
+search results, from your query.
 
 - !a - amazon.com
 - !c - contacts.google.com
@@ -125,23 +156,40 @@ if you access the settings page in your instance).
 - nokeyword - search goes to default search engine, duckduckgo
 
 #### + action
-- +r4 [url] - radio4000.com add a new track from URL
+
+These engines are stored under this `+` symbol, because they will
+allow you to complete an action; add a music to your library, create a
+drawing, find a random image or text etc.
+
+- +r4 [url] - add a new track to your radio4000, from a youtube URL
 - +draw [title] - open a new drawing in Google Drive Draw
 - +doc [title] - open a new Google Docs document
 - +sheet - open a new Google Spreadsheets document
 - +gmail - open a new Gmail (Google Mail) email
+- +wr - random wikipedia article
+- +wri - random wikipedia image media
+- +r4p [radio] - play a radio4000 radio
+- +r4pr [radio] - play a random track from a radio4000 radio
 
 #### & build
-- gh [user] [repo] - github/[user]/[repo]
-- gl [user] [repo] - gitlab/[user]/[repo]
-- firebase [project] - firebase/[project]
-- netlify [project] - netlify/[project]
-- r4 [radio] - radio4000/[radio]
-- r4p [radio] - radio4000/play/[radio]
-- r4pr [radio] - radio4000/play/random/[radio]
+
+These engines are stored under this `&` symbol, because the parameters
+taken by the engines allows you to build complex URLs.
+
+- &gh [user] [repo] - github/[user]/[repo]
+- &gl [user] [repo] - gitlab/[user]/[repo]
+- &firebase [project] - firebase/[project]
+- &netlify [project] - netlify/[project]
+- &r4 [radio] - radio4000/[radio]
 
 #### # command
-- #add \<name\> \<url\> - add a custom `!` search, e.g. `#add gh https://github.com/search?q=`
+
+This is a special symbol, for commands within find.
+
+- #add \<symbol\> \<engine-id\> \<engine-url\> - add a custom engine,
+  by its `engine-id`, under a specific `symbol`; e.g: `#add ! gh https://github.com/search?q=`
+	
+> question: does that represent a security issue?
 
 ### Detailed usage
 
@@ -165,37 +213,51 @@ to follow the same steps as above but as a first step you need to
 *trigger the search `Find!` search engine* ("Tab" key in Firefox /
 "one space" in Chrome/ium, after writting the keyword).
 
-## Customization
+## Add custom engines
 
-### Add new search engines and their keyword
+The interest of Find is the possibility to add your custom engines,
+and replace the default ones depending on your preferences.
+
+There are different ways to add engines (works for all symbols, but `#`):
+- `#add` command
+- graphical user interface on the `/settings` page
+- `Find` object in the browser console (Try: `Find.help()`)
+- edit the code and host an instance
+
+### `search` engine urls
 
 1. Go to the website you would like to add and search for `foo` in the
 search input.
-
-2. Wait for the search result to appear and copy the URL of the search
+1. Wait for the search result to appear and copy the URL of the search
 result page, it should have `foo` in it (usually after a parameter
 called `q`, or `query`, but it could be a different pattern). Copy
 everything, from the `scheme://` to `foo` (excluded).
 
-3. Update the `searchEngines` Javascript `Object`
-in the file `main.js`, with the URL you copied before (without `foo`),
-and select which keyword it should use.
-
-Note that you can also use the information stored in the `.xml` file
+> Note that you can also use the information stored in the `.xml` file
 possibly used by websites to define their `Open Search
 Description`. To do that, inspect the HTML code of the site you want
 to add and search for a HTML link tag with the folloing type:
 `application/opensearchdescription+xml"`. The file it points to will
 have the infortmation you are looking for in the `Url` XML tag.
 
-### Host your own instance 
+## API
+
+Find has for now two small APIs:
+- through its URL: [find.internet4000.com?q=[query]](https://find.internet4000.com?q=[query])
+- through the `Find` Javascript object (`Find.help()`)
+
+## NPM Module
+
+Find is available as a NPM module [!npm i4k-find](https://www.npmjs.com/package/i4k-find).
+
+You can see and example usage in [&gh internet4000 find-settings](https://github.com/internet4000/find).
+
+## Host your own instance
 
 1. deploy and host the site on your server
 2. edit the file `opensearch.xml`, the line `<Url type="text/html"
   template="https://find.internet4000.com?q={searchTerms}"/>`, should be
   updated to reflect where you site will be hosted.
-
-## Hosting
 
 This website (find.internet4000.com) is hosted by [Netlify](https://www.netlify.com/), auto
 deployed when new commits are pushed to the `production` branch of this
@@ -208,19 +270,11 @@ functionalities.
 
 ## License
 
-This software uses the [GNU General Public License
+The code of this software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
 software](https://en.wikipedia.org/wiki/Free_software).
 
-## Development, improvement to this software
-
-This version is a pure frontend written in Javascript. It is super
-easy to host and deploy, but one of the downside is speed, even though
-after the first visit the complete code is cached by the browser.
-
-If a similar code were to be implement directly on a server,
-there would be one less client request, but it would be less easy to
-host and deploy, and audit which information the server stores.
+## Development
 
 You don't need a development server to test and improve this software.
 - get all the code (clone or download this repository)
@@ -243,6 +297,15 @@ hosting.
 Tests are located in the `cypress/integration` folder.
 
 ## Disclaimer
+
+This version is a pure frontend written in Javascript. It is super
+easy to host and deploy, but one of the downside is speed, even though
+after the first visit the complete code should be cached by the browser.
+
+If a similar code were to be implemented on the server side, there
+would be one less client request, but it would be less transparent,
+harder to host, deploy, and audit which information the server
+stores.
 
 This project is a vague and general experiment on the possible
 improvements to the URL bar user experiences. More generally to the
