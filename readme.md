@@ -1,37 +1,42 @@
 # Find!
 
-Simply find what you want, where you know you'll find it.
+The URL bar of web-browsers is used to write websites adresses and
+search queries. Find is a tool that offers a user the possibility to
+customize these functionalities.
 
-The URL bar of modern web browsers is a place we write many things. We
-write websites we want to access, or search queries that should help
-us find what we're looking for.
+*Find!* aims to be a simple way to enhance the URL bar user
+experience, easy to use and install. Also, it is Free software, and
+can be customized and hosted quickly at your convenience.
 
-Overhall we use it as a CLI (command line interface) to complete
-actions on the web. In Chrome/Chromium, Google calls it the
-Omnibox. Omni, the Latin prefix meaning "all" or "every", since we use
-it to *input everything*.
+The fastest way to test its features, is by trying the example queries
+on this page: [try Find! here](https://find.internet4000.com).
 
-*Find!* aims to be a simple way to enhance your experience, easy to
-setup and use. Also, it is Free software, and can be customized and
-hosted at your convenience.
+If you want to have the best experience, try it as your web browser's
+default search engine; so all the features are accesible directly in
+your URL bar (tip: focus it with `C-l`).
 
-The fastest way to start is to make it your web browser's
-default search engine; then everything happens in your URL bar.
+> Note: the functionalities of the software are written in
+> Javascript. All the code is in the `main.js` file and can be read in
+> a few minutes. It is not minified when distributed to offer a
+> possibility to be inspected freely. This software does not and
+> should not store any user data.
 
-[Try Find! here](https://find.internet4000.com).
-
-Continue reading for more details.
-
-## Disclaimer
-
-This project is inspired by Chrome/Chromium's Omnibox TAB trigger, Firefox's
-custom search UX (keyword + space) and DuckDuckGo's !bangs action.
-So nothing revolutionary here but you can self host your instance and
-customize your keywords (!bang), and you won't have to set up custom
-search engines in your browser ever again.
-Cheers
+A start to take control back over our inputs.
 
 ## Setup details
+
+There are two possible setups:
+- self hosted, where you host your instance of Find. It is all
+  javascript running in the browser, so it is easy to host anywhere
+  for free, and instance for your usage. It is the best for privacy,
+  so you're sure of where your search queries are going. To learn more
+  about this, go to the `Host your own instance` paragraph in the
+  `Customize` section bellow.
+- use an instance hosted by someone else; this is the version
+  proposed here, hosted from this repository to Netlify.
+	
+Overhall it is pretty easy, and is about making Find your default
+search engine.
 
 1. Visit [find.internet4000.com](https://find.internet4000.com) with your favorite web browser
 
@@ -54,7 +59,8 @@ Keyword: `f`
 Query URL: `https://find.internet4000.com?q=%s`
 ```
 
-3. Search using `!` prefixes in your browser's URL bar.
+3. Make the new Find search engine your default search engine.
+4. Now you should be able to use the functionalities from your URL bar.
 
 ## Usage details
 
@@ -62,11 +68,41 @@ By default (if you don't use any `!` prefix, or if it is not used), your search 
 go to [DuckDuckGo](https://duckduckgo.com), "the search engine that
 doesn't track you".
 
-But all the idea with `Find!` is to use the following `!keywords`
-*prefixes as search triggers*:
+> Note: it is possible and easy to change your default search
+> engine. It is explained later, for example your could Write `#add !
+> d https://encrypted.google.com/search?q={}` to make it Google
 
-| Search keyword  | site                                            |
-| ---             | ---                                             |
+All the idea with `Find!` is to use the following **symbols** and
+**engines** in your search.
+
+### Symbols
+
+Symbols offer a way to give semantic meaning to engines, to organize
+what the engines do:
+- `!` = search
+- `+` = action
+- `&` = build
+- `#` = command (no custom engines)
+
+If what you write in Find starts by one of these **symbols**, Find will
+check the query to see if it contains an **engine**.
+- if there are no engine, your query just goes to the default search
+  engine
+- if there is an engine, find will use it with your query
+
+Let's see what engines are available for each symbols.
+
+### Engines by Symbols
+
+For an up-to date list of default engines by symbols, you can look at the
+beginning of the `main.js` file. All the symbols and engines are
+written the same way as in the following tables (but complete).
+
+Alternatively, this project can come with a graphical user interface
+to explore all available engines, as well as your custom engines (see
+if you access the settings page in your instance).
+
+#### ! search
 | !a              | amazon.com                                      |
 | !c              | contacts.google.com                             |
 | !ciu            | caniuse.com                                     |
@@ -80,19 +116,28 @@ But all the idea with `Find!` is to use the following `!keywords`
 | !w              | en.wikipedia.org                                |
 | !y              | youtube.com                                     |
 | unknown keyword | the !keyword and queries fallback to duckduckgo |
-| no keyword      | search goes to duck duck go                     |
+| no keyword      | search goes refault search engine (ddg)         |
 
-| Action keyword  | site                                            |
-| ---             | ---                                             |
+#### + action
 | +r4 [url]       | radio4000.com add a new track from URL          |
 | +draw [title]   | open a new drawing in Google Drive Draw         |
 | +doc [title]    | open a new Google Docs document                 |
 | +sheet          | open a new Google Spreadsheets document         |
 | +gmail          | open a new Gmail (Google Mail) email            |
 
-| Function keyword      | site                                            |
-| ---                   | ---                                             |
+#### & build
+| gh [user] [repo] | github/[user]/[repo] |
+| gl [user] [repo] | gitlab/[user]/[repo] |
+| firebase [project] firebase/[project] |
+| netlify [project] | netlify/[project] |
+| r4 [radio] | radio4000/[radio] |
+| r4p [radio] | radio4000/play/[radio] |
+| r4pr [radio] | radio4000/play/random/[radio] |
+
+#### # command
 | #add \<name\> \<url\> | add a custom `!` search, e.g. `#add gh https://github.com/search?q=` |
+
+### Detailed usage
 
 To use these triggers, for exemple with the search query `foo`:
 - Put your cursor in the URL bar of your browser
@@ -114,27 +159,7 @@ to follow the same steps as above but as a first step you need to
 *trigger the search `Find!` search engine* ("Tab" key in Firefox /
 "one space" in Chrome/ium, after writting the keyword).
 
-## Configuration
-
-Except the `keyword` you will use to trigger the search engine, or
-setting `Find!` as your *default search engine* in your web browsers,
-there is no configuration.
-
-In this case we think the ["convention over
-configuration"](https://en.wikipedia.org/wiki/Convention_over_configuration)
-moto makes a sense, to start usage quickly.
-
 ## Customization
-
-To customize your usage, deploy your own instance. Find the code on
-[Github](https://github.com/internet4000/find), and customize as you want.
-
-### Host your own instance 
-
-1. deploy and host the site on your server
-2. edit the file `opensearch.xml`, the line `<Url type="text/html"
-  template="https://find.internet4000.com?q={searchTerms}"/>`, should be
-  updated to reflect where you site will be hosted.
 
 ### Add new search engines and their keyword
 
@@ -157,16 +182,23 @@ to add and search for a HTML link tag with the folloing type:
 `application/opensearchdescription+xml"`. The file it points to will
 have the infortmation you are looking for in the `Url` XML tag.
 
+### Host your own instance 
+
+1. deploy and host the site on your server
+2. edit the file `opensearch.xml`, the line `<Url type="text/html"
+  template="https://find.internet4000.com?q={searchTerms}"/>`, should be
+  updated to reflect where you site will be hosted.
+
 ## Hosting
 
-This website is hosted on [Netlify](https://www.netlify.com/), auto
-deployed when new commits are pushed to the `master` branch of this
-git repository. You can of course setup the same behavior easily.
+This website (find.internet4000.com) is hosted by [Netlify](https://www.netlify.com/), auto
+deployed when new commits are pushed to the `production` branch of this
+git repository. 
 
 ## Privacy
 
-No data is stored, audit the code. Therefore you can either use this
-instance of the code, or host your own.
+This software does not collect any data, there are and should be no analytics
+functionalities.
 
 ## License
 
@@ -174,7 +206,7 @@ This software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
 software](https://en.wikipedia.org/wiki/Free_software).
 
-## Improvement to this software
+## Development, improvement to this software
 
 This version is a pure frontend written in Javascript. It is super
 easy to host and deploy, but one of the downside is speed, even though
@@ -184,6 +216,19 @@ If a similar code were to be implement directly on a server,
 there would be one less client request, but it would be less easy to
 host and deploy, and audit which information the server stores.
 
+You don't need a development server to test and improve this software.
+- get all the code (clone or download this repository)
+- open the index.html in your web browser
+
+Alternatively, a node server for development and testing can be used:
+- `npm install` to get the development dependencies (there are and
+  should be no production dependencies)
+- `npm start` to run the local server
+
+All the code is located in the file `main.js`. Other files are
+configuration files for the continous integration, testing, opensearch,
+hosting.
+
 ## Testing
 
 - `npm test` runs tests once
@@ -191,3 +236,20 @@ host and deploy, and audit which information the server stores.
 
 Tests are located in the `cypress/integration` folder.
 
+## Disclaimer
+
+This project is a vague and general experiment on the possible
+improvements to the URL bar user experiences. More generally to the
+user input spaces with written terminal interactions, such as CLIs
+(Command-line interfaces), the shell, dmenu, HTML inputs and search
+bars. This project is also inspired by Chrome/Chromium's Omnibox TAB trigger, Firefox's
+custom search UX (keyword + space) and DuckDuckGo's !bangs action.
+
+Chrome/Chromium refers to it as the Omnibox. Omni, Latin prefix
+for "all" or "every", since we use it to *input everything*.
+
+Self host your instances, customize your keywords, try out new
+semantics, organizations and logic. 
+
+Hopefully it gives to control back to the user into what this URL bar
+con do, and where the inputs go.
