@@ -70,9 +70,7 @@
 					gl: 'https://gitlab.com/{}/{}',
 					firebase: 'https://console.firebase.google.com/project/{}/overview',
 					netlify: 'https://app.netlify.com/sites/{}/overview',
-					r4: 'https://radio4000.com/{}',
-					r4p: 'https://radio4000.com/{}/play',
-					r4pr: 'https://radio4000.com/{}/play/random'
+					r4: 'https://radio4000.com/{}'
 				}
 			},
 			'#': {
