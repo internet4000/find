@@ -25,7 +25,11 @@ A start to take control back over our inputs.
 
 ## Setup details
 
+This section shows you how to make Find your default browser search
+engine. Skip it for usage details.
+
 There are two possible setups:
+
 - self hosted, where you host your instance of Find. It is all
   javascript running in the browser, so it is easy to host anywhere
   for free, and instance for your usage. It is the best for privacy,
@@ -103,39 +107,41 @@ to explore all available engines, as well as your custom engines (see
 if you access the settings page in your instance).
 
 #### ! search
-| !a              | amazon.com                                      |
-| !c              | contacts.google.com                             |
-| !ciu            | caniuse.com                                     |
-| !d              | duckduckgo.com                                  |
-| !dd             | devdocs.io                                      |
-| !dr             | drive.google.com                                |
-| !g              | encrypted.google.com                            |
-| !lp             | lpepfinder.com                                  |
-| !m              | maps.google.com                                 |
-| !osm            | openstreetmap.org                               |
-| !w              | en.wikipedia.org                                |
-| !y              | youtube.com                                     |
-| unknown keyword | the !keyword and queries fallback to duckduckgo |
-| no keyword      | search goes refault search engine (ddg)         |
+
+- !a - amazon.com
+- !c - contacts.google.com
+- !ciu - caniuse.com
+- !d - duckduckgo.com
+- !dd - devdocs.io
+- !dr - drive.google.com
+- !g - encrypted.google.com
+- !lp - lpepfinder.com
+- !m - maps.google.com
+- !osm - openstreetmap.org
+- !w - en.wikipedia.org
+- !y - youtube.com
+- unknown keyword - !keyword and queries fallback to default search
+  engine, duckduckgo
+- nokeyword - search goes to default search engine, duckduckgo
 
 #### + action
-| +r4 [url]       | radio4000.com add a new track from URL          |
-| +draw [title]   | open a new drawing in Google Drive Draw         |
-| +doc [title]    | open a new Google Docs document                 |
-| +sheet          | open a new Google Spreadsheets document         |
-| +gmail          | open a new Gmail (Google Mail) email            |
+- +r4 [url] - radio4000.com add a new track from URL
+- +draw [title] - open a new drawing in Google Drive Draw
+- +doc [title] - open a new Google Docs document
+- +sheet - open a new Google Spreadsheets document
+- +gmail - open a new Gmail (Google Mail) email
 
 #### & build
-| gh [user] [repo] | github/[user]/[repo] |
-| gl [user] [repo] | gitlab/[user]/[repo] |
-| firebase [project] firebase/[project] |
-| netlify [project] | netlify/[project] |
-| r4 [radio] | radio4000/[radio] |
-| r4p [radio] | radio4000/play/[radio] |
-| r4pr [radio] | radio4000/play/random/[radio] |
+- gh [user] [repo] - github/[user]/[repo]
+- gl [user] [repo] - gitlab/[user]/[repo]
+- firebase [project] - firebase/[project]
+- netlify [project] - netlify/[project]
+- r4 [radio] - radio4000/[radio]
+- r4p [radio] - radio4000/play/[radio]
+- r4pr [radio] - radio4000/play/random/[radio]
 
 #### # command
-| #add \<name\> \<url\> | add a custom `!` search, e.g. `#add gh https://github.com/search?q=` |
+- #add \<name\> \<url\> - add a custom `!` search, e.g. `#add gh https://github.com/search?q=`
 
 ### Detailed usage
 
