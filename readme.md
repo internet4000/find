@@ -3,6 +3,8 @@
 The URL bar of web-browsers is used to write websites adresses and
 search queries. Find is a tool that offers a user the possibility to
 customize these functionalities.
+For this it uses [Open Search](https://en.wikipedia.org/wiki/OpenSearch)
+and a small piece of Javascript.
 
 It aims to be a simple way to enhance the URL bar user-experience,
 easy to use and install. Also, it is Free software, and can be
