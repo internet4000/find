@@ -59,6 +59,7 @@
 					r4pr: 'https://radio4000.com/{}/play/random',
 					sheet: 'https://docs.google.com/spreadsheets/create?title={}',
 					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title={}',
+					note: 'https://note.internet4000.com/note?content={}',
 					wr: 'https://en.wikipedia.org/wiki/Special:Random',
 					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File'
 				}
