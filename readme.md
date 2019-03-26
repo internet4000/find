@@ -274,6 +274,21 @@ The code of this software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
 software](https://en.wikipedia.org/wiki/Free_software).
 
+## Debug this software (live, in the browser)
+
+The easieset way to start debugging is from the developer tools of
+your web browser.  Because Find is unminified javascript code, it is
+possible to look at what read what the code does and where it
+fails. You can for example use a debugger to follow how a query is
+translated.
+
+All the code, in this repository and on a version hosted on a server,
+is located in the `main.js` file.
+
+From your browser you can look at it like so:
+
+![find-browser-debug](./public/doc-debug.png "How to debug Find from the browser").
+
 ## Development
 
 You don't need a development server to test and improve this software.
