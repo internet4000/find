@@ -46,6 +46,8 @@ advantage about the URI system as a user on the web.
 Write the queries above in a Find input to see the result.
 Read the rest of this document to epxlore more.
 
+> There seems to be an issue with Firefox swallowing the `+` symbols (see https://github.com/internet4000/find/issues/50). As a quick fix alternative, use two `++`, such as `++wr` for a random wikipedia article.
+
 ## Setup details
 
 This section shows you how to make Find your default browser search
