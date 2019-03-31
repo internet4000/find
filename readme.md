@@ -3,6 +3,8 @@
 The URL bar of web-browsers is used to write websites adresses and
 search queries. Find is a tool that offers a user the possibility to
 customize these functionalities.
+For this it uses [Open Search](https://en.wikipedia.org/wiki/OpenSearch)
+and a small piece of Javascript.
 
 It aims to be a simple way to enhance the URL bar user-experience,
 easy to use and install. Also, it is Free software, and can be
@@ -43,6 +45,8 @@ advantage about the URI system as a user on the web.
 
 Write the queries above in a Find input to see the result.
 Read the rest of this document to epxlore more.
+
+> There seems to be an issue with Firefox swallowing the `+` symbols (see https://github.com/internet4000/find/issues/50). As a quick fix alternative, use two `++`, such as `++wr` for a random wikipedia article.
 
 ## Setup details
 
@@ -273,6 +277,21 @@ functionalities.
 The code of this software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
 software](https://en.wikipedia.org/wiki/Free_software).
+
+## Debug this software (live, in the browser)
+
+The easieset way to start debugging is from the developer tools of
+your web browser.  Because Find is unminified javascript code, it is
+possible to look at what read what the code does and where it
+fails. You can for example use a debugger to follow how a query is
+translated.
+
+All the code, in this repository and on a version hosted on a server,
+is located in the `main.js` file.
+
+From your browser you can look at it like so:
+
+![find-browser-debug](./public/doc-debug.png "How to debug Find from the browser").
 
 ## Development
 
