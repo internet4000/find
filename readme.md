@@ -1,3 +1,7 @@
+- npm: [i4k-find](https://www.npmjs.com/package/i4k-find)
+- [find-settings](https://github.com/internet4000/find-settings)
+- [find.internet4000.com](https://find.internet4000.com)
+
 # Find!
 
 The URL bar of web-browsers is used to write websites adresses and
@@ -27,7 +31,8 @@ A start to take control back over our inputs, and to get full
 advantage about the URI system as a user on the web.
 
 > Note: not all websites and applications with URLs offer
-> functionalities directly from their URL, even though it is super nice.
+> functionalities directly from their URL, even though it is super
+> nice.
 
 ## Usage example
 
