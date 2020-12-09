@@ -1,8 +1,9 @@
 - npm: [i4k-find](https://www.npmjs.com/package/i4k-find)
-- [find-settings](https://github.com/internet4000/find-settings)
 - [find.internet4000.com](https://find.internet4000.com)
 
 # Find!
+
+> Note: there is no backend code in this project, only code running in the browsers
 
 The URL bar of web-browsers is used to write websites adresses and
 search queries. Find is a tool that offers a user the possibility to
@@ -139,10 +140,6 @@ For an up-to date list of default engines by symbols, you can look at the
 beginning of the `main.js` file. All the symbols and engines are
 written the same way as in the following tables (but complete).
 
-Alternatively, this project can come with a graphical user interface
-to explore all available engines, as well as your custom engines (see
-if you can access the settings page in your instance).
-
 #### ! search
 
 These engines are stored under this `!` symbol, because they provide
@@ -229,7 +226,6 @@ and replace the default ones depending on your preferences.
 
 There are different ways to add engines (works for all symbols, but `#`):
 - `#add` command
-- graphical user interface on the `/settings` page
 - `Find` object in the browser console (Try: `Find.help()`)
 - edit the code and host an instance
 
@@ -259,7 +255,7 @@ Find has for now two small APIs:
 
 Find is available as a NPM module [!npm i4k-find](https://www.npmjs.com/package/i4k-find).
 
-You can see and example usage in [&gh internet4000 find-settings](https://github.com/internet4000/find).
+You can see and example usage in [&gh internet4000 find](https://github.com/internet4000/find).
 
 ## Host your own instance
 
