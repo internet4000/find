@@ -19,66 +19,13 @@
 				 `title` property should match `ShortName` key of the xml -->
 		<link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find" />
 
-		<!-- read script first as it is more important that styles in our case -->
+		<!-- read scripts first as it is more important that styles in our case -->
 		<script src="./main.js"></script>
+		<script async src="./find-elements.js"></script>
 		<link href="./styles.css" rel="stylesheet" type="text/css" />
-
-
-		<script>
-			var findSearch = function () {
-				var query = document.querySelector('#Find').value;
-				if(!query) return false;
-
-				// run animation, then find
-				document.querySelector('.App').classList.add('App--exit')
-				Find.find(document.querySelector('#Find').value);
-			};
-
-			document.addEventListener("DOMContentLoaded", function(event) {
-				document.querySelector('.App').classList.remove('App--exit');
-			});
-
-			window.onpageshow = function(event) {
-				document.querySelector('.App').classList.remove('App--exit');
-			};
-		</script>
-
 	</head>
 
 	<body>
-		<div class="App">
-
-			<section class="App-header">
-				<a href="/" class="Title" title="Find!">
-					<img src="./public/find-logo.svg" alt="Find!" />
-					<h1>Find!</h1>
-				</a>
-
-				<form class="Form" title="Try to write the suggested words, !m brazil" >
-					<input
-						id="Find"
-						type="search"
-						placeholder=" !m brazil"
-						autofocus
-						required/>
-					<button
-						type="submit"
-						onclick="findSearch(event); return false;">
-						Find!
-					</button>
-				</form>
-			</section>
-
-			<section class="App-body">
-				<p><strong>!y galaxy</strong> searches for <strong>galaxy</strong> on <strong>y</strong>outube</p>
-				<p><strong>+r4 youtu.be/oWIRe5BdrPk</strong> will add this video in <strong>r</strong>adio<strong>4</strong>000</p>
-				<p><strong>&gh internet4000 find</strong> opens this project on <strong>g</strong>it<strong>h</strong>ub</p>
-				<p>
-				  <small>
-						Replace your browser's default search engine, <a href="https://github.com/internet4000/find">learn more</a>.
-				  </small>
-				</p>
-			</section>
-		</div>
+		<i4k-find-app class="App"></i4k-find-app>
 	</body>
 </html>
