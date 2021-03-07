@@ -12,8 +12,6 @@
 		root.Find = factory();
 	}
 }(typeof self !== 'undefined' ? self : this, function () {
-
-
 	// some private methods and variables;
 	var localStorageKey = 'i4find';
 
@@ -283,34 +281,6 @@
 			console.info('Documentation: https://github.com/internet4000/find')
 			console.info("— Usage: Find.find('!m brazil')")
 			console.info('— Explore the Find object')
-		},
-		importLegacyStorage() {
-			var legacyKey = 'r4find';
-			var legacyUserSymbols = JSON.parse(
-				localStorage.getItem(legacyKey)
-			);
-
-			// if no legacy user symbols, just great
-			if (!legacyUserSymbols) {
-				console.log('There are no legacyUserSymbols to import. Room\'s clean!');
-				console.log('Try Find.help()')
-				return
-			}
-
-			// keep the this context
-			// import legacy user symbols objects
-			let importedObjects = Object.keys(legacyUserSymbols)
-				.map((id) => {
-					this.addEngine(this.getUserSymbols(), '!', id, legacyUserSymbols[id]);
-				})
-
-			// clean legacy storage item
-			localStorage.removeItem(legacyKey)
-
-			// great
-			console.log('It worked!')
-			console.log('It imported this legacy stoage:', legacyUserSymbols);
-			console.log('The new user symbols are:', this.getUserSymbols());
 		}
 	}
 
