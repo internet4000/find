@@ -1,3 +1,11 @@
+/* box sizing */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 /*
 	General styles
 */
@@ -47,9 +55,6 @@ li {
 	background-color: azure;
 	transition: background-color 700ms ease-in-out;
 }
-.App--exit {
-	background-color: white;
-}
 
 .App-header {
 	opacity: 1;
@@ -64,14 +69,7 @@ li {
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 }
-.App--exit .App-header {
-	transform: translate(-10%, -140%);
-	opacity: 0;
-}
 
-.App--exit .App-body {
-	opacity: 0;
-}
 .App-body {
 	opacity: 1;
 	transition: opacity 200ms 300ms ease-out;
@@ -93,7 +91,7 @@ li {
 	display: none;
 }
 
-.Form {
+i4k-find form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -103,12 +101,12 @@ li {
 	max-width: 21rem;
 }
 @media screen and (min-width: 30rem) {
-	.Form {
+	i4k-find form {
 		flex-wrap: nowrap;
 	}
 }
 
-.Form button {
+i4k-find form button {
 	/* push it from input, and stay visually centered on mobile */
 	margin: 0.7rem;
 
@@ -125,15 +123,11 @@ li {
 
 }
 
-.Form butto:active {
+i4k-find form button:active {
 	background-color: #7ce5ff;
 }
 
-.App--exit .Form button {
-	opacity: 0;
-}
-
-.Form input {
+i4k-find form input {
 	-webkit-appearance: inherit;
 	font-size: 1rem;
 }
@@ -144,6 +138,37 @@ li {
 	text-align: left;
 }
 
-.Customs-deleter {
+i4k-find {
+	transform: scale(1);
+	transition: transform 200ms ease-in-out;
+}
+
+i4k-find-info[open] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: aqua;
+}
+
+i4k-symbols-list {
+	flex-direction: column;
+}
+
+i4k-find-info i4k-symbols-list {
+	display: none;
+}
+i4k-find-info[open] i4k-symbols-list {
+	display: flex;
+}
+
+i4k-find-info button {
 	cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
 }
