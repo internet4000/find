@@ -1,3 +1,11 @@
+/* box sizing */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 /*
 	General styles
 */
@@ -47,9 +55,6 @@ li {
 	background-color: azure;
 	transition: background-color 700ms ease-in-out;
 }
-.App--exit {
-	background-color: white;
-}
 
 .App-header {
 	opacity: 1;
@@ -64,14 +69,7 @@ li {
 	padding-top: 1rem;
 	padding-bottom: 1rem;
 }
-.App--exit .App-header {
-	transform: translate(-10%, -140%);
-	opacity: 0;
-}
 
-.App--exit .App-body {
-	opacity: 0;
-}
 .App-body {
 	opacity: 1;
 	transition: opacity 200ms 300ms ease-out;
@@ -93,22 +91,21 @@ li {
 	display: none;
 }
 
-.Form {
+i4k-find form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	padding: 1rem;
 	width: 100%;
-	max-width: 21rem;
 }
 @media screen and (min-width: 30rem) {
-	.Form {
+	i4k-find form {
 		flex-wrap: nowrap;
 	}
 }
 
-.Form button {
+i4k-find form button {
 	/* push it from input, and stay visually centered on mobile */
 	margin: 0.7rem;
 
@@ -118,22 +115,18 @@ li {
   color: black;
   font-weight: bold;
   letter-spacing: 1.2px;
-	padding: 1.2rem 1.2rem;
-  font-size: 1rem;
+	padding: 0.6rem;
+  font-size: 0.8rem;
 
 	cursor: zoom-in;
 
 }
 
-.Form butto:active {
+i4k-find form button:active {
 	background-color: #7ce5ff;
 }
 
-.App--exit .Form button {
-	opacity: 0;
-}
-
-.Form input {
+i4k-find form input {
 	-webkit-appearance: inherit;
 	font-size: 1rem;
 }
@@ -144,6 +137,84 @@ li {
 	text-align: left;
 }
 
-.Customs-deleter {
+i4k-find {
+	transform: scale(1);
+	transition: transform 200ms ease-in-out;
+}
+
+i4k-find-info[open] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: aqua;
+}
+
+i4k-symbols-list {
+	flex-direction: column;
+}
+
+i4k-find-info i4k-symbols-list {
+	display: none;
+}
+i4k-find-info[open] i4k-symbols-list {
+	display: flex;
+	border: 1px solid lightgray;
+	padding: 2rem;
+}
+
+i4k-find-info button {
 	cursor: pointer;
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+}
+
+
+/* searched animations */
+i4k-find-app[searched] {
+	/* opacity: 0; */
+}
+i4k-find-app[searched] i4k-find-info {
+	opacity: 0;
+	transform: scale(0);
+}
+i4k-find-app[searched] i4k-find-logo {
+	opacity: 0;
+	transform: scale(2);
+}
+i4k-find-app[searched] i4k-find {
+	opacity: 0;
+}
+i4k-find-app[searched] i4k-find input {
+	font-size: 5vh;
+	background-color: transparent;
+	border-color: transparent;
+	outline: none;
+}
+i4k-find-app[searched] i4k-find button {
+	display: none;
+}
+
+i4k-find-app {
+	opacity: 1;
+	/* transition: opacity 300ms ease-in-out; */
+}
+i4k-find-app i4k-find-info {
+}
+i4k-find-app i4k-find-logo {
+	opacity: 1;
+	transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+i4k-find-app i4k-find {
+	opacity: 1;
+	transform: scale(1);
+	transition: opacity 600ms ease-in-out, transform 400ms ease-in-out;
+}
+i4k-find-app i4k-find input {
+	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;;
 }
