@@ -1,6 +1,6 @@
-build: build-env build-find
-build-env:
+build: build-env-site build-find-site
+build-env-site:
 	rm -rf production
 	mkdir production
-build-find:
-	cp -r index.html 404.html main.js styles.css opensearch.xml public public/favicon.ico ./production
+build-find-site:
+	cp -r index.html 404.html *.js styles.css opensearch.xml public public/favicon.ico ./production
