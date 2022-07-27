@@ -23,6 +23,7 @@
 			'!': {
 				name: 'search',
 				engines: {
+					'?': 'https://find.internet4000.com',
 					c: 'https://contacts.google.com/search/{}',
 					ciu: 'https://caniuse.com/#search={}',
 					d: 'https://duckduckgo.com/?q={}',
@@ -42,7 +43,7 @@
 					w: 'https://en.wikipedia.org/w/index.php?search={}',
 					wa: 'http://www.wolframalpha.com/input/?i={}',
 					y: 'https://www.youtube.com/results?search_query={}',
-					'?': 'https://find.internet4000.com'
+					'aurl': 'https://web.archive.org/web/{}',
 				}
 			},
 			'+': {
@@ -57,7 +58,8 @@
 					gmail: 'https://mail.google.com/mail/#inbox?compose=new&title={}',
 					note: 'https://note.internet4000.com/note?content={}',
 					wr: 'https://en.wikipedia.org/wiki/Special:Random',
-					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File'
+					wri: 'https://commons.wikimedia.org/wiki/Special:Random/File',
+					aurl: 'https://web.archive.org/save/{}',
 				}
 			},
 			'&': {
