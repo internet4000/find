@@ -215,7 +215,7 @@ const i4kFindInfo = class extends HTMLElement {
 
 		/* a string with the intro and doc links */
 		const $documentation = document.createElement('p')
-		$documentation.innerText = "Open web bangs engine ("
+		$documentation.innerText = "Open bang actions ("
 		const $documentationLink = document.createElement('a')
 		$documentationLink.href = this.repoUrl
 		$documentationLink.innerText = 'docs'
