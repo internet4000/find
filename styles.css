@@ -10,21 +10,27 @@ html {
 :root {
 	--c-bg: azure;
 	--c-bg--contrast: cyan;
-	--c-bg--warning: chartreuse;
+	--c-bg--warning: white;
+	--c-border: lightgray;
+	--size-font: 17px;
+	--size: 1.5rem;
 	--size-container: 40rem;
+
+	--font-family: monospace
+}
+
+@media screen and (min-width: 70rem) {
+	:root {
+		--size-font: 19px;
+	}
 }
 
 /*
 	General styles
 */
 html {
-	font-size: 17px;
-	font-family: monospace;
-}
-@media screen and (min-width: 70rem) {
-	html {
-		font-size: 19px;
-	}
+	font-size: var(--size-font);
+	font-family: var(--font-family);
 }
 
 body {
@@ -56,8 +62,8 @@ li {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding-left: 1.5rem;
-	padding-right: 1.5rem;
+	padding-left: var(--size);
+	padding-right: var(--size);
 
 	/* transition */
 	background-color: var(--c-bg);
@@ -154,27 +160,30 @@ i4k-find {
 	transition: transform 200ms ease-in-out;
 }
 
-
-i4k-find-info[open] {
-
+i4k-find-info details {
+	border: 1px solid var(--c-border);
 }
+i4k-find-info details[open]{
+		background-color: var(--c-bg--contrast);
+}
+i4k-find-info summary {
+	cursor: pointer;
+	padding: 1rem;
+}
+
 i4k-find-info button {
 	cursor: pointer;
 }
-
-i4k-symbols-list {
-	flex-direction: column;
-	background-color: var(--c-bg--contrast);
+i4k-find-info-header {
+	text-align: center;
 	margin-bottom: 1rem;
 }
 
-i4k-find-info i4k-symbols-list {
-	display: none;
-}
-i4k-find-info[open] i4k-symbols-list {
+i4k-symbols-list {
 	display: flex;
-	border: 1px solid lightgray;
-	padding: 2rem;
+	flex-direction: column;
+	margin-bottom: 1rem;
+	padding: 1rem;
 }
 
 

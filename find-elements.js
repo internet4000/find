@@ -105,8 +105,7 @@ const i4kFindAnalytics = class extends HTMLElement {
 	}
 	renderInstallBlocker() {
 		const $message = document.createElement('p')
-		$message.innerText = `You do not seem to be blocking (client side) analytics trackers
- (and probably not audio and visual advertisement banners). Consider installing an ad-blocker (plugin/extension) for your web-browser:`
+		$message.innerText = 'This web browsers does not seem to be blocking analytics and advertisement trackers. Consider installing a blocker for your web-browser:' + ' '
 
 		const $link = document.createElement('a')
 		$link.innerText = 'uBlock Origin'
@@ -169,15 +168,6 @@ const i4kFindInfo = class extends HTMLElement {
 	connectedCallback() {
 		this.render()
 	}
-	toggleInfo = () => {
-		if (!this.open) {
-			this.open = true
-			this.setAttribute('open', "true")
-		} else {
-			this.open = false
-			this.removeAttribute('open')
-		}
-	}
 	render() {
 		const $symbols = document.createElement('i4k-symbols-list')
 		const symbolsList = Object.keys(Find.symbols)
@@ -209,12 +199,8 @@ const i4kFindInfo = class extends HTMLElement {
 			$symbols.append($symbolInfo)
 		})
 
-		const $buttonToggle = document.createElement('button')
-		$buttonToggle.innerText = 'Symbol list'
-		$buttonToggle.onclick = this.toggleInfo
-
 		/* a string with the intro and doc links */
-		const $documentation = document.createElement('p')
+		const $documentation = document.createElement('i4k-find-info-header')
 		$documentation.innerText = "Open bang actions ("
 		const $documentationLink = document.createElement('a')
 		$documentationLink.href = this.repoUrl
@@ -222,9 +208,14 @@ const i4kFindInfo = class extends HTMLElement {
 		$documentation.append($documentationLink)
 		$documentation.append(')')
 
+		const $detail = document.createElement('details')
+		const $summary = document.createElement('summary')
+		$summary.innerText = 'Symbols & engines'
+		$detail.append($summary)
+		$detail.append($symbols)
+
 		this.append($documentation)
-		this.append($buttonToggle)
-		this.append($symbols)
+		this.append($detail)
 	}
 }
 
