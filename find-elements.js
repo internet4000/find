@@ -38,6 +38,7 @@ const i4kFindApp = class extends HTMLElement {
 		this.querySelector('i4k-find').addEventListener('findSearch', (event) => {
 			this.setAttribute('searched', true)
 		})
+		console.log('Find.help()')
 	}
 	render() {
 		this.innerHTML = `
@@ -49,6 +50,42 @@ const i4kFindApp = class extends HTMLElement {
 			<section class="App-body">
 				<i4k-find-info></i4k-find-info>
 			</section>`
+	}
+}
+
+const i4kFindAnalytics = class extends HTMLElement {
+	CFBeaconSrc = 'https://static.cloudflareinsights.com/beacon.min.js'
+
+	async connectedCallback() {
+		// check do not track
+		/* check 1: can fetch script? */
+		await fetch(this.CFBeaconSrcCFBeaconSrc).then(data => {
+			console.log(data)
+		}).catch(error => {
+			console.log('error fetching cloudflare js', error)
+		})
+		/* check 2: can render script tag */
+		this.CFBeacon = this.getAttribute('cf-beacon') || undefined
+		if (this.CFBeacon) {
+			this.renderCFAnalytics()
+		}
+	}
+	renderCFAnalytics() {
+		const $script = document.createElement('script')
+		$script.src = this.CFBeaconSrc
+		$script.setAttribute('data-cf-beacon', JSON.stringify({
+			'token': this.CFBeacon }
+		))
+		$script.addEventListener('load', this.onLoad.bind(this))
+		$script.addEventListener('error', this.onError.bind(this))
+		this.append($script)
+	}
+	onLoad(event){
+		console.error('Analytics trackers are NOT blocked (install "ublock origin")', event)
+	}
+	onError(error) {
+		console.info('Analytics trackers are BLOCKED', error)
+
 	}
 }
 
@@ -99,7 +136,7 @@ const i4kFind = class extends HTMLElement {
 }
 
 const i4kFindInfo = class extends HTMLElement {
-	repoUrl = 'https://github.com/internet4000/find'
+	repoUrl = Find ? Find.documentationUrl : 'https://github.com/internet4000/find'
 	open = false
 	connectedCallback() {
 		this.render()
@@ -145,19 +182,20 @@ const i4kFindInfo = class extends HTMLElement {
 		})
 
 		const $buttonToggle = document.createElement('button')
-		$buttonToggle.innerText = 'Info'
+		$buttonToggle.innerText = 'Symbol list'
 		$buttonToggle.onclick = this.toggleInfo
 
+		/* a string with the intro and doc links */
 		const $documentation = document.createElement('p')
-		$documentation.innerText = "Replace your browser's default search engine," + ' '
+		$documentation.innerText = "Open web bangs engine ("
 		const $documentationLink = document.createElement('a')
-		$documentationLink.href = 'https://github.com/internet4000/find'
-		$documentationLink.innerText = 'learn more'
+		$documentationLink.href = this.repoUrl
+		$documentationLink.innerText = 'docs'
 		$documentation.append($documentationLink)
-		$documentation.append('.')
+		$documentation.append(')')
 
-		this.append($buttonToggle)
 		this.append($documentation)
+		this.append($buttonToggle)
 		this.append($symbols)
 	}
 }
@@ -165,4 +203,5 @@ const i4kFindInfo = class extends HTMLElement {
 customElements.define('i4k-find', i4kFind)
 customElements.define('i4k-find-info', i4kFindInfo)
 customElements.define('i4k-find-logo', i4kFindLogo)
+customElements.define('i4k-find-analytics', i4kFindAnalytics)
 customElements.define('i4k-find-app', i4kFindApp)

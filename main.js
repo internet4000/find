@@ -19,6 +19,7 @@
 	// This example returns an object, but the module
 	// can return a function as the exported value.
 	var App = {
+		documentationUrl: 'https://github.com/internet4000/find',
 		symbols: {
 			'!': {
 				name: 'search',
@@ -229,10 +230,13 @@
 		},
 
 		init() {
-			var url = new URL(window.location.href);
-			var request = url.searchParams.get('q');
-			if(!request) return;
-			this.find(request);
+			const url = new URL(window.location.href);
+			const query = url.searchParams.get('q');
+			if (query) {
+				this.find(query);
+			} else {
+				console.log("No search in the 'q' query parameter", window.location.href, query)
+			}
 		},
 
 		// get the user symbols from local storage
@@ -278,7 +282,7 @@
 
 		help() {
 			// write user documentation
-			console.info('Documentation: https://github.com/internet4000/find')
+			console.info(`Documentation: ${this.documentationUrl}`)
 			console.info("— Usage: Find.find('!m brazil')")
 			console.info('— Explore the Find object')
 		}

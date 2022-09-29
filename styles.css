@@ -1,9 +1,15 @@
 /* box sizing */
 html {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 *, *:before, *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+/* variables */
+:root {
+	--c-bg: azure;
+	--c-bg--contrast: cyan;
 }
 
 /*
@@ -25,7 +31,7 @@ body {
 
 button {
 	padding: 0.7rem 0.8rem;
-  background: transparent;
+	background: transparent;
 }
 input {
 	padding: 0.5rem;
@@ -52,7 +58,7 @@ li {
 	padding-right: 1.5rem;
 
 	/* transition */
-	background-color: azure;
+	background-color: var(--c-bg);
 	transition: background-color 700ms ease-in-out;
 }
 
@@ -66,8 +72,11 @@ li {
 	justify-content: center;
 	flex-wrap: wrap;
 	width: 100%;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	position: sticky;
+	top: 0;
+	background-color: var(--c-bg);
 }
 
 .App-body {
@@ -106,19 +115,18 @@ i4k-find form {
 }
 
 i4k-find form button {
+	cursor: pointer;
 	/* push it from input, and stay visually centered on mobile */
 	margin: 0.7rem;
 
-  border: 2px solid white;
-  border-right-color: gray;
-  border-bottom-color: darkslategray;
-  color: black;
-  font-weight: bold;
-  letter-spacing: 1.2px;
+	border: 2px solid white;
+	border-right-color: gray;
+	border-bottom-color: darkslategray;
+	color: black;
+	font-weight: bold;
+	letter-spacing: 1.2px;
 	padding: 0.6rem;
-  font-size: 0.8rem;
-
-	cursor: zoom-in;
+	font-size: 0.8rem;
 
 }
 
@@ -142,20 +150,18 @@ i4k-find {
 	transition: transform 200ms ease-in-out;
 }
 
+
 i4k-find-info[open] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 2rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  background-color: aqua;
+
+}
+i4k-find-info button {
+	cursor: pointer;
 }
 
 i4k-symbols-list {
 	flex-direction: column;
+	background-color: var(--c-bg--contrast);
+	margin-bottom: 1rem;
 }
 
 i4k-find-info i4k-symbols-list {
@@ -165,13 +171,6 @@ i4k-find-info[open] i4k-symbols-list {
 	display: flex;
 	border: 1px solid lightgray;
 	padding: 2rem;
-}
-
-i4k-find-info button {
-	cursor: pointer;
-  position: fixed;
-  top: 1rem;
-  right: 2rem;
 }
 
 
@@ -205,6 +204,8 @@ i4k-find-app {
 	/* transition: opacity 300ms ease-in-out; */
 }
 i4k-find-app i4k-find-info {
+	display: flex;
+	flex-direction: column;
 }
 i4k-find-app i4k-find-logo {
 	opacity: 1;
