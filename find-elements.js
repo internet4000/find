@@ -85,6 +85,9 @@ const i4kFindAnalytics = class extends HTMLElement {
 			this.renderCFAnalytics()
 		}
 	}
+	disconnectedCallback() {
+		console.log('Removed tracking element')
+	}
 	renderCFAnalytics() {
 		const $script = document.createElement('script')
 		$script.src = this.CFBeaconSrc
@@ -101,7 +104,8 @@ const i4kFindAnalytics = class extends HTMLElement {
 		this.renderInstallBlocker()
 	}
 	onAnalyticsLoadError(error) {
-		console.info('Analytics trackers are BLOCKED', error)
+		console.info('Analytics trackers are BLOCKED. Removing tracking beacon', this)
+		this.remove()
 	}
 	renderInstallBlocker() {
 		const $message = document.createElement('p')
