@@ -33,6 +33,10 @@ const i4kFindLogo = class extends HTMLElement {
 
 
 const i4kFindApp = class extends HTMLElement {
+	/* the cloudflare analytics beacon */
+	get CFBeacon() {
+		return this.getAttribute('cf-beacon')
+	}
 	connectedCallback() {
 		this.render()
 		this.querySelector('i4k-find').addEventListener('findSearch', (event) => {
@@ -50,22 +54,33 @@ const i4kFindApp = class extends HTMLElement {
 			<section class="App-body">
 				<i4k-find-info></i4k-find-info>
 			</section>`
+
+		if (this.CFBeacon) {
+			const $analytics = document.createElement('i4k-find-analytics')
+			$analytics.setAttribute('cf-beacon', this.CFBeacon)
+			this.querySelector('.App-body').append($analytics)
+		}
 	}
 }
 
 const i4kFindAnalytics = class extends HTMLElement {
 	CFBeaconSrc = 'https://static.cloudflareinsights.com/beacon.min.js'
 
+	get dnt() {
+		return navigator.doNotTrack
+	}
+	get CFBeacon() {
+		return this.getAttribute('cf-beacon') || undefined
+	}
+
 	async connectedCallback() {
-		// check do not track
-		/* check 1: can fetch script? */
-		await fetch(this.CFBeaconSrcCFBeaconSrc).then(data => {
-			console.log(data)
-		}).catch(error => {
-			console.log('error fetching cloudflare js', error)
-		})
-		/* check 2: can render script tag */
-		this.CFBeacon = this.getAttribute('cf-beacon') || undefined
+		// check if "do not track", then do not use analytics
+		if (this.dnt) {
+			console.info('Do-not-track is activated in this browser')
+			/* return */
+		}
+
+		/* check can render script tag (should not, if ublock is activated: our objective) */
 		if (this.CFBeacon) {
 			this.renderCFAnalytics()
 		}
@@ -74,18 +89,31 @@ const i4kFindAnalytics = class extends HTMLElement {
 		const $script = document.createElement('script')
 		$script.src = this.CFBeaconSrc
 		$script.setAttribute('data-cf-beacon', JSON.stringify({
-			'token': this.CFBeacon }
+			'token': this.CFBeacon
+		}
 		))
-		$script.addEventListener('load', this.onLoad.bind(this))
-		$script.addEventListener('error', this.onError.bind(this))
+		$script.addEventListener('load', this.onAnalyticsLoad.bind(this))
+		$script.addEventListener('error', this.onAnalyticsLoadError.bind(this))
 		this.append($script)
 	}
-	onLoad(event){
-		console.error('Analytics trackers are NOT blocked (install "ublock origin")', event)
+	onAnalyticsLoad(event) {
+		console.info('Analytics trackers are NOT blocked (install "ublock origin") (Cloudflare analytics javascript could be loaded)')
+		this.renderInstallBlocker()
 	}
-	onError(error) {
+	onAnalyticsLoadError(error) {
 		console.info('Analytics trackers are BLOCKED', error)
+	}
+	renderInstallBlocker() {
+		const $message = document.createElement('p')
+		$message.innerText = `You do not seem to be blocking (client side) analytics trackers
+ (and probably not audio and visual advertisement banners). Consider installing an ad-blocker (plugin/extension) for your web-browser:`
 
+		const $link = document.createElement('a')
+		$link.innerText = 'uBlock Origin'
+		$link.href = 'https://github.com/gorhill/uBlock/'
+
+		$message.append($link)
+		this.append($message)
 	}
 }
 
@@ -94,7 +122,7 @@ const i4kFind = class extends HTMLElement {
 		this.render()
 	}
 	findSearch = (query) => {
-		if(!query) return false
+		if (!query) return false
 		Find.find(query)
 		const event = new CustomEvent('findSearch', {
 			bubbles: true,
