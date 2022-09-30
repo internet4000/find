@@ -161,10 +161,10 @@ i4k-find {
 }
 
 i4k-find-info details {
-	border: 1px solid var(--c-border);
 }
 i4k-find-info details[open]{
-		background-color: var(--c-bg--contrast);
+	border: 1px solid var(--c-border);
+	background-color: var(--c-bg--contrast);
 }
 i4k-find-info summary {
 	cursor: pointer;
