@@ -38,11 +38,17 @@ const i4kFindApp = class extends HTMLElement {
 		return this.getAttribute('cf-beacon')
 	}
 	connectedCallback() {
+		console.info('Find.help()')
 		this.render()
 		this.querySelector('i4k-find').addEventListener('findSearch', (event) => {
-			this.setAttribute('searched', true)
+			/* if no output, it can only be because we have a "valid find command"
+				 (and not any other type of search/action), so we staty on the page */
+			if (event.detail.output) {
+				this.setAttribute('searched', true)
+			} else {
+				this.removeAttribute('searched')
+			}
 		})
-		console.log('Find.help()')
 	}
 	render() {
 		this.innerHTML = `
@@ -126,12 +132,19 @@ const i4kFind = class extends HTMLElement {
 	}
 	findSearch = (query) => {
 		if (!query) return false
-		Find.find(query)
+		const output = Find.find(query)
 		const event = new CustomEvent('findSearch', {
 			bubbles: true,
-			detail: query
+			detail: {
+				query,
+				output,
+			}
 		})
 		this.dispatchEvent(event)
+		this.clearSearch()
+	}
+	clearSearch() {
+		this.querySelector('form input').value = ''
 	}
 	handleSubmit = (event) => {
 		this.findSearch(this.search)
@@ -218,6 +231,10 @@ const i4kFindInfo = class extends HTMLElement {
 			$symbols.append($symbolInfo)
 		})
 
+		const $detail = document.createElement('details')
+		const $summary = document.createElement('summary')
+		$summary.innerText = 'Symbols & engines'
+
 		/* a string with the intro and doc links */
 		const $documentation = document.createElement('i4k-find-info-header')
 		$documentation.innerText = "Open bang actions ("
@@ -227,13 +244,10 @@ const i4kFindInfo = class extends HTMLElement {
 		$documentation.append($documentationLink)
 		$documentation.append(')')
 
-		const $detail = document.createElement('details')
-		const $summary = document.createElement('summary')
-		$summary.innerText = 'Symbols & engines'
 		$detail.append($summary)
+		$detail.append($documentation)
 		$detail.append($symbols)
 
-		this.append($documentation)
 		this.append($detail)
 	}
 }

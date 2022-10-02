@@ -77,12 +77,17 @@
 				name: 'command',
 				fns: {
 					add: function(app, arg) {
+						/* Find function to "add a new engine":
+							 Example usage:
+							 #add ! ex https://example.org/?search={}
+						 */
 						let [symbol, id, url] = arg.split(" ");
 						app.addEngine(
 							app.getUserSymbols(),
 							symbol,
 							id,
 							url)
+						console.info('Added new engine:', `${symbol}${id}`)
 					}
 				}
 			}
@@ -223,19 +228,27 @@
 			location.replace(url);
 		},
 
-		// takes a string, request query of a user
+		// takes a string, request query of a user, decode the request
+		// and open the "correct destination site" with the user requested query
 		find(request) {
 			if(!request) return false;
-			return this.openUrl(this.decodeUserRequest(request));
+			// all request need to succeed to opening a site on which to search
+			const decodedRequest = this.decodeUserRequest(request)
+			this.openUrl(decodedRequest);
+			return decodedRequest
 		},
 
 		init() {
+			// take the current browser's full url
 			const url = new URL(window.location.href);
+			// extract from it, the value of the `q` query parameter
 			const query = url.searchParams.get('q');
+
+			// if there is a value, let's "find" it
 			if (query) {
 				this.find(query);
 			} else {
-				console.log("No search in the 'q' query parameter", window.location.href, query)
+				console.info("No search in the 'q' query parameter", window.location.href, query)
 			}
 		},
 
