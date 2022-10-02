@@ -156,7 +156,7 @@ const i4kFind = class extends HTMLElement {
 		$input.required = true
 
 		const $button = document.createElement('button')
-		$button.innerText = 'Search'
+		$button.innerText = 'Find'
 		$button.type = 'submit'
 
 		$form.append($input)
@@ -188,13 +188,28 @@ const i4kFindInfo = class extends HTMLElement {
 
 			symbolEngines && symbolEngines.forEach(engine => {
 				const $symbolInfoListItem = document.createElement('li')
-				$symbolInfoListItem.innerText = `${engine} : ${symbolData.engines[engine]}`
+				const $engineName = document.createElement('em')
+				$engineName.innerText = engine
+				const $engineValue = document.createElement('a')
+				$engineValue.href = symbolData.engines[engine]
+				$engineValue.innerHTML = symbolData.engines[engine].replace(/\{\}/g, '<mark>{}</mark>')
+
+				$symbolInfoListItem.append($engineName)
+				$symbolInfoListItem.append($engineValue)
 				$symbolInfoList.append($symbolInfoListItem)
 			})
 
 			symbolFns && symbolFns.forEach(fn => {
 				const $symbolInfoListItem = document.createElement('li')
-				$symbolInfoListItem.innerText = `${fn} : ${symbolData.fns[fn]}`
+
+				const $engineName = document.createElement('em')
+				$engineName.innerText = fn
+				const $engineValue = document.createElement('pre')
+				$engineValue.innerText = `${symbolData.fns[fn].toString()}`
+
+				$symbolInfoListItem.append($engineName)
+				$symbolInfoListItem.append($engineValue)
+
 				$symbolInfoList.append($symbolInfoListItem)
 			})
 
