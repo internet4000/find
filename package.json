@@ -5,7 +5,7 @@
   "main": "main.js",
   "devDependencies": {
     "cypress": "^6.6.0",
-    "serve": "^11.3.2",
+    "serve": "^14.1.1",
     "start-server-and-test": "^1.12.0"
   },
   "scripts": {
