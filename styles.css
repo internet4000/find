@@ -2,7 +2,9 @@
 html {
 	box-sizing: border-box;
 }
-*, *:before, *:after {
+*,
+*:before,
+*:after {
 	box-sizing: inherit;
 }
 
@@ -10,16 +12,17 @@ html {
 :root {
 	--c-fg: black;
 	--c-fg--info: gray;
-	--c-bg: azure;
+	/* --c-bg: azure; */
 	--c-bg--contrast: cyan;
 	--c-bg--tonique: fuchsia;
 	--c-bg--warning: white;
+	--c-bg--random: inherit; /* set by js */
 	--c-border: lightgray;
 	--size-font: 17px;
 	--size: 1.5rem;
 	--size-container: 40rem;
 
-	--font-family: monospace
+	--font-family: monospace;
 }
 
 @media screen and (min-width: 70rem) {
@@ -31,14 +34,23 @@ html {
 /*
 	General styles
 */
+html,
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 html {
 	color: var(--c-fg);
 	font-size: var(--size-font);
 	font-family: var(--font-family);
+	min-height: 100%;
 }
 
 body {
 	margin: 0;
+	background-color: var(--c-bg--random);
 }
 
 button {
@@ -55,28 +67,25 @@ li {
 	margin-bottom: 0.7rem;
 }
 
-
 /*
 	Application concerns
 */
 
 .App {
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding-left: var(--size);
-	padding-right: var(--size);
+	padding: calc(var(--size) / 2);
 
 	/* transition */
-	background-color: var(--c-bg);
 	transition: background-color 700ms ease-in-out;
 }
 
 .App-header {
 	opacity: 1;
-	transition: opacity 300ms ease-in, transform 300ms cubic-bezier(.6,-0.13,.45,1.06);
+	transition: opacity 300ms ease-in,
+		transform 300ms cubic-bezier(0.6, -0.13, 0.45, 1.06);
 	transform: translateY(0);
 }
 .App-header {
@@ -84,13 +93,24 @@ li {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	width: 100%;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	background-color: var(--c-bg);
+}
+.App-header::after {
+	content: "";
+	z-index: -1;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: var(--c-bg--random);
+	filter: blur(1rem);
+	opacity: 0.5;
 }
 
 .App-body {
@@ -136,12 +156,11 @@ i4k-find form button {
 	margin: 0 0.7rem;
 
 	border: 2px solid var(--c-border);
-	color: var(--c-fg);;
+	color: var(--c-fg);
 	font-weight: bold;
 	letter-spacing: 1.2px;
 	padding: 0.6rem;
 	font-size: 0.8rem;
-
 }
 
 i4k-find form button:active {
@@ -166,13 +185,19 @@ i4k-find {
 
 i4k-find-info details {
 }
-i4k-find-info details[open]{
+i4k-find-info details[open] {
 	border: 1px solid var(--c-border);
 	background-color: var(--c-bg--contrast);
 }
 i4k-find-info details[open] summary {
-	border-bottom: 1px solid var(--c-border);
 	margin: 0rem 4rem;
+	font-weight: bold;
+}
+
+i4k-fin button,
+i4k-find-info details:not([open]) summary {
+	filter: invert(1);
+	mix-blend-mode: difference;
 }
 i4k-find-info summary {
 	cursor: pointer;
@@ -198,13 +223,13 @@ i4k-symbols-list {
 }
 
 i4k-symbols-list header {
-  background-color: var(--c-bg--tonique);
-  padding: 0.3rem 1rem;
-  font-size: 1.7rem;
-  width: auto;
-  display: inline-flex;
-  position: sticky;
-  top: 0;
+	background-color: var(--c-bg--tonique);
+	padding: 0.3rem 1rem;
+	font-size: 1.7rem;
+	width: auto;
+	display: inline-flex;
+	position: sticky;
+	top: 0;
 }
 i4k-symbols-list ul {
 	margin-top: 0.5rem;
@@ -215,8 +240,8 @@ i4k-symbols-list li {
 	display: flex;
 }
 i4k-symbols-list li em {
-  text-align: left;
-  flex-grow: 1;
+	text-align: left;
+	flex-grow: 1;
 	flex-shrink: 0;
 	padding-left: 0.6rem;
 	padding-right: 0.6rem;
@@ -243,7 +268,6 @@ i4k-symbols-list li a {
 	color: var(--c-fg);
 	text-decoration: none;
 }
-
 
 /* searched animations */
 i4k-find-app[searched] {
@@ -284,13 +308,17 @@ i4k-find-app i4k-find-logo {
 	opacity: 1;
 	transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
 }
+i4k-find-app i4k-find-logo svg {
+	width: 4rem;
+	height: 4rem;
+}
 i4k-find-app i4k-find {
 	opacity: 1;
 	transform: scale(1);
 	transition: opacity 600ms ease-in-out, transform 400ms ease-in-out;
 }
 i4k-find-app i4k-find input {
-	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;;
+	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;
 }
 
 /* analytics */
