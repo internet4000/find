@@ -64,20 +64,21 @@ html {
 
 body {
 	margin: 0;
-	background-color: var(--c-bg--random);
+	/* background-color: var(--c-bg--random); */
 }
 
-button {
+i4k-find-app button {
 	padding: 0.7rem 0.8rem;
-	background: transparent;
+	background-color: var(--c-bg--random);
+	color: var(--c-fg);
+	cursor: pointer;
+	background-clip: attachment;
 }
-input {
+i4k-find-app input {
 	padding: 0.8rem;
-	width: 100%;
-	max-width: 17rem;
 }
 
-li {
+i4k-find-app li {
 	margin-bottom: 0.7rem;
 }
 
@@ -116,7 +117,7 @@ li {
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	background-color: var(--c-bg);
+	padding: 0.5rem;
 }
 .App-header::after {
 	content: "";
@@ -128,6 +129,7 @@ li {
 	top: 0;
 	background-color: var(--c-bg--random);
 	opacity: 0.8;
+	border-radius: 0.3rem;
 }
 
 .App-body {
@@ -175,17 +177,8 @@ i4k-find form {
 }
 
 i4k-find form button {
-	cursor: pointer;
 	/* push it from input, and stay visually centered on mobile */
-	margin: 0 0.7rem;
-
-	border: 2px solid var(--c-border);
-	color: var(--c-fg);
-	font-weight: bold;
-	letter-spacing: 1.2px;
-	padding: 0.6rem;
-	font-size: 0.8rem;
-	margin: 0.8rem;
+	margin: 1rem;
 }
 
 i4k-find form button:active {
@@ -207,29 +200,6 @@ i4k-find form input {
 i4k-find {
 	transform: scale(1);
 	transition: transform 200ms ease-in-out;
-}
-
-i4k-find-info details {
-}
-i4k-find-info details[open] {
-	border: none;
-	background-color: var(--c-bg--summary);
-}
-i4k-find-info details[open] summary {
-	margin: 0rem 4rem;
-	font-weight: bold;
-}
-
-i4k-find-info button,
-i4k-find-info details:not([open]) summary {
-	filter: invert(1);
-	mix-blend-mode: overlay;
-}
-i4k-find-info summary {
-	cursor: pointer;
-	padding: 1rem;
-	text-align: center;
-	background-color: var(--c-bg--summary);
 }
 
 i4k-find-info button {
@@ -343,6 +313,7 @@ i4k-find-app {
 i4k-find-app i4k-find-info {
 	display: flex;
 	flex-direction: column;
+	margin: 0.5rem;
 }
 i4k-find-app i4k-find-logo {
 	margin: 0.4rem;
@@ -366,6 +337,45 @@ i4k-find-app i4k-find {
 }
 i4k-find-app i4k-find input {
 	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;
+}
+
+i4k-find button {
+	filter: invert(1);
+	mix-blend-mode: overlay;
+}
+i4k-find-app details[open] {
+	border: none;
+	background-color: var(--c-bg--summary);
+}
+i4k-find-app details[open] summary {
+	margin: 0rem 4rem;
+	font-weight: bold;
+}
+i4k-find-app summary {
+	cursor: pointer;
+	padding: 1rem;
+	text-align: center;
+	background-color: var(--c-bg--summary);
+	border-radius: 0.2rem;
+	margin: 0.3rem;
+}
+
+/* sync */
+i4k-find-sync {
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+i4k-find-sync form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+i4k-find-sync form input {
+	flex-basis: 50%;
+	/* display: none; */
 }
 
 /* analytics */

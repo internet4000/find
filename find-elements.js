@@ -40,10 +40,12 @@ const i4kFindApp = class extends HTMLElement {
 		console.info("Find.help()");
 		this.render();
 		this.setupColor();
+
+		/* handle search (if it is a command) */
 		this.querySelector("i4k-find").addEventListener("findSearch", (event) => {
-			/* if no output,
-				 it can only be because we have a "valid find command (# fns)"
-				 (and not any other type of search/action), so we stay on the page */
+			/* if no output to a search,
+				 it can only be because we have a "valid find command" (# fns)
+				 so we stay on the current page */
 			if (event.detail.output) {
 				this.setAttribute("searched", true);
 			} else {
@@ -51,6 +53,11 @@ const i4kFindApp = class extends HTMLElement {
 			}
 
 			/* if we stay on the page after command, let's refresh the info */
+			this.querySelector("i4k-find-info").refresh();
+		});
+
+		/* if we "sync", also refresh the info */
+		this.querySelector("i4k-find-sync").addEventListener("submit", () => {
 			this.querySelector("i4k-find-info").refresh();
 		});
 	}
@@ -73,6 +80,10 @@ const i4kFindApp = class extends HTMLElement {
 
 			<section class="App-body">
 				<i4k-find-info></i4k-find-info>
+				<details>
+					<summary>sync</summary>
+					<i4k-find-sync></i4k-find-sync>
+				</details>
 			</section>`;
 
 		if (this.CFBeacon) {
@@ -177,16 +188,18 @@ const i4kFind = class extends HTMLElement {
 	handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
 	};
+	buildRandomPlaceholder() {}
 	render() {
 		const $form = document.createElement("form");
-		$form.title = "Try to write the suggested words, !m brazil";
+		$form.title = "Try to write any search words, or the Find query, !m berlin";
 		$form.onsubmit = this.handleSubmit;
 		$form.classList.add("Form");
 
 		const $input = document.createElement("input");
 		$input.type = "search";
 		$input.name = "search";
-		$input.placeholder = "!m brazil (or any search)";
+		$input.placeholder =
+			this.buildRandomPlaceholder() || "!docs usage-examples";
 		$input.oninput = this.handleInputChange;
 		$input.required = true;
 
@@ -315,7 +328,7 @@ const i4kFindInfo = class extends HTMLElement {
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");
-		$summary.innerText = `${title}: [${symbolsLen}]`;
+		$summary.innerText = `${title} [${symbolsLen}]`;
 
 		$detail.append($summary);
 		$detail.append($symbols);
@@ -335,7 +348,118 @@ const i4kFindInfo = class extends HTMLElement {
 	}
 };
 
+const i4kFindSync = class extends HTMLElement {
+	connectedCallback() {
+		this.render();
+	}
+
+	render() {
+		this.innerHTML = "";
+		this.renderHelp();
+		this.renderForm();
+	}
+
+	renderHelp() {
+		const $text = document.createElement("p");
+		$text.innerText = `To synchronise the app data between devices,
+save, sync, and import it to your usual password manager
+create a new entry for this site, and save the data as  'password' field (see !docs #sync).
+When saved, prefill the hidden user/password input with your usual password manager.
+- the input[name="password"] is used for user defined data{engines}`;
+		this.append($text);
+	}
+
+	renderForm() {
+		const $form = document.createElement("form");
+		$form.addEventListener("submit", this.onSubmit.bind(this));
+
+		const $inputPassword = document.createElement("input");
+		$inputPassword.setAttribute("name", "password");
+		$inputPassword.setAttribute("type", "password");
+		$inputPassword.setAttribute("required", "true");
+		$inputPassword.setAttribute("autocomplete", "password");
+		$inputPassword.setAttribute("placeholder", "password=appData{userSymbols}");
+
+		const $syncButton = document.createElement("button");
+		$syncButton.type = "submit";
+		$syncButton.innerText = "import from credentials";
+
+		const $copyButton = document.createElement("button");
+		$copyButton.type = "button";
+		$copyButton.innerText = "export to clipboard";
+		$copyButton.addEventListener("click", this.onCopy.bind(this));
+
+		$form.append($inputPassword);
+		$form.append($syncButton);
+		$form.append($copyButton);
+		this.append($form);
+	}
+
+	onCopy({ target }) {
+		const data = this.getDataToSync();
+		/* output data to be saved to the password manager "password" entry for this site */
+		console.table([
+			"Data to save to the user pasword mananger credentials for this site (as `password`):",
+			data,
+		]);
+		navigator.clipboard.writeText(data);
+		document.querySelector('input[type="password"]').value = data;
+	}
+
+	onSubmit(event) {
+		event.preventDefault();
+		/* the data, is the one submitted by the user, to import in the app;
+		 from filling the input with the "credentials" (in our case, just app data) */
+		const formData = new FormData(event.target);
+		this.syncCredentials(formData);
+		this.syncLoginForm(formData);
+	}
+	async syncCredentials() {
+		if ("credentials" in navigator) {
+			let creds;
+			try {
+				creds = await navigator.credentials.get({
+					password: true, // `true` to obtain password credentials
+					federated: {
+						providers: [
+							// Specify an array of IdP strings
+							window.location.href,
+							"https://find.internet4000.com",
+						],
+					},
+				});
+			} catch (e) {
+				/* console.info("Credentials API not supported", e); */
+			}
+		}
+	}
+
+	/* a method, to import/export the app user data */
+	syncLoginForm(formData) {
+		const newDataRaw = formData.get("password");
+		let newDataJson;
+		if (newDataRaw) {
+			try {
+				newDataJson = JSON.parse(newDataRaw);
+			} catch (e) {
+				console.error("data to import is not a JSON string ", e);
+			}
+		}
+		if (!newDataJson) return;
+		const { userSymbols } = newDataJson;
+		Find.setUserSymbols(userSymbols);
+		console.info("newData imported", userSymbols, Find.getUserSymbols());
+	}
+
+	getDataToSync() {
+		return JSON.stringify({
+			userSymbols: Find.getUserSymbols(),
+		});
+	}
+};
+
 customElements.define("i4k-find", i4kFind);
+customElements.define("i4k-find-sync", i4kFindSync);
 customElements.define("i4k-find-info", i4kFindInfo);
 customElements.define("i4k-find-logo", i4kFindLogo);
 customElements.define("i4k-find-analytics", i4kFindAnalytics);

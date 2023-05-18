@@ -88,7 +88,7 @@ search engine.
 ```
 Search engine: `Find`
 Keyword: `f`
-Query URL: `https://find.internet4000.com?q=%s`
+Query URL: `https://find.internet4000.com/#q=%s`
 ```
 
 3. Make the new Find search engine your default search engine.
@@ -112,9 +112,9 @@ track you").
 d https://encrypted.google.com/search#q={}` to make Google your
 > default search engine.
 
-> the `?q=` query param is not suported any longer for privacy reasons, as query
-> params are sent to the server, while `#` prefixed data is not (fragment
-> identifier).
+> the `?q=` query param is not suported any longer as input to the application
+> for privacy reasons, as query params are sent to the server. Instead it now
+> uses `#` prefixed data, that is not sent to the server (fragment identifier).
 
 All the idea with Find is to use the following **symbols** and
 **engines** in your search (and define your custom).
@@ -241,6 +241,18 @@ browser console command:
 localStorage.setItem(Find.localStorageKey, JSON.stringify(Find.newUserSymbols));
 ```
 
+## sync
+
+to `sync` custom engines between devices, we use a trick with the password manager, and take advantage of the user usual way to synchronise credentials between their devices.
+
+> This operation currently overwrites existing user defined engines, when
+> importing new ones (in does not merge them).
+
+1. save the "application data" (user defined engines and symbols), as a JSON string, into your password manager, for this "find instance" URL
+2. in the other devices, import by "login in" this site (in the "sync section"), which will request the credentials for this site (actually the application data we just saved from our device).
+
+The imported data, is written as the new user defined engines, and saved to local storage for this browser.
+
 ### `search` engine urls
 
 1. Go to the website you would like to add and search for `foo` in the
@@ -259,10 +271,11 @@ Description`. To do that, inspect the HTML code of the site you want
 
 ## API
 
-Find has for now two small APIs:
+Find has a few APIs:
 
-- through its URL: [find.internet4000.com?q=[query]](https://find.internet4000.com?q=[query])
-- through the `Find` Javascript object (`Find.help()`)
+- through its URL: [find.internet4000.com/#q=[query]](https://find.internet4000.com/#q=[query])
+- through the `Find` Javascript object (try in the console `Find.help()`)
+- through the web component graphical interface `./find-elements.js`
 
 ## NPM Module
 
@@ -274,7 +287,7 @@ You can see and example usage in [&gh internet4000 find](https://github.com/inte
 
 1. deploy and host the site on your server
 2. edit the file `opensearch.xml`, the line `<Url type="text/html"
-template="https://find.internet4000.com?q={searchTerms}"/>`, should be
+template="https://find.internet4000.com/#q={searchTerms}"/>`, should be
    updated to reflect where you site will be hosted.
 
 This website (find.internet4000.com) is hosted by [Netlify](https://www.netlify.com/), auto

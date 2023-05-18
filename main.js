@@ -23,7 +23,8 @@
 			"!": {
 				name: "search",
 				engines: {
-					"?": "https://find.internet4000.com",
+					"?": `${window.location.href}/#q=!docs%20{}`,
+					docs: "https://github.com/internet4000/find/#{}",
 					c: "https://contacts.google.com/search/{}",
 					ciu: "https://caniuse.com/#search={}",
 					d: "https://duckduckgo.com/?q={}",
@@ -50,6 +51,7 @@
 			"+": {
 				name: "do",
 				engines: {
+					aurl: "https://web.archive.org/save/{}",
 					draw: "https://docs.google.com/drawings/create?title={}",
 					doc: "https://docs.google.com/document/create?title={}",
 					r4: "https://radio4000.com/add?url={}",
@@ -60,7 +62,6 @@
 					note: "https://note.internet4000.com/note?content={}",
 					wr: "https://en.wikipedia.org/wiki/Special:Random",
 					wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
-					aurl: "https://web.archive.org/save/{}",
 				},
 			},
 			"&": {
@@ -69,6 +70,7 @@
 					gh: "https://github.com/{}/{}",
 					gl: "https://gitlab.com/{}/{}",
 					firebase: "https://console.firebase.google.com/project/{}/overview",
+					mx: "https://matrix.to/#/{}",
 					netlify: "https://app.netlify.com/sites/{}/overview",
 					r4: "https://radio4000.com/{}",
 				},
