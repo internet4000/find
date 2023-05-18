@@ -40,14 +40,25 @@ const i4kFindApp = class extends HTMLElement {
 		console.info("Find.help()");
 		this.render();
 		this.setupColor();
+
+		/* handle search (if it is a command) */
 		this.querySelector("i4k-find").addEventListener("findSearch", (event) => {
-			/* if no output, it can only be because we have a "valid find command"
-				 (and not any other type of search/action), so we staty on the page */
+			/* if no output to a search,
+				 it can only be because we have a "valid find command" (# fns)
+				 so we stay on the current page */
 			if (event.detail.output) {
 				this.setAttribute("searched", true);
 			} else {
 				this.removeAttribute("searched");
 			}
+
+			/* if we stay on the page after command, let's refresh the info */
+			this.querySelector("i4k-find-info").refresh();
+		});
+
+		/* if we "sync", also refresh the info */
+		this.querySelector("i4k-find-sync").addEventListener("submit", () => {
+			this.querySelector("i4k-find-info").refresh();
 		});
 	}
 	setupColor() {
@@ -62,6 +73,55 @@ const i4kFindApp = class extends HTMLElement {
 	}
 	render() {
 		this.innerHTML = `
+			<section class="App-queries">
+				<details>
+					<summary>Example queries</summary>
+					<menu>
+						<li>
+							<i4k-find-query
+								q="!?"
+								title="Visit documentation"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="&mx #i4k-find:matrix.org"
+								title="Visit chat"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="!gh internet4000"
+								title="Visit github actor"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="&gh internet4000 find"
+								title="Visit github project"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="+wr"
+								title="Find random wikipedia article (for lorem ipsum)"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="#add ! ex https://example.org/?search={}"
+								title="Add example search engine"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="#del ! ex"
+								title="Del example search engine"
+								></i4k-find-query>
+						</li>
+					</menu>
+				</details>
+			</section>
 			<section class="App-header">
 				<i4k-find-logo></i4k-find-logo>
 				<i4k-find></i4k-find>
@@ -69,6 +129,10 @@ const i4kFindApp = class extends HTMLElement {
 
 			<section class="App-body">
 				<i4k-find-info></i4k-find-info>
+				<details>
+					<summary>sync</summary>
+					<i4k-find-sync></i4k-find-sync>
+				</details>
 			</section>`;
 
 		if (this.CFBeacon) {
@@ -102,7 +166,7 @@ const i4kFindAnalytics = class extends HTMLElement {
 		}
 	}
 	disconnectedCallback() {
-		console.log("Removed tracking element");
+		console.info("Removed tracking element");
 	}
 	renderCFAnalytics() {
 		const $script = document.createElement("script");
@@ -167,23 +231,24 @@ const i4kFind = class extends HTMLElement {
 	}
 	handleSubmit = (event) => {
 		this.findSearch(this.search);
-
-		// prevents form autotransition to `?search=<query>` not triggering `Find` `?q=`
+		// prevents form autotransition to `?search=<query>` not triggering `Find` `#q=`
 		return false;
 	};
 	handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
 	};
+	buildRandomPlaceholder() {}
 	render() {
 		const $form = document.createElement("form");
-		$form.title = "Try to write the suggested words, !m brazil";
+		$form.title = "Try to write any search words, or the Find query, !m berlin";
 		$form.onsubmit = this.handleSubmit;
 		$form.classList.add("Form");
 
 		const $input = document.createElement("input");
 		$input.type = "search";
 		$input.name = "search";
-		$input.placeholder = "!m brazil (or any search)";
+		$input.placeholder =
+			this.buildRandomPlaceholder() || "!docs usage-examples";
 		$input.oninput = this.handleInputChange;
 		$input.required = true;
 
@@ -205,15 +270,50 @@ const i4kFindInfo = class extends HTMLElement {
 	open = false;
 	connectedCallback() {
 		this.render();
+
+		/*
+			 local storage event only triggered from other tabs/windows
+			 https://stackoverflow.com/questions/5370784/localstorage-eventlistener-is-not-called
+			 https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event
+		 */
+		window.addEventListener("storage", this.onStorage.bind(this));
+	}
+	disconnectedCallback() {
+		window.removeEventListener("storage", this.onStorage.bind(this));
+	}
+	onStorage(event) {
+		// instead of updating the find info here, we do it on "find submit"
+		console.info(
+			"storage event",
+			JSON.parse(window.localStorage.getItem(Find.localStorageKey))
+		);
+	}
+	getSymbolsLength(symbols) {
+		let length = 0;
+		Object.values(symbols).forEach((symbol) => {
+			length += symbol.engines ? Object.keys(symbol.engines).length : 0;
+		});
+		return length;
+	}
+	/* an alias for the public api */
+	refresh() {
+		this.render();
 	}
 	render() {
+		this.innerHTML = "";
+		const userSymbols = Find.getUserSymbols();
+		this.renderSymbols(Find.symbols, "default");
+		if (userSymbols) {
+			this.renderSymbols(userSymbols, "user");
+		}
+	}
+	renderSymbols(symbols, title) {
+		const symbolsLen = this.getSymbolsLength(symbols);
+
 		const $symbols = document.createElement("i4k-symbols-list");
-		const symbolsList = Object.keys(Find.symbols);
-		symbolsList.forEach((symbol) => {
-			const symbolData = Find.symbols[symbol];
-			const symbolEngines =
-				symbolData.engines && Object.keys(symbolData.engines);
-			const symbolFns = symbolData.fns && Object.keys(symbolData.fns);
+		const symbolsList = Object.keys(symbols);
+		Object.entries(symbols).forEach(([symbol, symbolData]) => {
+			const { name: symbolName, engines, fns } = symbolData;
 
 			const $symbolInfo = document.createElement("article");
 			const $symbolInfoHeader = document.createElement("header");
@@ -221,14 +321,14 @@ const i4kFindInfo = class extends HTMLElement {
 
 			const $symbolInfoList = document.createElement("ul");
 
-			symbolEngines &&
-				symbolEngines.forEach((engine) => {
+			if (engines && Object.keys(engines).length) {
+				Object.entries(engines).forEach(([engineName, engineUrl]) => {
 					const $symbolInfoListItem = document.createElement("li");
 					const $engineName = document.createElement("em");
-					$engineName.innerText = engine;
+					$engineName.innerText = `${symbol}${engineName}`;
 					const $engineValue = document.createElement("a");
-					$engineValue.href = symbolData.engines[engine];
-					$engineValue.innerHTML = symbolData.engines[engine].replace(
+					$engineValue.href = engineUrl;
+					$engineValue.innerHTML = engineUrl.replace(
 						/\{\}/g,
 						"<mark>{}</mark>"
 					);
@@ -237,21 +337,37 @@ const i4kFindInfo = class extends HTMLElement {
 					$symbolInfoListItem.append($engineValue);
 					$symbolInfoList.append($symbolInfoListItem);
 				});
+			} else if (!fns) {
+				const $noSymbolEngineListItem = document.createElement("li");
+				const $noSymbolEngine = document.createElement("input");
+				$noSymbolEngine.value = `#add ${symbol} ex https://example.org/?q={}`;
+				$noSymbolEngine.readonly = true;
+				$noSymbolEngine.onclick = ({ target }) => target.select();
+				$noSymbolEngineListItem.append($noSymbolEngine);
+				$symbolInfoList.append($noSymbolEngineListItem);
+			}
 
-			symbolFns &&
-				symbolFns.forEach((fn) => {
+			if (fns) {
+				Object.entries(fns).forEach(([fnName, fn]) => {
 					const $symbolInfoListItem = document.createElement("li");
 
 					const $engineName = document.createElement("em");
-					$engineName.innerText = fn;
+					$engineName.innerText = `${symbol}${fnName}`;
 					const $engineValue = document.createElement("pre");
-					$engineValue.innerText = `${symbolData.fns[fn].toString()}`;
+					$engineValue.innerText = `${fn.toString()}`;
 
 					$symbolInfoListItem.append($engineName);
 					$symbolInfoListItem.append($engineValue);
 
 					$symbolInfoList.append($symbolInfoListItem);
 				});
+			}
+
+			if (!engines && !fns) {
+				const $newSymbolEngineInfo = document.createElement("kbd");
+				$newSymbolEngineInfo.innerText =
+					$symbolInfoList.apennd($newSymbolEngineInfo);
+			}
 
 			$symbolInfo.append($symbolInfoHeader);
 			$symbolInfo.append($symbolInfoList);
@@ -260,26 +376,152 @@ const i4kFindInfo = class extends HTMLElement {
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");
-		$summary.innerText = "Info";
-
-		/* a string with the intro and doc links */
-		const $documentation = document.createElement("i4k-find-info-header");
-		$documentation.innerText = "Open bang actions, (";
-		const $documentationLink = document.createElement("a");
-		$documentationLink.href = this.repoUrl;
-		$documentationLink.innerText = "docs";
-		$documentation.append($documentationLink);
-		$documentation.append("), list of symbols and engines:");
+		$summary.innerText = `${title} [${symbolsLen}]`;
 
 		$detail.append($summary);
-		$detail.append($documentation);
 		$detail.append($symbols);
 
 		this.append($detail);
 	}
 };
 
+const i4kFindSync = class extends HTMLElement {
+	connectedCallback() {
+		this.render();
+	}
+
+	render() {
+		this.innerHTML = "";
+		this.renderHelp();
+		this.renderForm();
+	}
+
+	renderHelp() {
+		const $text = document.createElement("p");
+		$text.innerText = `To synchronise the app data between devices,
+save, sync, and import it to your usual password manager
+create a new entry for this site, and save the data as  'password' field (see !docs #sync).
+When saved, prefill the hidden user/password input with your usual password manager.
+- the input[name="password"] is used for user defined data{engines}`;
+		this.append($text);
+	}
+
+	renderForm() {
+		const $form = document.createElement("form");
+		$form.addEventListener("submit", this.onSubmit.bind(this));
+
+		const $inputPassword = document.createElement("input");
+		$inputPassword.setAttribute("name", "password");
+		$inputPassword.setAttribute("type", "password");
+		$inputPassword.setAttribute("required", "true");
+		$inputPassword.setAttribute("autocomplete", "password");
+		$inputPassword.setAttribute("placeholder", "password=appData{userSymbols}");
+
+		const $syncButton = document.createElement("button");
+		$syncButton.type = "submit";
+		$syncButton.innerText = "import from credentials";
+
+		const $copyButton = document.createElement("button");
+		$copyButton.type = "button";
+		$copyButton.innerText = "export to clipboard";
+		$copyButton.addEventListener("click", this.onCopy.bind(this));
+
+		$form.append($inputPassword);
+		$form.append($syncButton);
+		$form.append($copyButton);
+		this.append($form);
+	}
+
+	onCopy({ target }) {
+		const data = this.getDataToSync();
+		/* output data to be saved to the password manager "password" entry for this site */
+		console.table([
+			"Data to save to the user pasword mananger credentials for this site (as `password`):",
+			data,
+		]);
+		navigator.clipboard.writeText(data);
+		document.querySelector('input[type="password"]').value = data;
+	}
+
+	onSubmit(event) {
+		event.preventDefault();
+		/* the data, is the one submitted by the user, to import in the app;
+		 from filling the input with the "credentials" (in our case, just app data) */
+		const formData = new FormData(event.target);
+		this.syncCredentials(formData);
+		this.syncLoginForm(formData);
+	}
+	async syncCredentials() {
+		if ("credentials" in navigator) {
+			let creds;
+			try {
+				creds = await navigator.credentials.get({
+					password: true, // `true` to obtain password credentials
+					federated: {
+						providers: [
+							// Specify an array of IdP strings
+							window.location.href,
+							"https://find.internet4000.com",
+						],
+					},
+				});
+			} catch (e) {
+				/* console.info("Credentials API not supported", e); */
+			}
+		}
+	}
+
+	/* a method, to import/export the app user data */
+	syncLoginForm(formData) {
+		const newDataRaw = formData.get("password");
+		let newDataJson;
+		if (newDataRaw) {
+			try {
+				newDataJson = JSON.parse(newDataRaw);
+			} catch (e) {
+				console.error("data to import is not a JSON string ", e);
+			}
+		}
+		if (!newDataJson) return;
+		const { userSymbols } = newDataJson;
+		Find.setUserSymbols(userSymbols);
+		console.info("newData imported", userSymbols, Find.getUserSymbols());
+	}
+
+	getDataToSync() {
+		return JSON.stringify({
+			userSymbols: Find.getUserSymbols(),
+		});
+	}
+};
+
+const i4kFindQuery = class extends HTMLElement {
+	connectedCallback() {
+		this.query = this.getAttribute("q");
+		this.render();
+	}
+
+	render() {
+		this.innerHTML = "";
+		this.renderButton();
+	}
+
+	renderButton() {
+		const $btn = document.createElement("button");
+		$btn.addEventListener("click", this.onClick.bind(this));
+		$btn.innerText = this.query;
+		this.append($btn);
+	}
+	onClick(event) {
+		if (this.query) {
+			Find.find(this.query);
+		}
+	}
+};
+
 customElements.define("i4k-find", i4kFind);
+customElements.define("i4k-find-query", i4kFindQuery);
+customElements.define("i4k-find-sync", i4kFindSync);
 customElements.define("i4k-find-info", i4kFindInfo);
 customElements.define("i4k-find-logo", i4kFindLogo);
 customElements.define("i4k-find-analytics", i4kFindAnalytics);
