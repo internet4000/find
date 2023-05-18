@@ -460,8 +460,7 @@ When saved, prefill the hidden user/password input with your usual password mana
 					federated: {
 						providers: [
 							// Specify an array of IdP strings
-							window.location.href,
-							"https://find.internet4000.com",
+							window.location.hostname,
 						],
 					},
 				});

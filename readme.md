@@ -1,5 +1,5 @@
 - npm: [i4k-find](https://www.npmjs.com/package/i4k-find)
-- [find.internet4000.com](https://find.internet4000.com)
+- [internet4000.github.io/find](https://internet4000.github.io/find)
 
 # Find!
 
@@ -16,7 +16,7 @@ easy to use and install. Also, it is Free software, and can be
 customized and hosted quickly at your convenience.
 
 The fastest way to test its features, is by trying the example queries
-on this page: [try Find! here](https://find.internet4000.com).
+on this page: [try Find! here](https://internet4000.github.io/find).
 
 If you want to have the best experience, try it as your web browser's
 default search engine; so all the features are accesible directly in
@@ -72,7 +72,7 @@ There are two possible setups:
 Overhall it is pretty easy, and is about making Find your default
 search engine.
 
-1.  Visit [find.internet4000.com](https://find.internet4000.com) with your favorite web browser
+1.  Visit [internet4000.github.io/find](https://internet4000.github.io/find) with your favorite web browser
 
 2.  Add this webpage as your search engine. Here is where how, with: \* _Firefox_, click the magnifying glass icon (it has a green "+") in
     the search bar, then click the `Add "Find!" button`. Check if it
@@ -88,7 +88,7 @@ search engine.
 ```
 Search engine: `Find`
 Keyword: `f`
-Query URL: `https://find.internet4000.com/#q=%s`
+Query URL: `https://internet4000.github.io/find/#q=%s`
 ```
 
 3. Make the new Find search engine your default search engine.
@@ -273,7 +273,7 @@ Description`. To do that, inspect the HTML code of the site you want
 
 Find has a few APIs:
 
-- through its URL: [find.internet4000.com/#q=[query]](https://find.internet4000.com/#q=[query])
+- through its URL: [internet4000.github.io/find/#q=[query]](https://internet4000.github.io/find/#q=[query])
 - through the `Find` Javascript object (try in the console `Find.help()`)
 - through the web component graphical interface `./find-elements.js`
 
@@ -287,10 +287,10 @@ You can see and example usage in [&gh internet4000 find](https://github.com/inte
 
 1. deploy and host the site on your server
 2. edit the file `opensearch.xml`, the line `<Url type="text/html"
-template="https://find.internet4000.com/#q={searchTerms}"/>`, should be
+template="https://internet4000.github.io/find/#q={searchTerms}"/>`, should be
    updated to reflect where you site will be hosted.
 
-This website (find.internet4000.com) is hosted by [Netlify](https://www.netlify.com/), auto
+This website (internet4000.github.io/find) is hosted by [Netlify](https://www.netlify.com/), auto
 deployed when new commits are pushed to the `production` branch of this
 git repository.
 
