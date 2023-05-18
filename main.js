@@ -12,13 +12,11 @@
 		root.Find = factory();
 	}
 })(typeof self !== "undefined" ? self : this, function () {
-	// some private methods and variables;
-	var localStorageKey = "i4find";
-
 	// Just return a value to define the module export.
 	// This example returns an object, but the module
 	// can return a function as the exported value.
 	var App = {
+		localStorageKey: "i4find",
 		queryParamName: "q",
 		documentationUrl: "https://github.com/internet4000/find",
 		symbols: {
@@ -33,6 +31,7 @@
 					dr: "https://drive.google.com/drive/search?q={}",
 					g: "https://encrypted.google.com/search?q={}",
 					gh: "https://github.com/search?q={}",
+					hn: "https://hn.algolia.com/?sort=byDate&query={}",
 					k: "https://keep.google.com/?q=#search/text%3D{}",
 					l: "https://www.linguee.com/search?query={}",
 					m: "https://www.google.com/maps/search/{}",
@@ -83,8 +82,23 @@
 							 #add ! ex https://example.org/?search={}
 						 */
 						let [symbol, id, url] = arg.split(" ");
-						app.addEngine(app.getUserSymbols(), symbol, id, url);
-						console.info("Added new engine:", `${symbol}${id}`);
+						if (
+							symbol &&
+							id &&
+							window.confirm(`add ${symbol} ${id} ${url} ?`)
+						) {
+							app.addEngine(app.getUserSymbols(), symbol, id, url);
+						}
+					},
+					del: function (app, arg) {
+						/* Find function to "delete an existing engine":
+							 Example usage:
+							 #del ! ex
+						 */
+						let [symbol, id] = arg.split(" ");
+						if (symbol && id && window.confirm(`del ${symbol} ${id} ?`)) {
+							app.delEngine(app.getUserSymbols(), symbol, id);
+						}
 					},
 				},
 			},
@@ -96,8 +110,20 @@
 			if (symbols[symbol]) {
 				symbols[symbol].engines[engineId] = url;
 				this.setUserSymbols(symbols);
+				console.info("Added new engine:", `${symbol}${engineId}`, url);
 			} else {
 				console.error("symbol", symbol, "does not exist in", symbols);
+			}
+		},
+
+		// add a new user engine
+		// to the list of user defined engines in user symbols
+		delEngine(symbols, symbol, engineId) {
+			const symbolExists = symbols[symbol];
+			if (symbolExists) {
+				delete symbols[symbol].engines[engineId];
+				this.setUserSymbols(symbols);
+				console.info("Removed engine:", `${symbol}${engineId}`);
 			}
 		},
 
@@ -292,7 +318,7 @@
 		getUserSymbols() {
 			var storageSymbols;
 			try {
-				storageSymbols = JSON.parse(localStorage.getItem(localStorageKey));
+				storageSymbols = JSON.parse(localStorage.getItem(this.localStorageKey));
 			} catch (e) {
 				if (e.name === "SyntaxError") {
 					storageSymbols = null;
@@ -309,7 +335,9 @@
 		// saves a new set of user symbols to local storage
 		setUserSymbols(newSymbols) {
 			if (!newSymbols) return;
-			localStorage.setItem(localStorageKey, JSON.stringify(newSymbols));
+			const newSymbolsString = JSON.stringify(newSymbols);
+			localStorage.setItem(this.localStorageKey, newSymbolsString);
+			// cannot send event from here; we might be in browser/node
 		},
 
 		// generates new userSymbols from copying original symbols
@@ -330,7 +358,9 @@
 			// write user documentation
 			console.info(`Documentation: ${this.documentationUrl}`);
 			console.info("— Usage: Find.find('!m brazil')");
-			console.info("— Explore the Find object");
+			console.info("- Usage: Find.getUserSymbols()");
+			console.info("- Usage:", "#add ! ex https://example.org/?search={}");
+			console.info("— Explore the window.Find object");
 		},
 	};
 

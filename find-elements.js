@@ -41,13 +41,17 @@ const i4kFindApp = class extends HTMLElement {
 		this.render();
 		this.setupColor();
 		this.querySelector("i4k-find").addEventListener("findSearch", (event) => {
-			/* if no output, it can only be because we have a "valid find command"
-				 (and not any other type of search/action), so we staty on the page */
+			/* if no output,
+				 it can only be because we have a "valid find command (# fns)"
+				 (and not any other type of search/action), so we stay on the page */
 			if (event.detail.output) {
 				this.setAttribute("searched", true);
 			} else {
 				this.removeAttribute("searched");
 			}
+
+			/* if we stay on the page after command, let's refresh the info */
+			this.querySelector("i4k-find-info").refresh();
 		});
 	}
 	setupColor() {
@@ -102,7 +106,7 @@ const i4kFindAnalytics = class extends HTMLElement {
 		}
 	}
 	disconnectedCallback() {
-		console.log("Removed tracking element");
+		console.info("Removed tracking element");
 	}
 	renderCFAnalytics() {
 		const $script = document.createElement("script");
@@ -167,8 +171,7 @@ const i4kFind = class extends HTMLElement {
 	}
 	handleSubmit = (event) => {
 		this.findSearch(this.search);
-
-		// prevents form autotransition to `?search=<query>` not triggering `Find` `?q=`
+		// prevents form autotransition to `?search=<query>` not triggering `Find` `#q=`
 		return false;
 	};
 	handleInputChange = (input) => {
@@ -205,15 +208,51 @@ const i4kFindInfo = class extends HTMLElement {
 	open = false;
 	connectedCallback() {
 		this.render();
+
+		/*
+			 local storage event only triggered from other tabs/windows
+			 https://stackoverflow.com/questions/5370784/localstorage-eventlistener-is-not-called
+			 https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event
+		 */
+		window.addEventListener("storage", this.onStorage.bind(this));
+	}
+	disconnectedCallback() {
+		window.removeEventListener("storage", this.onStorage.bind(this));
+	}
+	onStorage(event) {
+		// instead of updating the find info here, we do it on "find submit"
+		console.info(
+			"storage event",
+			JSON.parse(window.localStorage.getItem(Find.localStorageKey))
+		);
+	}
+	getSymbolsLength(symbols) {
+		let length = 0;
+		Object.values(symbols).forEach((symbol) => {
+			length += symbol.engines ? Object.keys(symbol.engines).length : 0;
+		});
+		return length;
+	}
+	/* an alias for the public api */
+	refresh() {
+		this.render();
 	}
 	render() {
+		this.innerHTML = "";
+		const userSymbols = Find.getUserSymbols();
+		this.renderDocs();
+		this.renderSymbols(Find.symbols, "default");
+		if (userSymbols) {
+			this.renderSymbols(userSymbols, "user");
+		}
+	}
+	renderSymbols(symbols, title) {
+		const symbolsLen = this.getSymbolsLength(symbols);
+
 		const $symbols = document.createElement("i4k-symbols-list");
-		const symbolsList = Object.keys(Find.symbols);
-		symbolsList.forEach((symbol) => {
-			const symbolData = Find.symbols[symbol];
-			const symbolEngines =
-				symbolData.engines && Object.keys(symbolData.engines);
-			const symbolFns = symbolData.fns && Object.keys(symbolData.fns);
+		const symbolsList = Object.keys(symbols);
+		Object.entries(symbols).forEach(([symbol, symbolData]) => {
+			const { name: symbolName, engines, fns } = symbolData;
 
 			const $symbolInfo = document.createElement("article");
 			const $symbolInfoHeader = document.createElement("header");
@@ -221,14 +260,14 @@ const i4kFindInfo = class extends HTMLElement {
 
 			const $symbolInfoList = document.createElement("ul");
 
-			symbolEngines &&
-				symbolEngines.forEach((engine) => {
+			if (engines && Object.keys(engines).length) {
+				Object.entries(engines).forEach(([engineName, engineUrl]) => {
 					const $symbolInfoListItem = document.createElement("li");
 					const $engineName = document.createElement("em");
-					$engineName.innerText = engine;
+					$engineName.innerText = `${symbol}${engineName}`;
 					const $engineValue = document.createElement("a");
-					$engineValue.href = symbolData.engines[engine];
-					$engineValue.innerHTML = symbolData.engines[engine].replace(
+					$engineValue.href = engineUrl;
+					$engineValue.innerHTML = engineUrl.replace(
 						/\{\}/g,
 						"<mark>{}</mark>"
 					);
@@ -237,21 +276,37 @@ const i4kFindInfo = class extends HTMLElement {
 					$symbolInfoListItem.append($engineValue);
 					$symbolInfoList.append($symbolInfoListItem);
 				});
+			} else if (!fns) {
+				const $noSymbolEngineListItem = document.createElement("li");
+				const $noSymbolEngine = document.createElement("input");
+				$noSymbolEngine.value = `#add ${symbol} ex https://example.org/?q={}`;
+				$noSymbolEngine.readonly = true;
+				$noSymbolEngine.onclick = ({ target }) => target.select();
+				$noSymbolEngineListItem.append($noSymbolEngine);
+				$symbolInfoList.append($noSymbolEngineListItem);
+			}
 
-			symbolFns &&
-				symbolFns.forEach((fn) => {
+			if (fns) {
+				Object.entries(fns).forEach(([fnName, fn]) => {
 					const $symbolInfoListItem = document.createElement("li");
 
 					const $engineName = document.createElement("em");
-					$engineName.innerText = fn;
+					$engineName.innerText = `${symbol}${fnName}`;
 					const $engineValue = document.createElement("pre");
-					$engineValue.innerText = `${symbolData.fns[fn].toString()}`;
+					$engineValue.innerText = `${fn.toString()}`;
 
 					$symbolInfoListItem.append($engineName);
 					$symbolInfoListItem.append($engineValue);
 
 					$symbolInfoList.append($symbolInfoListItem);
 				});
+			}
+
+			if (!engines && !fns) {
+				const $newSymbolEngineInfo = document.createElement("kbd");
+				$newSymbolEngineInfo.innerText =
+					$symbolInfoList.apennd($newSymbolEngineInfo);
+			}
 
 			$symbolInfo.append($symbolInfoHeader);
 			$symbolInfo.append($symbolInfoList);
@@ -260,22 +315,23 @@ const i4kFindInfo = class extends HTMLElement {
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");
-		$summary.innerText = "Info";
+		$summary.innerText = `${title}: [${symbolsLen}]`;
 
+		$detail.append($summary);
+		$detail.append($symbols);
+
+		this.append($detail);
+	}
+	renderDocs() {
 		/* a string with the intro and doc links */
-		const $documentation = document.createElement("i4k-find-info-header");
+		const $documentation = document.createElement("i4k-find-info-docs");
 		$documentation.innerText = "Open bang actions, (";
 		const $documentationLink = document.createElement("a");
 		$documentationLink.href = this.repoUrl;
 		$documentationLink.innerText = "docs";
 		$documentation.append($documentationLink);
-		$documentation.append("), list of symbols and engines:");
-
-		$detail.append($summary);
-		$detail.append($documentation);
-		$detail.append($symbols);
-
-		this.append($detail);
+		$documentation.append("), list of symbols and engines.");
+		this.append($documentation);
 	}
 };
 

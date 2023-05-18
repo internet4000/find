@@ -11,8 +11,9 @@ html {
 /* variables */
 :root {
 	--c-fg: black;
-	--c-fg--info: gray;
+	--c-fg--info: black;
 	/* --c-bg: azure; */
+	--c-bg--summary: whitesmoke;
 	--c-bg--contrast: cyan;
 	--c-bg--tonique: fuchsia;
 	--c-bg--warning: white;
@@ -28,6 +29,19 @@ html {
 @media screen and (min-width: 70rem) {
 	:root {
 		--size-font: 19px;
+	}
+}
+
+/* animation */
+@keyframes float {
+	0% {
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(10%);
+	}
+	100% {
+		transform: translateX(0);
 	}
 }
 
@@ -58,7 +72,7 @@ button {
 	background: transparent;
 }
 input {
-	padding: 0.5rem;
+	padding: 0.8rem;
 	width: 100%;
 	max-width: 17rem;
 }
@@ -88,13 +102,17 @@ li {
 		transform 300ms cubic-bezier(0.6, -0.13, 0.45, 1.06);
 	transform: translateY(0);
 }
+@media screen (min-width: 20rem) {
+	.App-header {
+		flex-direction: column;
+	}
+}
+
 .App-header {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -109,8 +127,7 @@ li {
 	bottom: 0;
 	top: 0;
 	background-color: var(--c-bg--random);
-	filter: blur(1rem);
-	opacity: 0.5;
+	opacity: 0.8;
 }
 
 .App-body {
@@ -119,8 +136,10 @@ li {
 	width: 100%;
 	max-width: var(--size-container);
 	margin-top: 1rem;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
-
 .Title {
 	margin-top: 0;
 	position: relative;
@@ -137,6 +156,11 @@ li {
 	display: none;
 }
 
+@media screen (min-width: 20rem) {
+	i4k-find form {
+		flex-direction: column;
+	}
+}
 i4k-find form {
 	display: flex;
 	flex-wrap: wrap;
@@ -161,6 +185,7 @@ i4k-find form button {
 	letter-spacing: 1.2px;
 	padding: 0.6rem;
 	font-size: 0.8rem;
+	margin: 0.8rem;
 }
 
 i4k-find form button:active {
@@ -169,7 +194,8 @@ i4k-find form button:active {
 
 i4k-find form input {
 	-webkit-appearance: inherit;
-	font-size: 1rem;
+	font-size: 1.2rem;
+	min-width: 40vw;
 }
 
 #Customs-table {
@@ -186,29 +212,30 @@ i4k-find {
 i4k-find-info details {
 }
 i4k-find-info details[open] {
-	border: 1px solid var(--c-border);
-	background-color: var(--c-bg--contrast);
+	border: none;
+	background-color: var(--c-bg--summary);
 }
 i4k-find-info details[open] summary {
 	margin: 0rem 4rem;
 	font-weight: bold;
 }
 
-i4k-fin button,
+i4k-find-info button,
 i4k-find-info details:not([open]) summary {
 	filter: invert(1);
-	mix-blend-mode: difference;
+	mix-blend-mode: overlay;
 }
 i4k-find-info summary {
 	cursor: pointer;
 	padding: 1rem;
 	text-align: center;
+	background-color: var(--c-bg--summary);
 }
 
 i4k-find-info button {
 	cursor: pointer;
 }
-i4k-find-info-header {
+i4k-find-info-docs {
 	margin-bottom: 1rem;
 	display: flex;
 	justify-content: center;
@@ -238,17 +265,30 @@ i4k-symbols-list ul {
 }
 i4k-symbols-list li {
 	display: flex;
+	flex-wrap: wrap;
 }
 i4k-symbols-list li em {
 	text-align: left;
 	flex-grow: 1;
 	flex-shrink: 0;
-	padding-left: 0.6rem;
-	padding-right: 0.6rem;
 }
 i4k-symbols-list li a {
 	word-break: break-word;
 	text-align: right;
+}
+i4k-symbols-list li input {
+	background-color: transparent;
+	border: none;
+	padding: 0;
+	cursor: alias;
+	max-width: none;
+	outline: 0;
+}
+@media screen (min-width: 20rem) {
+	i4k-symbols-list li pre {
+		line-height: 1.7;
+		font-size: 1rem;
+	}
 }
 i4k-symbols-list li pre {
 	tab-size: 0.1rem;
@@ -256,6 +296,8 @@ i4k-symbols-list li pre {
 	margin: 0;
 	width: 100%;
 	color: var(--c-fg--info);
+	line-height: 1.7;
+	font-size: 0.8rem;
 }
 i4k-symbols-list article {
 	margin-bottom: 1rem;
@@ -303,14 +345,19 @@ i4k-find-app i4k-find-info {
 	flex-direction: column;
 }
 i4k-find-app i4k-find-logo {
-	margin-right: 1rem;
-	margin-bottom: 0.3rem;
+	margin: 0.4rem;
 	opacity: 1;
 	transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+	animation: float 9s ease-in-out infinite;
 }
-i4k-find-app i4k-find-logo svg {
-	width: 4rem;
-	height: 4rem;
+i4k-find-app i4k-find-logo:hover svg {
+	transform: scale(1.2);
+}
+p i4k-find-app i4k-find-logo svg {
+	width: 3rem;
+	height: 3rem;
+	transform: scale(1);
+	transition: transform 200ms ease-in-out;
 }
 i4k-find-app i4k-find {
 	opacity: 1;

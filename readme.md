@@ -68,25 +68,23 @@ There are two possible setups:
   about this, go to the `Host your own instance` header
 - use an instance hosted by someone else; this is the version
   proposed here, hosted from this repository to Netlify.
-	
+
 Overhall it is pretty easy, and is about making Find your default
 search engine.
 
-1. Visit [find.internet4000.com](https://find.internet4000.com) with your favorite web browser
+1.  Visit [find.internet4000.com](https://find.internet4000.com) with your favorite web browser
 
-2. Add this webpage as your search engine. Here is where how, with:
-  
-	* *Firefox*, click the magnifying glass icon (it has a green "+") in
-the search bar, then click the `Add "Find!" button`. Check if it
-worked in your preferences (`about:preferences#search`), `Find!`
-should now appear in the "One-click search engines" list. You can
-double click its `Keyword` column to customize how it will be
-triggered, we recommand you to put the letter `f`, short for "find"
-(if you do not use it as default search engine).
-  
-	* For *Chrome/Chromium*, go to its settings page
-(`chrome://settings/searchEngines`); in the "Other search engines"
-section, click the "add" button and use the following values:
+2.  Add this webpage as your search engine. Here is where how, with: \* _Firefox_, click the magnifying glass icon (it has a green "+") in
+    the search bar, then click the `Add "Find!" button`. Check if it
+    worked in your preferences (`about:preferences#search`), `Find!`
+    should now appear in the "One-click search engines" list. You can
+    double click its `Keyword` column to customize how it will be
+    triggered, we recommand you to put the letter `f`, short for "find"
+    (if you do not use it as default search engine).
+    - For \*Chrome/Chromium\*, go to its settings page
+      (`chrome://settings/searchEngines`); in the "Other search engines"
+      section, click the "add" button and use the following values:
+
 ```
 Search engine: `Find`
 Keyword: `f`
@@ -111,8 +109,12 @@ track you").
 > Note: it is possible and easy to change your default search engine,
 > just overwrite the engine under the id `d` (`!d`; **d** for
 > default). It is explained later, but for example your could write `#add !
-> d https://encrypted.google.com/search?q={}` to make Google your
+d https://encrypted.google.com/search#q={}` to make Google your
 > default search engine.
+
+> the `?q=` query param is not suported any longer for privacy reasons, as query
+> params are sent to the server, while `#` prefixed data is not (fragment
+> identifier).
 
 All the idea with Find is to use the following **symbols** and
 **engines** in your search (and define your custom).
@@ -123,6 +125,7 @@ If what you write in Find starts by one of these **symbols**, Find
 will try to decrypt your query to see if it can do something iwth it.
 
 All available symbols are:
+
 - `!` = search
 - `+` = action
 - `&` = build
@@ -194,17 +197,18 @@ This is a special symbol, for commands within find.
 
 - #add \<symbol\> \<engine-id\> \<engine-url\> - add a custom engine,
   by its `engine-id`, under a specific `symbol`; e.g: `#add ! gh https://github.com/search?q=`
-	
+
 > question: does that represent a security issue?
 
 ### Detailed usage
 
 To use these triggers, for exemple with the search query `foo`:
+
 - Put your cursor in the URL bar of your browser
 - Type the website's `!keyword` (the website on which you want to
   search. ex: `!y` for Youtube), prefixed with a `!`.
 - After the keyword, add a `space` (just normally as in between two
-  words), and type your *search query*, in this exemple we said
+  words), and type your _search query_, in this exemple we said
   `foo`
 - At this point the URL bar should have this written in `!y foo` (there
   is a space in between `!y` and `foo`).
@@ -216,7 +220,7 @@ Note: in the exemple above `Find!` is considered to be your default
 search engine. If it is not, and you use it as one of Firefox's "one click
 search engine", or Chrome/Chromium's "other search engine", you have
 to follow the same steps as above but as a first step you need to
-*trigger the search `Find!` search engine* ("Tab" key in Firefox /
+_trigger the search `Find!` search engine_ ("Tab" key in Firefox /
 "one space" in Chrome/ium, after writting the keyword).
 
 ## Add custom engines
@@ -225,29 +229,38 @@ The interest of Find is the possibility to add your custom engines,
 and replace the default ones depending on your preferences.
 
 There are different ways to add engines (works for all symbols, but `#`):
+
 - `#add` command
 - `Find` object in the browser console (Try: `Find.help()`)
 - edit the code and host an instance
 
+If there is an issue, it is possible to "clear the user engines with the
+browser console command:
+
+```javascript
+localStorage.setItem(Find.localStorageKey, JSON.stringify(Find.newUserSymbols));
+```
+
 ### `search` engine urls
 
 1. Go to the website you would like to add and search for `foo` in the
-search input.
+   search input.
 1. Wait for the search result to appear and copy the URL of the search
-result page, it should have `foo` in it (usually after a parameter
-called `q`, or `query`, but it could be a different pattern). Copy
-everything, from the `scheme://` to `foo` (excluded).
+   result page, it should have `foo` in it (usually after a parameter
+   called `q`, or `query`, but it could be a different pattern). Copy
+   everything, from the `scheme://` to `foo` (excluded).
 
 > Note that you can also use the information stored in the `.xml` file
-possibly used by websites to define their `Open Search
+> possibly used by websites to define their `Open Search
 Description`. To do that, inspect the HTML code of the site you want
-to add and search for a HTML link tag with the folloing type:
-`application/opensearchdescription+xml"`. The file it points to will
-have the infortmation you are looking for in the `Url` XML tag.
+> to add and search for a HTML link tag with the folloing type:
+> `application/opensearchdescription+xml"`. The file it points to will
+> have the infortmation you are looking for in the `Url` XML tag.
 
 ## API
 
 Find has for now two small APIs:
+
 - through its URL: [find.internet4000.com?q=[query]](https://find.internet4000.com?q=[query])
 - through the `Find` Javascript object (`Find.help()`)
 
@@ -261,12 +274,12 @@ You can see and example usage in [&gh internet4000 find](https://github.com/inte
 
 1. deploy and host the site on your server
 2. edit the file `opensearch.xml`, the line `<Url type="text/html"
-  template="https://find.internet4000.com?q={searchTerms}"/>`, should be
-  updated to reflect where you site will be hosted.
+template="https://find.internet4000.com?q={searchTerms}"/>`, should be
+   updated to reflect where you site will be hosted.
 
 This website (find.internet4000.com) is hosted by [Netlify](https://www.netlify.com/), auto
 deployed when new commits are pushed to the `production` branch of this
-git repository. 
+git repository.
 
 ## Privacy
 
@@ -282,7 +295,7 @@ software](https://en.wikipedia.org/wiki/Free_software).
 ## Debug this software (live, in the browser)
 
 The easieset way to start debugging is from the developer tools of
-your web browser.  Because Find is unminified javascript code, it is
+your web browser. Because Find is unminified javascript code, it is
 possible to look at what read what the code does and where it
 fails. You can for example use a debugger to follow how a query is
 translated.
@@ -297,10 +310,12 @@ From your browser you can look at it like so:
 ## Development
 
 You don't need a development server to test and improve this software.
+
 - get all the code (clone or download this repository)
 - open the index.html in your web browser
 
 Alternatively, a node server for development and testing can be used:
+
 - `npm install` to get the development dependencies (there are and
   should be no production dependencies)
 - `npm start` to run the local server
@@ -335,10 +350,10 @@ bars. This project is also inspired by Chrome/Chromium's Omnibox TAB trigger, Fi
 custom search UX (keyword + space) and DuckDuckGo's !bangs action.
 
 Chrome/Chromium refers to it as the Omnibox. Omni, Latin prefix
-for "all" or "every", since we use it to *input everything*.
+for "all" or "every", since we use it to _input everything_.
 
 Self host your instances, customize your keywords, try out new
-semantics, organizations and logic. 
+semantics, organizations and logic.
 
 Hopefully it gives to control back to the user into what this URL bar
 con do, and where the inputs go.
