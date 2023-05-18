@@ -73,6 +73,55 @@ const i4kFindApp = class extends HTMLElement {
 	}
 	render() {
 		this.innerHTML = `
+			<section class="App-queries">
+				<details>
+					<summary>Example queries</summary>
+					<menu>
+						<li>
+							<i4k-find-query
+								q="!?"
+								title="Visit documentation"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="&mx #i4k-find:matrix.org"
+								title="Visit chat"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="!gh internet4000"
+								title="Visit github actor"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="&gh internet4000 find"
+								title="Visit github project"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="+wr"
+								title="Find random wikipedia article (for lorem ipsum)"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="#add ! ex https://example.org/?search={}"
+								title="Add example search engine"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="#del ! ex"
+								title="Del example search engine"
+								></i4k-find-query>
+						</li>
+					</menu>
+				</details>
+			</section>
 			<section class="App-header">
 				<i4k-find-logo></i4k-find-logo>
 				<i4k-find></i4k-find>
@@ -253,7 +302,6 @@ const i4kFindInfo = class extends HTMLElement {
 	render() {
 		this.innerHTML = "";
 		const userSymbols = Find.getUserSymbols();
-		this.renderDocs();
 		this.renderSymbols(Find.symbols, "default");
 		if (userSymbols) {
 			this.renderSymbols(userSymbols, "user");
@@ -334,17 +382,6 @@ const i4kFindInfo = class extends HTMLElement {
 		$detail.append($symbols);
 
 		this.append($detail);
-	}
-	renderDocs() {
-		/* a string with the intro and doc links */
-		const $documentation = document.createElement("i4k-find-info-docs");
-		$documentation.innerText = "Open bang actions, (";
-		const $documentationLink = document.createElement("a");
-		$documentationLink.href = this.repoUrl;
-		$documentationLink.innerText = "docs";
-		$documentation.append($documentationLink);
-		$documentation.append("), list of symbols and engines.");
-		this.append($documentation);
 	}
 };
 
@@ -458,7 +495,32 @@ When saved, prefill the hidden user/password input with your usual password mana
 	}
 };
 
+const i4kFindQuery = class extends HTMLElement {
+	connectedCallback() {
+		this.query = this.getAttribute("q");
+		this.render();
+	}
+
+	render() {
+		this.innerHTML = "";
+		this.renderButton();
+	}
+
+	renderButton() {
+		const $btn = document.createElement("button");
+		$btn.addEventListener("click", this.onClick.bind(this));
+		$btn.innerText = this.query;
+		this.append($btn);
+	}
+	onClick(event) {
+		if (this.query) {
+			Find.find(this.query);
+		}
+	}
+};
+
 customElements.define("i4k-find", i4kFind);
+customElements.define("i4k-find-query", i4kFindQuery);
 customElements.define("i4k-find-sync", i4kFindSync);
 customElements.define("i4k-find-info", i4kFindInfo);
 customElements.define("i4k-find-logo", i4kFindLogo);

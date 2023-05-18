@@ -69,10 +69,9 @@ body {
 
 i4k-find-app button {
 	padding: 0.7rem 0.8rem;
-	background-color: var(--c-bg--random);
+	/* background-color: var(--c-bg--random); */
 	color: var(--c-fg);
 	cursor: pointer;
-	background-clip: attachment;
 }
 i4k-find-app input {
 	padding: 0.8rem;
@@ -109,6 +108,19 @@ i4k-find-app li {
 	}
 }
 
+.App-queries {
+	padding: 0.5rem;
+}
+.App-queries menu {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	justify-content: center;
+	align-items: center;
+}
+.App-queries menu li {
+	margin: 0.5rem;
+}
 .App-header {
 	display: flex;
 	justify-content: center;
@@ -182,7 +194,6 @@ i4k-find form button {
 }
 
 i4k-find form button:active {
-	background-color: #7ce5ff;
 }
 
 i4k-find form input {
@@ -286,24 +297,24 @@ i4k-find-app[searched] {
 	/* opacity: 0; */
 }
 i4k-find-app[searched] i4k-find-info {
-	opacity: 0;
-	transform: scale(0);
+	/* opacity: 0; */
+	/* transform: scale(0); */
 }
 i4k-find-app[searched] i4k-find-logo {
-	opacity: 0;
-	transform: scale(2);
+	/* opacity: 0; */
+	/* transform: scale(2); */
 }
 i4k-find-app[searched] i4k-find {
-	opacity: 0;
+	/* opacity: 0; */
 }
 i4k-find-app[searched] i4k-find input {
-	font-size: 5vh;
-	background-color: transparent;
-	border-color: transparent;
-	outline: none;
+	/* font-size: 5vh; */
+	/* background-color: transparent; */
+	/* border-color: transparent; */
+	/* outline: none; */
 }
 i4k-find-app[searched] i4k-find button {
-	display: none;
+	/* display: none; */
 }
 
 i4k-find-app {
@@ -337,11 +348,6 @@ i4k-find-app i4k-find {
 }
 i4k-find-app i4k-find input {
 	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;
-}
-
-i4k-find button {
-	filter: invert(1);
-	mix-blend-mode: overlay;
 }
 i4k-find-app details[open] {
 	border: none;

@@ -229,9 +229,17 @@
 				requestEngineId = requestSymbolGroup.slice(1),
 				allSymbolGroups = [this.getUserSymbols(), this.symbols];
 
+			const returnData = {
+				requestTerms,
+				requestSymbolGroup,
+				requestSymbol,
+				requestEngineId,
+				result: null,
+			};
+
 			// if there is no symbol, the whole userRequest is the query
 			if (!requestSymbol) {
-				return this.buildResultUrl(userRequest);
+				returnData.result = this.buildResultUrl(userRequest);
 			}
 
 			// is the engine referenced in the	userSymbols or symbols
@@ -243,21 +251,26 @@
 			);
 
 			// if there are no selectedSymbols, we don't know the engine
-			if (!selectedSymbols) {
-				return this.buildResultUrl(userRequest);
+			if (!selectedSymbols && !returnData.result) {
+				returnData.result = this.buildResultUrl(userRequest);
 			}
 
-			// if we know the symbol and engine,
-			// the actual query is everything but the request's engine group (the first group)
-			var userRequestNoSymbol = requestTerms
-				.splice(1, requestTerms.length)
-				.join(" ");
-			return this.buildResultUrl(
-				userRequestNoSymbol,
-				selectedSymbols,
-				requestSymbol,
-				requestEngineId
-			);
+			if (!returnData.result) {
+				// if we know the symbol and engine,
+				// the actual query is everything but the request's engine group (the first group)
+				var userRequestNoSymbol = requestTerms
+					.splice(1, requestTerms.length)
+					.join(" ");
+
+				returnData.result = this.buildResultUrl(
+					userRequestNoSymbol,
+					selectedSymbols,
+					requestSymbol,
+					requestEngineId
+				);
+			}
+
+			return returnData;
 		},
 
 		// check whether URL starts with a scheme
@@ -280,8 +293,9 @@
 			if (!request) return false;
 			// all request need to succeed to opening a site on which to search
 			const decodedRequest = this.decodeUserRequest(request);
-			this.openUrl(decodedRequest);
-			return decodedRequest;
+			const { result } = decodedRequest;
+			this.openUrl(result);
+			return result;
 		},
 
 		init() {
@@ -303,13 +317,14 @@
 				);
 				/* else fallback to query param for legacy */
 				const url = new URL(window.location.href);
-				const queryParam = url.searchParams.get(this.queryParamName);
-				if (queryParam) {
+				const queryParamVal = url.searchParams.get(this.queryParamName);
+				if (queryParamVal) {
+					this.find(queryParamVal);
 				} else {
 					console.info(
 						"No search in the 'q' query parameter",
 						window.location.href,
-						query
+						queryParamVal
 					);
 				}
 			}
