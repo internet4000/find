@@ -73,6 +73,7 @@
 					mx: "https://matrix.to/#/{}",
 					netlify: "https://app.netlify.com/sites/{}/overview",
 					r4: "https://radio4000.com/{}",
+					ytid: "https://www.youtube.com/watch?v={}",
 				},
 			},
 			"#": {
