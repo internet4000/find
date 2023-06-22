@@ -45,7 +45,9 @@
 					w: "https://en.wikipedia.org/w/index.php?search={}",
 					wa: "http://www.wolframalpha.com/input/?i={}",
 					y: "https://www.youtube.com/results?search_query={}",
-					aurl: "https://web.archive.org/web/{}",
+					aurl: "https://web.archive.org/web/*/{}",
+					aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
+					aurlid: "https://web.archive.org/web/20210311213055id_/{}",
 				},
 			},
 			"+": {
