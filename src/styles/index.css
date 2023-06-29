@@ -38,7 +38,7 @@ html {
 		transform: translateX(0);
 	}
 	50% {
-		transform: translateX(10%);
+		transform: translateX(15%);
 	}
 	100% {
 		transform: translateX(0);
@@ -75,7 +75,7 @@ i4k-find-app button {
 }
 i4k-find-app input {
 	padding: 0.8rem;
-	width: 100%;
+	width: auto;
 }
 
 i4k-find-app li {
@@ -172,11 +172,11 @@ i4k-find-app li {
 }
 
 @media screen (min-width: 20rem) {
-	i4k-find form {
+	i4k-find-search form {
 		flex-direction: column;
 	}
 }
-i4k-find form {
+i4k-find-search form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -184,20 +184,20 @@ i4k-find form {
 	width: 100%;
 }
 @media screen and (min-width: 30rem) {
-	i4k-find form {
+	i4k-find-search form {
 		flex-wrap: nowrap;
 	}
 }
 
-i4k-find form button {
+i4k-find-search form button {
 	/* push it from input, and stay visually centered on mobile */
 	margin: 1rem;
 }
 
-i4k-find form button:active {
+i4k-find-search form button:active {
 }
 
-i4k-find form input {
+i4k-find-search form input {
 	-webkit-appearance: inherit;
 	font-size: 1.2rem;
 	min-width: 40vw;
@@ -209,13 +209,17 @@ i4k-find form input {
 	text-align: left;
 }
 
-i4k-find {
+i4k-find-search {
 	transform: scale(1);
 	transition: transform 200ms ease-in-out;
 }
 
 i4k-find-info button {
 	cursor: pointer;
+}
+i4k-find-info details {
+}
+i4k-find-info summary {
 }
 i4k-find-info-docs {
 	margin-bottom: 1rem;
@@ -305,10 +309,10 @@ i4k-find-app[searched] i4k-find-logo {
 	/* opacity: 0; */
 	/* transform: scale(2); */
 }
-i4k-find-app[searched] i4k-find {
+i4k-find-app[searched] i4k-find-search {
 	/* opacity: 0; */
 }
-i4k-find-app[searched] i4k-find input {
+i4k-find-app[searched] i4k-find-search input {
 	/* font-size: 5vh; */
 	/* background-color: transparent; */
 	/* border-color: transparent; */
@@ -342,20 +346,21 @@ p i4k-find-app i4k-find-logo svg {
 	transform: scale(1);
 	transition: transform 200ms ease-in-out;
 }
-i4k-find-app i4k-find {
+i4k-find-app i4k-find-search {
 	opacity: 1;
 	transform: scale(1);
 	transition: opacity 600ms ease-in-out, transform 400ms ease-in-out;
 }
-i4k-find-app i4k-find input {
+i4k-find-app i4k-find-search input {
 	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;
 }
 i4k-find-app details[open] {
 	border: none;
 	background-color: var(--c-bg--summary);
+	margin: var(--size);
 }
 i4k-find-app details[open] summary {
-	margin: 0rem 4rem;
+	margin: 0rem calc(var(--size) * 2);
 	font-weight: bold;
 }
 i4k-find-app summary {
@@ -376,13 +381,22 @@ i4k-find-sync {
 }
 i4k-find-sync form {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
+	flex-direction: column;
+	/* align-items: center; */
+	/* justify-content: center; */
 }
 i4k-find-sync form input {
 	flex-basis: 50%;
 	/* display: none; */
+}
+i4k-find-sync form fieldset {
+}
+i4k-find-sync pre {
+	white-space: pre-wrap;
+}
+i4k-find-sync textarea {
+	width: 100%;
+	min-height: calc(var(--size) * 3);
 }
 
 /* analytics */

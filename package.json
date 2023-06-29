@@ -1,19 +1,12 @@
 {
   "name": "i4k-find",
   "version": "1.2.0",
-  "description": "Action engine",
-  "main": "main.js",
-  "devDependencies": {
-    "cypress": "^6.6.0",
-    "serve": "^11.3.2",
-    "start-server-and-test": "^1.12.0"
-  },
+  "description": "URL action engine",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "serve -p 3030",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
-    "test": "start-server-and-test start http://localhost:3030 cy:run",
-    "test-watch": "start-server-and-test start http://localhost:3030 cy:open"
+    "dev": "serve -p 3000",
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -24,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/internet4000/find/issues"
   },
-  "homepage": "https://github.com/internet4000/find#readme"
+  "homepage": "https://github.com/internet4000/find#readme",
+  "devDependencies": {
+    "ava": "^5.3.1",
+    "serve": "^14.2.0"
+  },
+  "ava": {
+    "files": [
+      "src/tests/**/*"
+    ]
+  }
 }

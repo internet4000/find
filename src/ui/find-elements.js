@@ -1,3 +1,5 @@
+import Find from "../index.js";
+
 const i4kFindLogo = class extends HTMLElement {
 	r4Logo = `
 <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" version="1.1" viewBox="0 0 338.66666 338.66669">
@@ -39,29 +41,48 @@ const i4kFindApp = class extends HTMLElement {
 	connectedCallback() {
 		console.info("Find.help()");
 		this.render();
-		this.setupColor();
+		this._setupColor();
 
 		/* handle search (if it is a command) */
-		this.querySelector("i4k-find").addEventListener("findSearch", (event) => {
-			/* if no output to a search,
-				 it can only be because we have a "valid find command" (# fns)
-				 so we stay on the current page */
-			if (event.detail.output) {
-				this.setAttribute("searched", true);
-			} else {
-				this.removeAttribute("searched");
-			}
-
-			/* if we stay on the page after command, let's refresh the info */
-			this.querySelector("i4k-find-info").refresh();
-		});
+		this.querySelector("i4k-find-search").addEventListener(
+			"findSearch",
+			this._onFindSearch.bind(this)
+		);
 
 		/* if we "sync", also refresh the info */
-		this.querySelector("i4k-find-sync").addEventListener("submit", () => {
-			this.querySelector("i4k-find-info").refresh();
+		this.querySelector("i4k-find-sync").addEventListener(
+			"submit",
+			this._onFindSync.bind(this)
+		);
+
+		Array.from(this.querySelectorAll("i4k-find-query")).forEach(($button) => {
+			$button.addEventListener("findQuery", this._onFindQuery.bind(this));
 		});
 	}
-	setupColor() {
+	_onFindSearch(event) {
+		/* if no output to a search,
+			 it can only be because we have a "valid find command" (# fns)
+			 so we stay on the current page */
+		if (event.detail.output) {
+			this.setAttribute("searched", true);
+		} else {
+			this.removeAttribute("searched");
+		}
+
+		/* if we stay on the page after command, let's refresh the info */
+		this.querySelector("i4k-find-info").refresh();
+	}
+	_onFindSync() {
+		this.querySelector("i4k-find-info").refresh();
+	}
+	_onFindQuery(event) {
+		event.preventDefault();
+		const { detail } = event;
+		if (detail) {
+			this.querySelector("i4k-find-search").setAttribute("search", detail);
+		}
+	}
+	_setupColor() {
 		/* just for some color */
 		this.randomColor = `#${(0x1000000 + Math.random() * 0xffffff)
 			.toString(16)
@@ -80,43 +101,57 @@ const i4kFindApp = class extends HTMLElement {
 						<li>
 							<i4k-find-query
 								q="!?"
+								no-open="true"
 								title="Visit documentation"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="&mx #i4k-find:matrix.org"
+								no-open="true"
 								title="Visit chat"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="!gh internet4000"
+								no-open="true"
 								title="Visit github actor"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="&gh internet4000 find"
+								no-open="true"
 								title="Visit github project"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="+wr"
+								no-open="true"
 								title="Find random wikipedia article (for lorem ipsum)"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="#add ! ex https://example.org/?search={}"
+								no-open="true"
 								title="Add example search engine"
 								></i4k-find-query>
 						</li>
 						<li>
 							<i4k-find-query
 								q="#del ! ex"
+								no-open="true"
 								title="Del example search engine"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="!ex example search"
+								no-open="true"
+								title="Example search on the example search engine; there is a difference is results if you added or not the search engine the custom user engines"
 								></i4k-find-query>
 						</li>
 					</menu>
@@ -124,7 +159,7 @@ const i4kFindApp = class extends HTMLElement {
 			</section>
 			<section class="App-header">
 				<i4k-find-logo></i4k-find-logo>
-				<i4k-find></i4k-find>
+				<i4k-find-search></i4k-find-search>
 			</section>
 
 			<section class="App-body">
@@ -209,9 +244,18 @@ const i4kFindAnalytics = class extends HTMLElement {
 	}
 };
 
-const i4kFind = class extends HTMLElement {
+const i4kFindSearch = class extends HTMLElement {
+	static get observedAttributes() {
+		return ["search"];
+	}
+	get search() {
+		return this.getAttribute("search") || "";
+	}
+	attributeChangedCallback() {
+		this._render();
+	}
 	connectedCallback() {
-		this.render();
+		this._render();
 	}
 	findSearch = (query) => {
 		if (!query) return false;
@@ -224,32 +268,36 @@ const i4kFind = class extends HTMLElement {
 			},
 		});
 		this.dispatchEvent(event);
-		this.clearSearch();
+		this._clearSearch();
 	};
-	clearSearch() {
+	_clearSearch() {
 		this.querySelector("form input").value = "";
 	}
-	handleSubmit = (event) => {
+	_handleSubmit = (event) => {
 		this.findSearch(this.search);
 		// prevents form autotransition to `?search=<query>` not triggering `Find` `#q=`
 		return false;
 	};
-	handleInputChange = (input) => {
+	_handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
 	};
-	buildRandomPlaceholder() {}
-	render() {
+	_buildRandomPlaceholder() {}
+
+	_render() {
+		this.innerHTML = "";
 		const $form = document.createElement("form");
 		$form.title = "Try to write any search words, or the Find query, !m berlin";
-		$form.onsubmit = this.handleSubmit;
+		$form.onsubmit = this._handleSubmit;
 		$form.classList.add("Form");
 
+		console.log(this.search);
 		const $input = document.createElement("input");
 		$input.type = "search";
 		$input.name = "search";
+		$input.value = this.search;
 		$input.placeholder =
-			this.buildRandomPlaceholder() || "!docs usage-examples";
-		$input.oninput = this.handleInputChange;
+			this._buildRandomPlaceholder() || "!docs usage-examples";
+		$input.oninput = this._handleInputChange;
 		$input.required = true;
 
 		const $button = document.createElement("button");
@@ -397,11 +445,11 @@ const i4kFindSync = class extends HTMLElement {
 	}
 
 	renderHelp() {
-		const $text = document.createElement("p");
-		$text.innerText = `To synchronise the app data between devices,
-save, sync, and import it to your usual password manager
-create a new entry for this site, and save the data as  'password' field (see !docs #sync).
-When saved, prefill the hidden user/password input with your usual password manager.
+		const $text = document.createElement("pre");
+		$text.innerText = `To synchronise the app data between devices:
+- save, sync, and import it to your usual password manager
+- create a new entry for this site, and save the data as  'password' field (see !docs #sync).
+- when saved, prefill the hidden user/password input with your usual password manager.
 - the input[name="password"] is used for user defined data{engines}`;
 		this.append($text);
 	}
@@ -421,32 +469,30 @@ When saved, prefill the hidden user/password input with your usual password mana
 		$syncButton.type = "submit";
 		$syncButton.innerText = "import from credentials";
 
-		const $copyButton = document.createElement("button");
-		$copyButton.type = "button";
-		$copyButton.innerText = "export to clipboard";
-		$copyButton.addEventListener("click", this.onCopy.bind(this));
+		const $export = document.createElement("textarea");
+		$export.value = this.getDataToSync();
+		$export.setAttribute("readonly", true);
+		$export.setAttribute("title", "User data. Copy to export.");
+		$export.addEventListener("click", this.onCopy.bind(this));
 
-		$form.append($inputPassword);
-		$form.append($syncButton);
-		$form.append($copyButton);
+		const $importFieldset = document.createElement("fieldset");
+		const $exportFieldset = document.createElement("fieldset");
+		$importFieldset.append($inputPassword, $syncButton);
+		$exportFieldset.append($export);
+		$form.append($importFieldset, $exportFieldset);
 		this.append($form);
 	}
 
 	onCopy({ target }) {
 		const data = this.getDataToSync();
-		/* output data to be saved to the password manager "password" entry for this site */
-		console.table([
-			"Data to save to the user pasword mananger credentials for this site (as `password`):",
-			data,
-		]);
-		navigator.clipboard.writeText(data);
-		document.querySelector('input[type="password"]').value = data;
+		target.focus();
+		target.select();
 	}
 
 	onSubmit(event) {
 		event.preventDefault();
 		/* the data, is the one submitted by the user, to import in the app;
-		 from filling the input with the "credentials" (in our case, just app data) */
+			 from filling the input with the "credentials" (in our case, just app data) */
 		const formData = new FormData(event.target);
 		this.syncCredentials(formData);
 		this.syncLoginForm(formData);
@@ -495,33 +541,80 @@ When saved, prefill the hidden user/password input with your usual password mana
 };
 
 const i4kFindQuery = class extends HTMLElement {
+	static get observedAttributes() {
+		return ["no-open", "q", "query"];
+	}
+	get noOpen() {
+		return this.getAttribute("no-open") === "true";
+	}
+	get query() {
+		return this.getAttribute("q") || this.getAttribute("query");
+	}
+
+	attributeChangedCallback() {
+		this._render();
+	}
 	connectedCallback() {
-		this.query = this.getAttribute("q");
-		this.render();
+		this._render();
 	}
-
-	render() {
+	_render() {
 		this.innerHTML = "";
-		this.renderButton();
-	}
-
-	renderButton() {
-		const $btn = document.createElement("button");
-		$btn.addEventListener("click", this.onClick.bind(this));
-		$btn.innerText = this.query;
+		const $btn = this._createButton();
 		this.append($btn);
 	}
-	onClick(event) {
+
+	_createButton() {
+		const $btn = document.createElement("button");
+		$btn.addEventListener("click", this._onClick.bind(this));
+		$btn.innerText = this.query;
+		return $btn;
+	}
+
+	_onClick(event) {
 		if (this.query) {
-			Find.find(this.query);
+			const decodedRequest = Find.decodeUserRequest(this.query);
+			const { result } = decodedRequest;
+
+			const event = new CustomEvent("findQuery", {
+				bubbles: true,
+				detail: this.query,
+				cancelable: true,
+			});
+			this.dispatchEvent(event);
+
+			if (!this.noOpen) {
+				Find.openUrl(result);
+			}
 		}
 	}
 };
 
-customElements.define("i4k-find", i4kFind);
-customElements.define("i4k-find-query", i4kFindQuery);
-customElements.define("i4k-find-sync", i4kFindSync);
-customElements.define("i4k-find-info", i4kFindInfo);
-customElements.define("i4k-find-logo", i4kFindLogo);
-customElements.define("i4k-find-analytics", i4kFindAnalytics);
-customElements.define("i4k-find-app", i4kFindApp);
+const componentDefinitions = {
+	"i4k-find-search": i4kFindSearch,
+	"i4k-find-query": i4kFindQuery,
+	"i4k-find-sync": i4kFindSync,
+	"i4k-find-info": i4kFindInfo,
+	"i4k-find-logo": i4kFindLogo,
+	"i4k-find-analytics": i4kFindAnalytics,
+	"i4k-find-app": i4kFindApp,
+};
+
+export function defineComponents(components = []) {
+	if (components.length === 0) {
+		components = [...Object.keys(componentDefinitions)];
+	}
+	for (const [componentName, componentClass] of Object.entries(
+		componentDefinitions
+	)) {
+		if (
+			!customElements.get(componentName) &&
+			components.includes(componentName)
+		) {
+			customElements.define(componentName, componentClass);
+		}
+	}
+}
+
+defineComponents();
+
+export default componentDefinitions;

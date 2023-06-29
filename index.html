@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Find!</title>
+		<title>Find('?!')</title>
 		<meta charset="utf-8">
 
 		<meta name="viewport" content="width=device-width">
-		<meta name="description" content="Find exactly what you're looking for.">
+		<meta name="description" content="">
 
 		<link rel="apple-touch-icon" sizes="180x180" href="./public/favicons/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="./public/favicons/favicon-32x32.png">
@@ -17,15 +17,22 @@
 
 		<!-- define the open search so find is easily "discoverable" as a search engine
 				 `title` property should match `ShortName` key of the xml -->
-		<link rel="search" type="application/opensearchdescription+xml" href="./opensearch.xml" title="Find" />
+		<link rel="search" type="application/opensearchdescription+xml" href="./public/opensearch.xml" title="Find" />
 
-		<!-- read scripts first as it is more important that styles in our case -->
-		<script src="./main.js"></script>
-		<script async defer src="./find-elements.js"></script>
-		<link href="./styles.css" rel="stylesheet" type="text/css" />
+		<!-- the main Find! script. Loads and parse user query from URL, then redirects if any -->
+		<script type="module">
+			import Find from "./src/index.js"
+			// initialize the app (to get the user hash/search param as input to find)
+			Find.init();
+		</script>
+
+		<!-- if this loads, means user did not request a Find! search in URL, load style then UI js -->
+		<link href="./src/styles/index.css" rel="stylesheet" type="text/css" />
+		<script type="module" async defer src="./src/ui/find-elements.js"></script>
 	</head>
 
 	<body>
+		<!-- we send a cloudflare cookie beacon to number of page load for/and warn user to add an advert-blocker -->
 		<i4k-find-app class="App" cf-beacon="9852254f653c405f9aca2a672ec3ad6e"></i4k-find-app>
 	</body>
 </html>

@@ -1,10 +1,10 @@
 pages:
   script:
-  - mkdir .public
-  - cp -r * .public
-  - mv .public public
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - production
+    - production
