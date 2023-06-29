@@ -65,6 +65,9 @@
 					note: "https://note.internet4000.com/note?content={}",
 					wr: "https://en.wikipedia.org/wiki/Special:Random",
 					wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
+					rtc: "https://sctlib.gitlab.io/rtc/?matrix-peers={}&method={}",
+					rtcmx:
+						"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
 				},
 			},
 			"&": {
