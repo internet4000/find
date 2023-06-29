@@ -51,8 +51,7 @@ export default class I4kFindSearch extends HTMLElement {
 		$input.type = "search";
 		$input.name = "search";
 		$input.value = this.search;
-		$input.placeholder =
-			this._buildRandomPlaceholder() || "!docs usage-examples";
+		$input.placeholder = this._buildRandomPlaceholder() || "!docs usage";
 		$input.addEventListener("input", this._handleInputChange.bind(this));
 		$input.required = true;
 

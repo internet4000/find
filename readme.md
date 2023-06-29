@@ -35,7 +35,9 @@ advantage about the URI system as a user on the web.
 > functionalities directly from their URL, even though it is super
 > nice.
 
-## Usage example
+## Usage
+
+Here are example usage of "user queries":
 
 ```
 !osm tokyo
@@ -48,6 +50,8 @@ advantage about the URI system as a user on the web.
 +sheet
 +draw hello world
 ```
+
+> Type any of these in the find search input, or in your browser URL bar (when Find is one of your browser search engine).
 
 Write the queries above in a Find input to see the result.
 Read the rest of this document to epxlore more.
