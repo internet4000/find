@@ -280,7 +280,7 @@ const App = {
 		if (!this.checkUrl(url)) url = "//" + url;
 
 		/* when in browser */
-		if (typeof window.location === "function") {
+		if (isBrowser) {
 			window.location.replace(url);
 		} else if (isNode && process.env.BROWSER) {
 			// noop
