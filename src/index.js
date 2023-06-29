@@ -66,6 +66,7 @@ export const DEFAULT_SYMBOLS = {
 			mx: "https://matrix.to/#/{}",
 			netlify: "https://app.netlify.com/sites/{}/overview",
 			r4: "https://radio4000.com/{}",
+			r4c: "https://{}.4000.radio/{}",
 			ytid: "https://www.youtube.com/watch?v={}",
 		},
 	},
