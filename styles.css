@@ -75,6 +75,7 @@ i4k-find-app button {
 }
 i4k-find-app input {
 	padding: 0.8rem;
+	width: 100%;
 }
 
 i4k-find-app li {
