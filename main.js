@@ -26,6 +26,7 @@
 					"?": `${window.location.href}/#q=!docs%20{}`,
 					docs: "https://github.com/internet4000/find/#{}",
 					c: "https://contacts.google.com/search/{}",
+					cdn: "https://www.jsdelivr.com/?query={}",
 					ciu: "https://caniuse.com/#search={}",
 					d: "https://duckduckgo.com/?q={}",
 					dd: "https://devdocs.io/#q={}",
