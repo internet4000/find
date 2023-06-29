@@ -63,6 +63,7 @@ export const DEFAULT_SYMBOLS = {
 		engines: {
 			gh: "https://github.com/{}/{}",
 			gl: "https://gitlab.com/{}/{}",
+			i4kn: "https://{}.4000.network/{}",
 			firebase: "https://console.firebase.google.com/project/{}/overview",
 			mx: "https://matrix.to/#/{}",
 			netlify: "https://app.netlify.com/sites/{}/overview",
