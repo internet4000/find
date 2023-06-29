@@ -1,5 +1,7 @@
 /* if we are in node, polyfill what's missing to work */
-if (typeof window === "undefined") {
+const isBrowser = typeof window !== "undefined";
+const isNode = typeof process !== "undefined";
+if (!isBrowser && isNode) {
 	globalThis.window = {};
 	window.location = new URL("i4k-find://");
 }
@@ -280,7 +282,7 @@ const App = {
 		/* when in browser */
 		if (typeof window.location === "function") {
 			window.location.replace(url);
-		} else if (process && process.env.BROWSER) {
+		} else if (isNode && process.env.BROWSER) {
 			// noop
 		}
 		return url;
@@ -376,7 +378,7 @@ const App = {
 };
 
 /* handle node input if any */
-if (process && process.argv.length > 2) {
+if (!isBrowser && isNode && process.argv.length > 2) {
 	const userArg = process.argv.slice(2).join(" ");
 	App.find(userArg);
 }
