@@ -55,6 +55,7 @@ export const DEFAULT_SYMBOLS = {
 			rtc: "https://sctlib.gitlab.io/rtc/?matrix-peers={}&method={}",
 			rtcmx:
 				"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
+			space: "https://goog.space/#input={}",
 		},
 	},
 	"&": {
