@@ -20,12 +20,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    env:
-      I4K_FIND_URL: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: npm run opensearch public/opensearch.xml
+      - name: Generate opensearch.xml
+        run: npm run opensearch public/opensearch.xml
+        env:
+          I4K_FIND_URL: ${{ steps.deployment.outputs.page_url }}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
