@@ -8,7 +8,7 @@ const CONFIG_EXPORT = {
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
 	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
 	templateSuggestionsJSON:
-		"https://internet4000.github.io/find/public/suggestions.json",
+		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };
 
 const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
@@ -17,8 +17,8 @@ const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 	<Description>Find anything anywhere</Description>
 	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicon.ico</Image>
 	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="self" template="https://internet4000.github.io/find/public/opensearch.xml" />
-	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/public/suggestions.json" />
+	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/public/opensearch.xml" />
+	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" />
 </OpenSearchDescription>`;
 
 test("OpenSearchDescription is in Find with a config", (t) => {

@@ -37,6 +37,6 @@
     "image": "https://internet4000.github.io/find/public/favicon.ico",
     "templateHTML": "https://internet4000.github.io/find/#q={searchTerms}",
     "templateXML": "https://internet4000.github.io/find/public/opensearch.xml",
-    "templateSuggestionsJSON": "https://internet4000.github.io/find/public/opensearch.xml"
+    "templateSuggestionsJSON": "https://internet4000.github.io/find/api/suggestions/#q={searchTerms}"
   }
 }
