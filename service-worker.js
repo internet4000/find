@@ -32,15 +32,27 @@ const _createSuggestions = ({
 	symbolEngines,
 	symbolName,
 }) => {
+	/* filter for matching results */
 	const matchingEngines = self.allEngines.filter((engineData) => {
 		const [eSymbol, eId, eUrl, eSearch] = engineData;
 		return eSearch.includes(searchQuery);
 	});
-	console.log("matchingEngines", matchingEngines);
-	const suggestedEngines = matchingEngines.map((engineData) => {
-		const [eSymbol, eId, eUrl, eSearch] = engineData;
-		return [eSymbol, eId];
-	});
+	/* map the result to a same sized array,
+		 but open-search suggestion format */
+	const suggestedEngines = matchingEngines.reduce(
+		(acc, engineData) => {
+			const [eSymbol, eId, eUrl, eSearch] = engineData;
+			const term = `${eSymbol + eId}`;
+			const desc = `[${eSymbol}${self.symbols[eSymbol].name}::${eUrl}]`;
+			const newAcc = [
+				[...acc[0], term],
+				[...acc[1], desc],
+				[...acc[2], eUrl],
+			];
+			return newAcc;
+		},
+		[[], [], []]
+	);
 	return [searchQuery, suggestedEngines];
 };
 
@@ -72,7 +84,6 @@ const _mergeEngines = (allSymbols) => {
 };
 
 const _handleFetch = (event) => {
-	console.log("sw handle fetch", event.request.url);
 	const url = new URL(event.request.url);
 	if (url.pathname === "/api") {
 		return event.respondWith(_respondWithApiRoot(event.request));

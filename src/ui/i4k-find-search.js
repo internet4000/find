@@ -47,12 +47,13 @@ export default class I4kFindSearch extends HTMLElement {
 			let suggestions;
 			try {
 				const res = await fetch(suggestionUrl);
-				suggestions = await res.json();
+				if (res.status === 200) {
+					suggestions = await res.json();
+				}
 			} catch (e) {
 				console.info("Error fetching suggestions", e);
 			}
 			if (suggestions) {
-				console.log("i4k-search suggestions", suggestions);
 				this._renderSuggestions(suggestions);
 			}
 		}
@@ -86,12 +87,14 @@ export default class I4kFindSearch extends HTMLElement {
 		this.append($form);
 	}
 	_renderSuggestions([query = "", suggestions = []]) {
+		const [terms, descriptions, urls] = suggestions;
 		const $datalist = this.querySelector("datalist");
-		const $suggestions = suggestions.map((suggestion) => {
-			const [engineSymbol, engineId] = suggestion;
+		const $suggestions = [];
+		terms.map((term, termIndex) => {
 			const $suggestion = document.createElement("option");
-			$suggestion.value = engineSymbol + engineId;
-			return $suggestion;
+			$suggestion.value = term;
+			$suggestion.innerText = `${term} ${descriptions[termIndex]}`;
+			$suggestions.push($suggestion);
 		});
 		$datalist.innerHTML = "";
 		$datalist.append(...$suggestions);
