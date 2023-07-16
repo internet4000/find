@@ -4,34 +4,60 @@ import packageJson from "../../package.json" assert { type: "json" };
 import fs from "fs/promises";
 import path from "path";
 
+const OSD_PATH = "public/opensearch.xml";
 const pkgName = packageJson["name"];
 const config = packageJson[pkgName];
 
 const readUserPackageJson = async () => {
 	const packageJsonPath = path.join(process.cwd(), "package.json");
 	const data = await fs.readFile(packageJsonPath, "utf-8");
-	return JSON.parse(data);
+	let userData;
+	try {
+		userData = JSON.parse(data) || {};
+	} catch (e) {
+		console.info("Could not get user config", e);
+	}
+	return userData;
 };
 
-const newUserConfig = async () => {
+const newUserConfig = async (url) => {
 	const userPackageJson = await readUserPackageJson();
-	return userPackageJson[pkgName];
+	const userPkgConfig = userPackageJson[pkgName];
+	const userConfig = { ...userPkgConfig };
+	if (url) {
+		const { queryParamName } = userConfig;
+		if (!userConfig.osd) {
+			userConfig.osd = {};
+		}
+		if (!userConfig.osd.templateHTML) {
+			userConfig.osd.templateHTML = `${url}/#${queryParamName}={searchTerms}`;
+		}
+		if (!userConfig.osd.templateXML) {
+			userConfig.osd.templateXML = `${url}/${OSD_PATH}`;
+		}
+		if (!userConfig.osd.image) {
+			userConfig.osd.image = `${url}/public/favicon.ico`;
+		}
+	}
+	return userConfig;
 };
 
-const openSearchXml = async (outputPath = "opensearch.xml") => {
+const openSearchXml = async () => {
+	const { I4K_FIND_URL } = process.env;
 	let newConfig;
 	try {
-		newConfig = await newUserConfig();
+		newConfig = await newUserConfig(I4K_FIND_URL);
 	} catch (e) {
 		console.error(e);
 		newConfig = config;
 	}
 	const find = new I4kFind(newConfig);
 	const xmlOutput = find.osd.exportXML();
-	if (outputPath) {
+
+	if (OSD_PATH) {
 		try {
-			path.resolve(process.cwd(), outputPath);
-			const localPath = path.join(process.cwd(), outputPath);
+			const localPath = path.join(process.cwd(), OSD_PATH);
+			await path.resolve(localPath);
 			await fs.writeFile(localPath, xmlOutput);
 		} catch (e) {
 			console.error("Unable to write opensearch.xml", e);
@@ -39,6 +65,6 @@ const openSearchXml = async (outputPath = "opensearch.xml") => {
 	}
 };
 
-openSearchXml(process.argv[2]).catch((e) => console.error(e));
+openSearchXml().catch((e) => console.error(e));
 
 export default openSearchXml;

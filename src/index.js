@@ -133,7 +133,7 @@ export class OpenSearchDescription {
 	}
 	constructor(config) {
 		this.attributes.forEach((attr) => {
-			const isSet = Object.hasOwnProperty(attr);
+			const isSet = config.hasOwnProperty(attr);
 			const val = isSet ? config[attr] : DEFAULT_OSD[attr];
 			this[attr] = val;
 		});
