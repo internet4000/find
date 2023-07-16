@@ -502,6 +502,7 @@ if (isBrowser) {
 						JSON.stringify({
 							userSymbols: App.getUserSymbols(),
 							symbols: App.symbols,
+							pathname: window.location.pathname,
 						})
 					);
 				}

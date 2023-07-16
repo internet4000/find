@@ -5,6 +5,7 @@ self.symbols = {};
 self.userSymbols = {};
 self.allSymbols = {};
 self.allEngines = [];
+self.pathname = "/";
 
 /* mock find/osd until we can import it */
 const Find = {
@@ -85,9 +86,10 @@ const _mergeEngines = (allSymbols) => {
 
 const _handleFetch = (event) => {
 	const url = new URL(event.request.url);
-	if (url.pathname === "/api") {
+	const localApiUrl = self.pathname + "api";
+	if (url.pathname === localApiUrl) {
 		return event.respondWith(_respondWithApiRoot(event.request));
-	} else if (url.pathname.startsWith("/api/suggestions")) {
+	} else if (url.pathname.startsWith(localApiUrl + "/suggestions")) {
 		return event.respondWith(_respondWithSuggestions(event.request));
 	} else {
 		return self.fetch(event.request.url);
@@ -124,13 +126,14 @@ const _respondWithApiRoot = (request) => {
 };
 
 const _handleMessage = ({ data }) => {
-	const { symbols, userSymbols } = JSON.parse(data);
+	const { symbols, userSymbols, location } = JSON.parse(data);
 	/* assign the data on the worker self global object;
 		 so we can re-use these values in the suggestions */
 	self.symbols = symbols;
 	self.userSymbols = userSymbols;
 	self.allSymbols = _mergeSymbols(symbols, userSymbols);
 	self.allEngines = _mergeEngines(self.allSymbols);
+	self.pathname = pathname;
 };
 
 self.addEventListener("install", (event) => {
