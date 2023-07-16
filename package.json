@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "serve -p 3000",
-    "test": "ava"
+    "test": "ava",
+    "opensearch": "node ./src/scripts/opensearch-xml.js"
   },
   "repository": {
     "type": "git",
