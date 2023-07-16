@@ -8,16 +8,17 @@ To run a new find instance:
 
 ## npm
 
-Use the npm package [i4k-find](https://www.npmjs.com/package/i4k-find).
-
-Check the `./index.html` file for how to import the package and the GUI.
+1. Use the npm package [i4k-find](https://www.npmjs.com/package/i4k-find).
+1. Check the `./index.html` file for how to import the package and the GUI.
+1. customize the `public/opensearch.xml` file for the new instance URL and information
 
 ## github fork
 
 - fork this repository
 - enable "pages from actions" in the settings
+- customize the `I4K_FIND_URL` env var to `https://example.org/my-find`
 - run the "static.yml" workflow
-- visit
+- visit the fork's github page
 
 # About
 
@@ -57,6 +58,7 @@ Here are example usage of "user queries":
 &gh internet4000 find
 +sheet my new sheet
 +draw hello world
+... and more (all customizable)
 ```
 
 > Type any of these in the find search input, or in your browser URL bar (when Find is one of your browser search engine).
