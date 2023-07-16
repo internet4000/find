@@ -37,8 +37,26 @@ export default class I4kFindSearch extends HTMLElement {
 	};
 	_handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
+		this._handleSuggestions(input);
 	};
 	_buildRandomPlaceholder() {}
+
+	async _handleSuggestions({ target: { value, name } }) {
+		if (value) {
+			const suggestionUrl = `api/suggestions#q=${encodeURIComponent(value)}`;
+			let suggestions;
+			try {
+				const res = await fetch(suggestionUrl);
+				suggestions = await res.json();
+			} catch (e) {
+				console.info("Error fetching suggestions", e);
+			}
+			if (suggestions) {
+				console.log("i4k-search suggestions", suggestions);
+				this._renderSuggestions(suggestions);
+			}
+		}
+	}
 
 	_render() {
 		this.innerHTML = "";
@@ -54,14 +72,28 @@ export default class I4kFindSearch extends HTMLElement {
 		$input.placeholder = this._buildRandomPlaceholder() || "!docs usage";
 		$input.addEventListener("input", this._handleInputChange.bind(this));
 		$input.required = true;
+		$input.setAttribute("list", "suggestions");
+
+		const $inputData = document.createElement("datalist");
+		$inputData.id = "suggestions";
 
 		const $button = document.createElement("button");
 		$button.innerText = "Find";
 		$button.type = "submit";
 
-		$form.append($input);
-		$form.append($button);
+		$form.append($input, $inputData, $button);
 
 		this.append($form);
+	}
+	_renderSuggestions([query = "", suggestions = []]) {
+		const $datalist = this.querySelector("datalist");
+		const $suggestions = suggestions.map((suggestion) => {
+			const [engineSymbol, engineId] = suggestion;
+			const $suggestion = document.createElement("option");
+			$suggestion.value = engineSymbol + engineId;
+			return $suggestion;
+		});
+		$datalist.innerHTML = "";
+		$datalist.append(...$suggestions);
 	}
 }

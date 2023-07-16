@@ -1,7 +1,7 @@
 /* if we are in node, polyfill what's missing to work */
 const isBrowser = typeof window !== "undefined";
 const isNode = typeof process !== "undefined";
-if (!isBrowser && isNode) {
+if (typeof window === "undefined") {
 	globalThis.window = {};
 	window.location = new URL("i4k-find://");
 }
@@ -141,7 +141,7 @@ export class OpenSearchDescription {
 	<Description>${config.description}</Description>
 	<Image height="64" width="64" type="image/png">${config.image}</Image>
 	<Url type="text/html" template="${config.templateHTML}" />
-	<Url type="application/opensearchdescription+xml" rel="self" template="${config.templateXML}" />
+	<Url type="application/opensearchdescription+xml" rel="search" template="${config.templateXML}" />
 	<Url type="application/x-suggestions+json" template="${config.templateSuggestionsJSON}" />
 </OpenSearchDescription>`;
 	}
@@ -158,6 +158,10 @@ export class OpenSearchDescription {
 		} else if (isNode()) {
 			process.stdout.write(type === "json" ? this.toJSON() : this.toXML());
 		}
+	}
+
+	createSuggestions(query = "", suggestions = []) {
+		return [query, suggestions];
 	}
 }
 
@@ -442,6 +446,11 @@ export class I4kFind {
 		});
 		return symbols;
 	}
+	suggestSymbols(query) {
+		/* const userRequest = this.decodeUserRequest(query); */
+		const suggestions = [1, 2, 3, 4];
+		return this.osd.createSuggestions(query, suggestions);
+	}
 
 	help() {
 		// write user documentation
@@ -461,7 +470,7 @@ export const DEFAULT_OSD = {
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
 	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
 	templateSuggestionsJSON:
-		"https://internet4000.github.io/find/public/suggestions.json",
+		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };
 
 const App = new I4kFind();
@@ -470,6 +479,37 @@ const App = new I4kFind();
 if (!isBrowser && isNode && process.argv.length > 2) {
 	const userArg = process.argv.slice(2).join(" ");
 	App.find(userArg);
+}
+
+/* let's register a service worker,
+	 to try work with the open-search suggestions api, on client side only */
+if (isBrowser) {
+	if ("serviceWorker" in navigator) {
+		window.addEventListener("load", async () => {
+			try {
+				const moduleUrlPaths = import.meta.url.split("/");
+				const moduleUrl = moduleUrlPaths
+					.slice(0, moduleUrlPaths.length - 2)
+					.join("/");
+				/* we locate the file at the root of the project,
+					 to have a "large scope for catching fetch requests" */
+				const sw = await navigator.serviceWorker.register(
+					`${moduleUrl}/service-worker.js`
+				);
+				if (sw.active) {
+					/* we can't pass the entire app */
+					sw.active.postMessage(
+						JSON.stringify({
+							userSymbols: App.getUserSymbols(),
+							symbols: App.symbols,
+						})
+					);
+				}
+			} catch (e) {
+				console.info("Could not register service worker", e);
+			}
+		});
+	}
 }
 
 export default App;

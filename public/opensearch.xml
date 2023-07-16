@@ -2,18 +2,8 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
-	<Tags>find now productivity search</Tags>
-	<Contact>https://github.com/internet4000</Contact>
-	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="self" template="https://internet4000.github.io/find/public/opensearch.xml" />
-	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicons/favicon-32x32.png</Image>
-	<LongName>Customize the browser omnibox URL bar with custom search engines and actions</LongName>
-	<Query role="example" searchTerms="!gh internet4000" />
-	<Developer>i4k</Developer>
-	<Attribution>gpl-v3</Attribution>
-	<SyndicationRight>open</SyndicationRight>
-	<AdultContent>false</AdultContent>
-	<Language>en-us</Language>
-	<OutputEncoding>UTF-8</OutputEncoding>
-	<InputEncoding>UTF-8</InputEncoding>
+	<Image height="64" width="64" type="image/png">http://localhost:3000/public/favicons/favicon-32x32.png</Image>
+	<Url type="text/html" template="http://localhost:3000/#q={searchTerms}" />
+	<Url type="application/opensearchdescription+xml" rel="search" template="http://localhost:3000/public/opensearch.xml" />
+	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" />
 </OpenSearchDescription>
