@@ -266,3 +266,18 @@ hosting.
 ## Testing
 
 - `npm run test` runs tests once
+
+## Firefox notes
+
+In firefox omnibar, we can use the prefixes:
+
+```text
+*  to search for matches in bookmarks
+%  to search for matches in currently open tabs
+^  to search for matches in browsing history
+>  to seach for firefox actions
++  to search for matches in tagged pages
+#  to search for matches in page titles
+$  to search for matches in web addresses (URLs)
+?  to search for matches in suggestions
+```
