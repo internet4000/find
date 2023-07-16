@@ -126,7 +126,7 @@ const _respondWithApiRoot = (request) => {
 };
 
 const _handleMessage = ({ data }) => {
-	const { symbols, userSymbols, location } = JSON.parse(data);
+	const { symbols, userSymbols, pathname } = JSON.parse(data);
 	/* assign the data on the worker self global object;
 		 so we can re-use these values in the suggestions */
 	self.symbols = symbols;
