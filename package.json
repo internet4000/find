@@ -32,23 +32,11 @@
     "localStorageKey": "i4find",
     "queryParamName": "q",
     "documentationUrl": "https://github.com/internet4000/find",
-    "osd": {
-      "shortName": "Find",
-      "description": "Find anything anywhere",
-      "tags": "find now productivity search",
-      "contact": "https://github.com/internet4000",
-      "templateHTML": "https://internet4000.github.io/find/#q={searchTerms}",
-      "templateXML": "https://internet4000.github.io/find/public/opensearch.xml",
-      "image": "https://internet4000.github.io/find/public/favicons/favicon-32x32.png",
-      "longName": "Customize the browser omnibox URL bar with custom search engines and actions",
-      "exampleSearchTerms": "!gh internet4000",
-      "developer": "i4k",
-      "attribution": "gpl-v3",
-      "syndicationRight": "open",
-      "adultContent": "false",
-      "language": "en-us",
-      "outputEncoding": "UTF-8",
-      "inputEncoding": "UTF-8"
-    }
+    "shortName": "Find",
+    "description": "Find anything anywhere",
+    "image": "https://internet4000.github.io/find/public/favicon.ico",
+    "templateHTML": "https://internet4000.github.io/find/#q={searchTerms}",
+    "templateXML": "https://internet4000.github.io/find/public/opensearch.xml",
+    "templateSuggestionsJSON": "https://internet4000.github.io/find/public/opensearch.xml"
   }
 }

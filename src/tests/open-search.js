@@ -4,42 +4,21 @@ import Find, { OpenSearchDescription } from "../../src/index.js";
 const CONFIG_EXPORT = {
 	shortName: "Find",
 	description: "Find anything anywhere",
-	tags: "find now productivity search",
-	contact: "internet4000.com",
+	image: "https://internet4000.github.io/find/public/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
-	templateXML: "https://internet4000.github.io/find/opensearch.xml",
-	image:
-		"https://internet4000.github.io/find/public/favicons/favicon-32x32.png",
-	longName:
-		"Customize the browser omnibox URL bar with custom search engines and actions",
-	exampleSearchTerms: "test",
-	developer: "Internet4000",
-	attribution: "public domain",
-	syndicationRight: "open",
-	adultContent: "false",
-	language: "en-us",
-	outputEncoding: "UTF-8",
-	inputEncoding: "UTF-8",
+	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
+	templateSuggestionsJSON:
+		"https://internet4000.github.io/find/public/suggestions.json",
 };
 
 const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
-	<Tags>find now productivity search</Tags>
-	<Contact>internet4000.com</Contact>
+	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicon.ico</Image>
 	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="self" template="https://internet4000.github.io/find/opensearch.xml" />
-	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicons/favicon-32x32.png</Image>
-	<LongName>Customize the browser omnibox URL bar with custom search engines and actions</LongName>
-	<Query role="example" searchTerms="test" />
-	<Developer>Internet4000</Developer>
-	<Attribution>public domain</Attribution>
-	<SyndicationRight>open</SyndicationRight>
-	<AdultContent>false</AdultContent>
-	<Language>en-us</Language>
-	<OutputEncoding>UTF-8</OutputEncoding>
-	<InputEncoding>UTF-8</InputEncoding>
+	<Url type="application/opensearchdescription+xml" rel="self" template="https://internet4000.github.io/find/public/opensearch.xml" />
+	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/public/suggestions.json" />
 </OpenSearchDescription>`;
 
 test("OpenSearchDescription is in Find with a config", (t) => {

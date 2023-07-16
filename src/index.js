@@ -109,20 +109,10 @@ export class OpenSearchDescription {
 		return [
 			"shortName",
 			"description",
-			"tags",
-			"contact",
 			"templateHTML",
 			"templateXML",
+			"templateSuggestionsJSON",
 			"image",
-			"longName",
-			"exampleSearchTerms",
-			"developer",
-			"attribution",
-			"syndicationRight",
-			"adultContent",
-			"language",
-			"outputEncoding",
-			"inputEncoding",
 		];
 	}
 	get config() {
@@ -149,20 +139,10 @@ export class OpenSearchDescription {
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 	<ShortName>${config.shortName}</ShortName>
 	<Description>${config.description}</Description>
-	<Tags>${config.tags}</Tags>
-	<Contact>${config.contact}</Contact>
+	<Image height="64" width="64" type="image/png">${config.image}</Image>
 	<Url type="text/html" template="${config.templateHTML}" />
 	<Url type="application/opensearchdescription+xml" rel="self" template="${config.templateXML}" />
-	<Image height="64" width="64" type="image/png">${config.image}</Image>
-	<LongName>${config.longName}</LongName>
-	<Query role="example" searchTerms="${config.exampleSearchTerms}" />
-	<Developer>${config.developer}</Developer>
-	<Attribution>${config.attribution}</Attribution>
-	<SyndicationRight>${config.syndicationRight}</SyndicationRight>
-	<AdultContent>${config.adultContent}</AdultContent>
-	<Language>${config.language}</Language>
-	<OutputEncoding>${config.outputEncoding}</OutputEncoding>
-	<InputEncoding>${config.inputEncoding}</InputEncoding>
+	<Url type="application/x-suggestions+json" template="${config.templateSuggestionsJSON}" />
 </OpenSearchDescription>`;
 	}
 
@@ -477,22 +457,11 @@ export class I4kFind {
 export const DEFAULT_OSD = {
 	shortName: "Find",
 	description: "Find anything anywhere",
-	tags: "find now productivity search",
-	contact: "internet4000.com",
+	image: "https://internet4000.github.io/find/public/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
-	templateXML: "https://internet4000.github.io/find/opensearch.xml",
-	image:
-		"https://internet4000.github.io/find/public/favicons/favicon-32x32.png",
-	longName:
-		"Customize the browser omnibox URL bar with custom search engines and actions",
-	exampleSearchTerms: "test",
-	developer: "Internet4000",
-	attribution: "public domain",
-	syndicationRight: "open",
-	adultContent: "false",
-	language: "en-us",
-	outputEncoding: "UTF-8",
-	inputEncoding: "UTF-8",
+	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
+	templateSuggestionsJSON:
+		"https://internet4000.github.io/find/public/suggestions.json",
 };
 
 const App = new I4kFind();
