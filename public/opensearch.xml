@@ -4,21 +4,13 @@
 	<Description>Find anything anywhere</Description>
 	<Tags>find now productivity search</Tags>
 	<Contact>internet4000.com</Contact>
-	<Url type="text/html"
-			 template="https://internet4000.github.io/find/#q={searchTerms}"/>
-	<Url type="application/opensearchdescription+xml"
-			 rel="self"
-			 template="https://internet4000.github.io/find/opensearch.xml" />
+	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" />
+	<Url type="application/opensearchdescription+xml" rel="self" template="https://internet4000.github.io/find/opensearch.xml" />
 	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicons/favicon-32x32.png</Image>
-	<LongName>
-		When you're looking for something, and you know where to find it,
-		don't lose a second, let's go! Find!
-	</LongName>
+	<LongName>Customize the browser omnibox URL bar with custom search engines and actions</LongName>
 	<Query role="example" searchTerms="test" />
 	<Developer>Internet4000</Developer>
-	<Attribution>
-		public domain
-	</Attribution>
+	<Attribution>public domain</Attribution>
 	<SyndicationRight>open</SyndicationRight>
 	<AdultContent>false</AdultContent>
 	<Language>en-us</Language>

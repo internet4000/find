@@ -52,6 +52,7 @@ export const DEFAULT_SYMBOLS = {
 			r4pr: "https://radio4000.com/{}/play/random",
 			sheet: "https://docs.google.com/spreadsheets/create?title={}",
 			gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
+			gpt: "https://chat.openai.com/?model=gpt-4",
 			note: "https://note.internet4000.com/note?content={}",
 			wr: "https://en.wikipedia.org/wiki/Special:Random",
 			wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
@@ -102,11 +103,100 @@ export const DEFAULT_SYMBOLS = {
 	},
 };
 
-const App = {
-	localStorageKey: "i4find",
-	queryParamName: "q",
-	documentationUrl: "https://github.com/internet4000/find",
-	symbols: DEFAULT_SYMBOLS,
+/* generate the OSD needed to register as a browser search engine */
+export class OpenSearchDescription {
+	get attributes() {
+		return [
+			"shortName",
+			"description",
+			"tags",
+			"contact",
+			"templateHTML",
+			"templateXML",
+			"image",
+			"longName",
+			"exampleSearchTerms",
+			"developer",
+			"attribution",
+			"syndicationRight",
+			"adultContent",
+			"language",
+			"outputEncoding",
+			"inputEncoding",
+		];
+	}
+	get config() {
+		return this.attributes.reduce((acc, val) => {
+			acc[val] = this[val];
+			return acc;
+		}, {});
+	}
+	constructor(config) {
+		this.attributes.forEach((attr) => {
+			const isSet = Object.hasOwnProperty(attr);
+			const val = isSet ? config[attr] : DEFAULT_OSD[attr];
+			this[attr] = val;
+		});
+	}
+
+	exportJSON() {
+		return JSON.stringify({ ...this.config }, null, 2);
+	}
+
+	exportXML() {
+		const config = { ...this.config };
+		return `<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<ShortName>${config.shortName}</ShortName>
+	<Description>${config.description}</Description>
+	<Tags>${config.tags}</Tags>
+	<Contact>${config.contact}</Contact>
+	<Url type="text/html" template="${config.templateHTML}" />
+	<Url type="application/opensearchdescription+xml" rel="self" template="${config.templateXML}" />
+	<Image height="64" width="64" type="image/png">${config.image}</Image>
+	<LongName>${config.longName}</LongName>
+	<Query role="example" searchTerms="${config.exampleSearchTerms}" />
+	<Developer>${config.developer}</Developer>
+	<Attribution>${config.attribution}</Attribution>
+	<SyndicationRight>${config.syndicationRight}</SyndicationRight>
+	<AdultContent>${config.adultContent}</AdultContent>
+	<Language>${config.language}</Language>
+	<OutputEncoding>${config.outputEncoding}</OutputEncoding>
+	<InputEncoding>${config.inputEncoding}</InputEncoding>
+</OpenSearchDescription>`;
+	}
+
+	download(filename, type) {
+		if (isBrowser()) {
+			const data = type === "json" ? this.toJSON() : this.toXML();
+			const blob = new Blob([data], { type: "application/octet-stream" });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement("a");
+			link.download = filename;
+			link.href = url;
+			link.click();
+		} else if (isNode()) {
+			process.stdout.write(type === "json" ? this.toJSON() : this.toXML());
+		}
+	}
+}
+
+/* the logic for search engines and actions */
+export class I4kFind {
+	constructor({
+		symbols,
+		queryParamName,
+		documentationUrl,
+		localStorageKey,
+		osd,
+	} = {}) {
+		this.localStorageKey = localStorageKey || "i4find";
+		this.queryParamName = queryParamName || "q";
+		this.documentationUrl =
+			documentationUrl || "https://github.com/internet4000/find";
+		this.symbols = symbols || DEFAULT_SYMBOLS;
+		this.osd = new OpenSearchDescription(osd || DEFAULT_OSD);
+	}
 
 	// add a new user engine
 	// to the list of user defined engines in user symbols
@@ -117,7 +207,7 @@ const App = {
 		} else {
 			console.error("symbol", symbol, "does not exist in", symbols);
 		}
-	},
+	}
 
 	// add a new user engine
 	// to the list of user defined engines in user symbols
@@ -127,7 +217,7 @@ const App = {
 			delete symbols[symbol].engines[engineId];
 			this.setUserSymbols(symbols);
 		}
-	},
+	}
 
 	// replaces the placeholder `{}` in a url, with the query, if any
 	// otherwise just returns the url
@@ -157,7 +247,7 @@ const App = {
 		});
 
 		return url;
-	},
+	}
 
 	// To get an engine url from its engine id,
 	// also pass a list of symbols and a symbol
@@ -165,7 +255,7 @@ const App = {
 		const symbolEngines = symbols[symbol];
 		const engineUrl = symbolEngines.engines[engineId];
 		return engineUrl;
-	},
+	}
 
 	// returns a result url string to open
 	// default to "search for help if only a symbol"
@@ -184,7 +274,7 @@ const App = {
 		}
 		const engineUrl = this.getEngineUrl(symbols, symbol, engineId);
 		return this.replaceUrlPlaceholders(engineUrl, userQuery);
-	},
+	}
 
 	// is there a symbol in this symbol group? `!ex` return `!` !
 	checkForSymbol(symbolGroup) {
@@ -192,7 +282,7 @@ const App = {
 			symbol = symbolGroup.charAt(0);
 
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
-	},
+	}
 
 	// is an engine available in a array of symbolGroups
 	getSymbolsForEngine(symbolGroups, symbol, engineId) {
@@ -212,7 +302,7 @@ const App = {
 		});
 		if (!filteredGroups.length) return false;
 		return filteredGroups[0];
-	},
+	}
 
 	// param:
 	// - userQuery: string `!m new york city`
@@ -271,12 +361,12 @@ const App = {
 		}
 
 		return returnData;
-	},
+	}
 
 	// check whether URL starts with a scheme
 	checkUrl(url) {
 		return url.startsWith("//") || url.includes("://");
-	},
+	}
 
 	openUrl(url) {
 		// replace history state
@@ -292,7 +382,7 @@ const App = {
 			// noop
 		}
 		return url;
-	},
+	}
 
 	// takes a string, request query of a user, decode the request
 	// and open the "correct destination site" with the user requested query
@@ -305,7 +395,7 @@ const App = {
 			this.openUrl(result);
 		}
 		return result;
-	},
+	}
 
 	init() {
 		/* do-not extract user query/search from window url query param,
@@ -330,7 +420,7 @@ const App = {
 			}
 		}
 		return result;
-	},
+	}
 
 	// get the user symbols from local storage
 	// or returns an empty new set of symbols
@@ -349,7 +439,7 @@ const App = {
 		}
 
 		return JSON.parse(JSON.stringify(storageSymbols));
-	},
+	}
 
 	// saves a new set of user symbols to local storage
 	setUserSymbols(newSymbols) {
@@ -357,7 +447,7 @@ const App = {
 		const newSymbolsString = JSON.stringify(newSymbols);
 		localStorage.setItem(this.localStorageKey, newSymbolsString);
 		// cannot send event from here; we might be in browser/node
-	},
+	}
 
 	// generates new userSymbols from copying original symbols
 	// to be used with Find default symbols (Find.symbols)
@@ -371,7 +461,7 @@ const App = {
 			}
 		});
 		return symbols;
-	},
+	}
 
 	help() {
 		// write user documentation
@@ -380,8 +470,32 @@ const App = {
 		console.info("- Usage: Find.getUserSymbols()");
 		console.info("- Usage:", "#add ! ex https://example.org/?search={}");
 		console.info("— Explore the window.Find object");
-	},
+	}
+}
+
+/* find's default OSD */
+export const DEFAULT_OSD = {
+	shortName: "Find",
+	description: "Find anything anywhere",
+	tags: "find now productivity search",
+	contact: "internet4000.com",
+	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
+	templateXML: "https://internet4000.github.io/find/opensearch.xml",
+	image:
+		"https://internet4000.github.io/find/public/favicons/favicon-32x32.png",
+	longName:
+		"Customize the browser omnibox URL bar with custom search engines and actions",
+	exampleSearchTerms: "test",
+	developer: "Internet4000",
+	attribution: "public domain",
+	syndicationRight: "open",
+	adultContent: "false",
+	language: "en-us",
+	outputEncoding: "UTF-8",
+	inputEncoding: "UTF-8",
 };
+
+const App = new I4kFind();
 
 /* handle node input if any */
 if (!isBrowser && isNode && process.argv.length > 2) {
