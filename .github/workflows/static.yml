@@ -31,13 +31,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - run: npm run opensearch public/opensearch.xml
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: '.'
+          path: "."
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2

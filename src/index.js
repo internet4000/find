@@ -195,7 +195,7 @@ export class I4kFind {
 		this.documentationUrl =
 			documentationUrl || "https://github.com/internet4000/find";
 		this.symbols = symbols || DEFAULT_SYMBOLS;
-		this.osd = osd || new OpenSearchDescription(DEFAULT_OSD);
+		this.osd = new OpenSearchDescription(osd || DEFAULT_OSD);
 	}
 
 	// add a new user engine
