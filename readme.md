@@ -25,7 +25,7 @@ To run a new find instance:
 The URL bar of web-browsers is used to write text, websites adresses and search
 queries. Find is a tool that offers a user the possibility to customize the
 functionalities of any web-browser's browser URL bar
-([omnibox][https://en.wiktionary.org/wiki/omnibox]).
+([omnibox](https://en.wiktionary.org/wiki/omnibox)).
 
 It is similar to [DuckDuckGo bangs](https://duckduckgo.com/bangs), but runs only
 in the user browser (only javascript client side code) and can be customized
