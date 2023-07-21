@@ -12,17 +12,23 @@ html {
 :root {
 	--c-fg: black;
 	--c-fg--info: black;
-	/* --c-bg: azure; */
+	--c-bg: transparent;
 	--c-bg--summary: whitesmoke;
 	--c-bg--contrast: cyan;
-	--c-bg--tonique: fuchsia;
+	--c-bg--tonique: magenta;
 	--c-bg--warning: white;
 	--c-bg--random: inherit; /* set by js */
 	--c-border: lightgray;
+	--c-button: lightgray;
+	--c-symbol: var(--c-bg);
+	--c-symbol--search: cyan;
+	--c-symbol--build: yellow;
+	--c-symbol--do: magenta;
+	--c-symbol--command: orange;
 	--size-font: 17px;
 	--size: 1.5rem;
+	--size-border: 0.2rem;
 	--size-container: 40rem;
-
 	--font-family: monospace;
 }
 
@@ -101,15 +107,23 @@ html {
 
 body {
 	margin: 0;
-	/* background-color: var(--c-bg--random); */
+	background-color: var(--c-bg);
 }
 
+i4k-find-app input,
+i4k-find-app textarea,
+i4k-find-app button,
+i4k-find-app [contenteditable] {
+	border-color: var(--c-border);
+	border-size: var(--size-border);
+}
 i4k-find-app button {
 	padding: 0.7rem 0.8rem;
-	/* background-color: var(--c-bg--random); */
 	color: var(--c-fg);
+	border-color: var(--c-button);
 	cursor: pointer;
 	border-radius: 0.2rem;
+	border-color: ;
 }
 i4k-find-app input,
 i4k-find-app textarea {
@@ -168,7 +182,7 @@ i4k-find-app li {
 .App-queries menu li {
 	margin: 0.5rem;
 }
-/* search queries */
+/* search queries in the app's list, for intro text */
 .App-queries menu li:first-child i4k-find-query::before {
 	content: "⇢ Find";
 	margin-right: calc(var(--size) / 3);
@@ -291,15 +305,34 @@ i4k-symbols-list {
 	margin-bottom: 1rem;
 	padding: 1rem;
 }
+i4k-symbols-list article[symbol="!"] {
+	--c-symbol: var(--c-symbol--search);
+}
+i4k-symbols-list article[symbol="+"] {
+	--c-symbol: var(--c-symbol--do);
+}
+i4k-symbols-list article[symbol="&"] {
+	--c-symbol: var(--c-symbol--build);
+}
+i4k-symbols-list article[symbol="#"] {
+	--c-symbol: var(--c-symbol--command);
+}
 
 i4k-symbols-list header {
-	background-color: var(--c-bg--tonique);
+	border: 0.1rem solid var(--c-border);
+	background-color: var(--c-symbol);
+	border-radius: 0.2rem;
 	padding: 0.3rem 1rem;
 	font-size: 1.7rem;
 	width: auto;
 	display: inline-flex;
 	position: sticky;
 	top: 0;
+	margin: calc(var(--size) / 3);
+
+	/* visual vertical center tricks */
+	line-height: 1;
+	padding-top: 1rem;
 }
 i4k-symbols-list ul {
 	margin-top: 0.5rem;
@@ -429,6 +462,19 @@ i4k-find-app i4k-find-search {
 }
 i4k-find-app i4k-find-search input {
 	transition: background-color 200ms ease-in-out, font-size 400ms ease-in-out;
+	border-color: var(--c-symbol);
+}
+i4k-find-app i4k-find-search input[value^="!"] {
+	--c-symbol: var(--c-symbol--search);
+}
+i4k-find-app i4k-find-search input[value^="+"] {
+	--c-symbol: var(--c-symbol--do);
+}
+i4k-find-app i4k-find-search input[value^="&"] {
+	--c-symbol: var(--c-symbol--build);
+}
+i4k-find-app i4k-find-search input[value^="#"] {
+	--c-symbol: var(--c-symbol--command);
 }
 i4k-find-app details[open] {
 	border: none;
@@ -477,6 +523,36 @@ i4k-find-sync textarea {
 	flex-grow: 1;
 	min-height: calc(var(--size) * 3);
 	resize: vertical;
+}
+
+/* find query component */
+i4k-find-query[q^="!"] button::first-letter,
+i4k-find-query[q^="&"] button::first-letter,
+i4k-find-query[q^="+"] button::first-letter,
+i4k-find-query[q^="#"] button::first-letter {
+	/* not matching correcly "&" and "!" and "#"; "+" is matched */
+	text-decoration: underline;
+	text-underline-position: under;
+	text-underline-offset: 2px;
+	text-underline-color: var(--c-symbol);
+}
+i4k-find-query[q^="!"] button,
+i4k-find-query[q^="&"] button,
+i4k-find-query[q^="+"] button,
+i4k-find-query[q^="#"] button {
+	border-color: var(--c-symbol);
+}
+i4k-find-query[q^="!"] {
+	--c-symbol: var(--c-symbol--search);
+}
+i4k-find-query[q^="+"] {
+	--c-symbol: var(--c-symbol--do);
+}
+i4k-find-query[q^="&"] {
+	--c-symbol: var(--c-symbol--build);
+}
+i4k-find-query[q^="#"] {
+	--c-symbol: var(--c-symbol--command);
 }
 
 /* analytics */

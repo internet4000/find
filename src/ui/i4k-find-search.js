@@ -10,10 +10,10 @@ export default class I4kFindSearch extends HTMLElement {
 	set search(str) {
 		this.setAttribute("search", str);
 	}
-	/* Input regex to validate a Find search query (symbols)
+	/* input regex to validate a Find search query (symbols)
 		 See: https://regexr.com/7hdlc */
 	get pattern() {
-		return "([\!|\#|\+|\#]())?"
+		return "([\!|\#|\+|\#])?"
 	}
 	connectedCallback() {
 		this._render();
@@ -75,9 +75,9 @@ export default class I4kFindSearch extends HTMLElement {
 		$input.type = "search";
 		$input.name = "search";
 		$input.value = this.search;
+		$input.required = true;
 		$input.pattern = this.pattern
 		$input.placeholder = this._buildRandomPlaceholder() || "!docs usage";
-		$input.setAttribute('required', true)
 		$input.setAttribute('title', 'Input a Find search query (any search)');
 		$input.addEventListener("input", this._handleInputChange.bind(this));
 		$input.setAttribute("list", "suggestions");

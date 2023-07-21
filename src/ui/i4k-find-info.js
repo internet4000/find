@@ -53,6 +53,7 @@ export default class I4kFindInfo extends HTMLElement {
 			const { name: symbolName, engines, fns } = symbolData;
 
 			const $symbolInfo = document.createElement("article");
+			$symbolInfo.setAttribute('symbol', symbol)
 			const $symbolInfoHeader = document.createElement("header");
 			$symbolInfoHeader.innerText = symbol;
 
