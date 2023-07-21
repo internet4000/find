@@ -7,30 +7,25 @@ export default class I4kFindSync extends HTMLElement {
 
 	render() {
 		this.innerHTML = "";
-		this.renderHelp();
 		this.renderForm();
-	}
-
-	renderHelp() {
-		const $text = document.createElement("pre");
-		$text.innerText = `To synchronise the app data between devices:
-- save, sync, and import it to your usual password manager
-- create a new entry for this site, and save the data as  'password' field (see !docs #sync).
-- when saved, prefill the hidden user/password input with your usual password manager.
-- the input[name="password"] is used for user defined data{engines}`;
-		this.append($text);
 	}
 
 	renderForm() {
 		const $form = document.createElement("form");
 		$form.addEventListener("submit", this.onSubmit.bind(this));
 
-		const $inputPassword = document.createElement("input");
-		$inputPassword.setAttribute("name", "password");
-		$inputPassword.setAttribute("type", "password");
-		$inputPassword.setAttribute("required", "true");
-		$inputPassword.setAttribute("autocomplete", "password");
-		$inputPassword.setAttribute("placeholder", "password=appData{userSymbols}");
+		const $import = document.createElement("textarea");
+		$import.setAttribute("name", "import");
+		$import.setAttribute("required", true);
+		$import.setAttribute("placeholder", 'exported JSON data, ex: {"userSymbols": {...}}');
+
+		// not used yet
+		const $importAuto = document.createElement("input");
+		$importAuto.setAttribute("name", "import-auto");
+		$importAuto.setAttribute("type", "password");
+		$importAuto.setAttribute("hidden", true);
+		$importAuto.setAttribute("autocomplete", "password");
+		$importAuto.setAttribute("placeholder", "password='appData{userSymbols}'");
 
 		const $syncButton = document.createElement("button");
 		$syncButton.type = "submit";
@@ -42,12 +37,39 @@ export default class I4kFindSync extends HTMLElement {
 		$export.setAttribute("title", "User data. Copy to export.");
 		$export.addEventListener("click", this.onCopy.bind(this));
 
+		const $importLabel = document.createElement("legend");
+		const $exportLabel = document.createElement("legend");
+		$importLabel.innerText = "Import JSON data"
+		$exportLabel.innerText = "Export JSON data"
+
 		const $importFieldset = document.createElement("fieldset");
 		const $exportFieldset = document.createElement("fieldset");
-		$importFieldset.append($inputPassword, $syncButton);
-		$exportFieldset.append($export);
-		$form.append($importFieldset, $exportFieldset);
+		$importFieldset.append($importLabel, $import, $syncButton);
+		$exportFieldset.append($exportLabel, $export);
+		$form.append($importAuto, $importFieldset, $exportFieldset, this._createHelp());
 		this.append($form);
+	}
+
+	_createHelp() {
+		const $fieldset = document.createElement("fieldset");
+		const $legend = document.createElement("legend");
+		$legend.innerText = "Syncronization flow"
+		const $text = document.createElement("pre");
+		$text.innerText = `# Export (save)
+1. Copy JSON data of your user settings
+2. Save as a new entry for this site, in your usual browser password manager
+2. Have the password manager, like for password, synchronise the data between your devices
+
+# Import (for a new device/browser)
+1. when saved, prefill the import input, from the password manager, like for a password (it is your "private user search engines" after all)
+2. Click the import button, to add all engines
+
+# Recommendations:
+- Always import first, before editing your exising search engines
+- Always export/(auto,manual)sync to your (browser) password manager, after any edit
+		`;
+		$fieldset.append($legend, $text);
+		return $fieldset
 	}
 
 	onCopy({ target }) {
@@ -64,6 +86,9 @@ export default class I4kFindSync extends HTMLElement {
 		this.syncCredentials(formData);
 		this.syncLoginForm(formData);
 	}
+
+	/* TODO: not working yet
+		 Save to the browser credentials / password mananger */
 	async syncCredentials() {
 		if ("credentials" in navigator) {
 			let creds;
@@ -85,7 +110,8 @@ export default class I4kFindSync extends HTMLElement {
 
 	/* a method, to import/export the app user data */
 	syncLoginForm(formData) {
-		const newDataRaw = formData.get("password");
+		const newDataAutoRaw = formData.get("import-auto");
+		const newDataRaw = formData.get("import");
 		let newDataJson;
 		if (newDataRaw) {
 			try {
