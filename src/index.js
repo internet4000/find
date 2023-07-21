@@ -140,9 +140,9 @@ export class OpenSearchDescription {
 	<ShortName>${config.shortName}</ShortName>
 	<Description>${config.description}</Description>
 	<Image height="64" width="64" type="image/png">${config.image}</Image>
-	<Url type="text/html" template="${config.templateHTML}" />
-	<Url type="application/opensearchdescription+xml" rel="search" template="${config.templateXML}" />
-	<Url type="application/x-suggestions+json" template="${config.templateSuggestionsJSON}" />
+	<Url type="text/html" template="${config.templateHTML}" method="GET"/>
+	<Url type="application/opensearchdescription+xml" rel="search" template="${config.templateXML}" method="GET"/>
+	<Url type="application/x-suggestions+json" rel="suggestions" template="${config.templateSuggestionsJSON}" method="GET"/>
 </OpenSearchDescription>`;
 	}
 

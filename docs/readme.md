@@ -267,6 +267,9 @@ hosting.
 
 - `npm run test` runs tests once
 
+## Open Search (and suggestions)
+- https://developer.mozilla.org/en-US/docs/Web/OpenSearch
+- https://gist.github.com/eklem/453dea31bf92d7bf6564
 ## Firefox notes
 
 In firefox omnibar, we can use the prefixes:
@@ -275,7 +278,7 @@ In firefox omnibar, we can use the prefixes:
 *  to search for matches in bookmarks
 %  to search for matches in currently open tabs
 ^  to search for matches in browsing history
->  to seach for firefox actions
+>  to search for marches in firefox actions
 +  to search for matches in tagged pages
 #  to search for matches in page titles
 $  to search for matches in web addresses (URLs)

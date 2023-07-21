@@ -16,9 +16,9 @@ const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
 	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicon.ico</Image>
-	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/public/opensearch.xml" />
-	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" />
+	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" method="GET"/>
+	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/public/opensearch.xml" method="GET"/>
+	<Url type="application/x-suggestions+json" rel="suggestions" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" method="GET"/>
 </OpenSearchDescription>`;
 
 test("OpenSearchDescription is in Find with a config", (t) => {
