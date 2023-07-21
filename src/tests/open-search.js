@@ -13,6 +13,7 @@ const CONFIG_EXPORT = {
 
 const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<InputEncoding>UTF-8</InputEncoding>
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
 	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicon.ico</Image>

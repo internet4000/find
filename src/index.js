@@ -137,6 +137,7 @@ export class OpenSearchDescription {
 		const config = { ...this.config };
 		return `<?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<InputEncoding>UTF-8</InputEncoding>
 	<ShortName>${config.shortName}</ShortName>
 	<Description>${config.description}</Description>
 	<Image height="64" width="64" type="image/png">${config.image}</Image>
