@@ -143,6 +143,7 @@ export class OpenSearchDescription {
 	<Url type="text/html" template="${config.templateHTML}" method="GET"/>
 	<Url type="application/opensearchdescription+xml" rel="search" template="${config.templateXML}" method="GET"/>
 	<Url type="application/x-suggestions+json" rel="suggestions" template="${config.templateSuggestionsJSON}" method="GET"/>
+	<moz:SearchForm>${config.templateHTML}</moz:SearchForm>
 </OpenSearchDescription>`;
 	}
 
