@@ -20,8 +20,8 @@ const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" method="GET"/>
 	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/public/opensearch.xml" method="GET"/>
 	<Url type="application/x-suggestions+json" rel="suggestions" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" method="GET"/>
-	<moz:SearchForm>https://internet4000.github.io/find/#q={searchTerms}</moz:SearchForm>
 </OpenSearchDescription>`;
+/* <moz:SearchForm>https://internet4000.github.io/find/#q={searchTerms}</moz:SearchForm> */
 
 test("OpenSearchDescription is in Find with a config", (t) => {
 	t.like(Find.osd.config, CONFIG_EXPORT);
