@@ -33,15 +33,52 @@ html {
 }
 
 /* animation */
-@keyframes float {
+@keyframes animBg {
 	0% {
-		transform: scale(1);
+		transform: scale(1) translateX(0);
 	}
-	50% {
-		transform: scale(1.3);
+	30% {
+		transform: scale(0.1) translateX(-100%);
+	}
+	70% {
+		transform: scale(1.5) translateX(100%);
+	}
+	90% {
+		transform: scale(1) translateX(-50%);
 	}
 	100% {
-		transform: scale(1);
+		transform: scale(1) translateX(0);
+	}
+}
+
+@keyframes animLetter {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes animBang {
+	0% {
+		content: '!';
+		fill: initial;
+	}
+	30% {
+		content: '?';
+		fill: var(--c-bg--contrast);
+	}
+	60% {
+		content: '+';
+		fill: var(--c-bg--random);
+	}
+	100% {
+		content: '#';
+		fill: var(--c-fg);
 	}
 }
 
@@ -72,10 +109,17 @@ i4k-find-app button {
 	/* background-color: var(--c-bg--random); */
 	color: var(--c-fg);
 	cursor: pointer;
+	border-radius: 0.2rem;
 }
 i4k-find-app input,
 i4k-find-app textarea {
 	padding: calc(var(--size) / 2);
+	border-radius: 0.2rem;
+}
+i4k-find-app input {
+	width: 100%;
+}
+i4k-find-app textarea {
 	width: auto;
 }
 
@@ -138,9 +182,8 @@ i4k-find-app li {
 	align-items: center;
 	flex-wrap: wrap;
 	position: sticky;
-	top: 0;
+	top: 0.3rem;
 	z-index: 1;
-	padding: 0.5rem;
 }
 .App-header::after {
 	content: "";
@@ -181,6 +224,10 @@ i4k-find-app li {
 	display: none;
 }
 
+/* the search */
+i4k-find-search {
+	padding: calc(var(--size) / 4);
+}
 @media screen (min-width: 20rem) {
 	i4k-find-search form {
 		flex-direction: column;
@@ -201,7 +248,7 @@ i4k-find-search form {
 
 i4k-find-search form button {
 	/* push it from input, and stay visually centered on mobile */
-	margin: 1rem;
+	margin: calc(var(--size) / 3);
 	background-color: var(--c-bg--contrast);
 }
 
@@ -211,7 +258,6 @@ i4k-find-search form button:active {
 i4k-find-search form input {
 	-webkit-appearance: inherit;
 	font-size: 1.2rem;
-	min-width: 40vw;
 }
 
 #Customs-table {
@@ -353,11 +399,29 @@ i4k-find-app i4k-find-logo:hover svg {
 i4k-find-app i4k-find-logo svg {
 	width: calc(var(--size) * 2);
 	height: calc(var(--size) * 2);
-	transform: scale(1);
-	transition: transform 333ms ease-in-out;
-	animation: float 3.333s ease-in-out infinite;
-	transform-origin: center;
 }
+/* apply the animations */
+i4k-find-app i4k-find-logo svg rect {
+	transform-origin: center;
+	transform: scale(1);
+	transition: transform 3333ms ease-in-out;
+	animation: animBg 33.333s ease-in-out infinite;
+}
+i4k-find-app i4k-find-logo svg g[aria-label^="F"] {
+	/* transform-origin: center; */
+	opacity: 0;
+	transition: transform 333ms ease-in-out;
+	animation: animLetter 3.333s ease-in-out infinite;
+	animation-delay: 333ms;
+}
+i4k-find-app i4k-find-logo svg g[aria-label^="!"] {
+	/* transform-origin: center; */
+	/* transform: scale(1); */
+	transition: transform 333ms ease-in-out;
+	animation: animBang 3.333s ease-in-out infinite;
+}
+
+/* the search itself */
 i4k-find-app i4k-find-search {
 	opacity: 1;
 	transform: scale(1);

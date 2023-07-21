@@ -1,4 +1,4 @@
-About Find (I4kFind,find)!
+About Find! (I4kFind, find, F!) URL and local first vanilla web app.
 
 > Find more examples and usages, and development notes in the
 > [./docs](./docs/) documention folder.
@@ -43,8 +43,9 @@ import.
 # About
 The URL bar of web-browsers is used to write text, websites adresses
 and search queries. Find is a tool that offers a user the possibility
-to customize the functionalities of any (device) web-browser's URL bar
-(aka the [omnibox](https://en.wiktionary.org/wiki/omnibox)).
+to customize the functionalities of any (device) web-browser's [URL
+Address Bar](https://en.wikipedia.org/wiki/Address_bar) (aka the
+[omnibox](https://en.wiktionary.org/wiki/omnibox)).
 
 It is similar (and a lighweight, self-hostable, customizable, free
 software alternatieve) to [DuckDuckGo
@@ -56,9 +57,10 @@ new search engines, synchronised across devices using the native
 browser's password manager (treating the user search engines custom
 configuration as a passwrod for the instance of find you're using).
 
-It aims to be a lightweight way to enhance the URL bar, the URI
+It aims to be a lightweight way to enhance the URL bar, the
+[URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
 building user-experience, accesible to use and install on personal
-instance.
+instance(s).
 
 It is Free software that can be customized and hosted quickly at your
 convenience.

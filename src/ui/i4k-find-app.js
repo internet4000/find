@@ -64,7 +64,9 @@ export default class I4kFindApp extends HTMLElement {
 		this.innerHTML = `
 			<section class="App-queries">
 				<details>
-					<summary>Example queries</summary>
+					<summary title="Click a query, to prefill the search input, to try it as an example">
+						Example queries
+					</summary>
 					<menu>
 						<li>
 							<i4k-find-query
@@ -133,7 +135,9 @@ export default class I4kFindApp extends HTMLElement {
 			<section class="App-body">
 				<i4k-find-info></i4k-find-info>
 				<details>
-					<summary>sync</summary>
+					<summary title="How to synchronize the data between devices">
+						sync
+					</summary>
 					<i4k-find-sync></i4k-find-sync>
 				</details>
 			</section>`;

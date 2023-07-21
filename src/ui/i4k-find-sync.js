@@ -16,6 +16,7 @@ export default class I4kFindSync extends HTMLElement {
 
 		const $import = document.createElement("textarea");
 		$import.setAttribute("name", "import");
+		$import.setAttribute("title", "Paste in the user JSON data to be imported, in order to import it in this instance of find");
 		$import.setAttribute("required", true);
 		$import.setAttribute("placeholder", 'exported JSON data, ex: {"userSymbols": {...}}');
 
@@ -29,12 +30,12 @@ export default class I4kFindSync extends HTMLElement {
 
 		const $syncButton = document.createElement("button");
 		$syncButton.type = "submit";
-		$syncButton.innerText = "import from credentials";
+		$syncButton.innerText = "import user data";
 
 		const $export = document.createElement("textarea");
 		$export.value = this.getDataToSync();
 		$export.setAttribute("readonly", true);
-		$export.setAttribute("title", "User data. Copy to export.");
+		$export.setAttribute("title", "User data as a JSON string. Copy to export. Save somewhere (in a text file) to import later, or somewhere else.");
 		$export.addEventListener("click", this.onCopy.bind(this));
 
 		const $importLabel = document.createElement("legend");

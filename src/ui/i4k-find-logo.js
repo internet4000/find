@@ -25,8 +25,9 @@ export default class I4kFindLogo extends HTMLElement {
 	render() {
 		const $homeLink = document.createElement("a");
 		$homeLink.classList.add("Title");
-		$homeLink.title = "Find!";
+		$homeLink.title = "Find! (click and refresh the page for docs)";
 		$homeLink.innerHTML = this.r4Logo;
+		$homeLink.href = window.location + "#q=!docs usage"
 		this.append($homeLink);
 	}
 }

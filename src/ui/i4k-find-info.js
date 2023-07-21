@@ -113,6 +113,7 @@ export default class I4kFindInfo extends HTMLElement {
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");
+		$summary.title = "List of Find symbols !&#+ and engines (id and URL) with URI actions placeholder {} patterns"
 		$summary.innerText = `${title} [${symbolsLen}]`;
 
 		$detail.append($summary);
