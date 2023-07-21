@@ -1,54 +1,83 @@
+About Find (I4kFind,find)!
+
+> Find more examples and usages, and development notes in the
+> [./docs](./docs/) documention folder.
+
 # Usage
+On [internet4000.github.io/find](https://internet4000.github.io/find)
+it is possible to make queries to Find, such as `!docs usage` which
+will redirect the browser page, to this document (to the link with
+`#usage`).
 
-On [internet4000.github.io/find](https://internet4000.github.io/find) it is possible to make queries to find.
+Find allows building URLs, linking to things avaiable as URIs in
+web-browsers, customizing what the omnibar can do, with code only
+running on the client side (as a website, with javascript).
 
-# Installation
+# How it works
+Find can intercept the user search query (also in the browser URL
+omnibar), and "decrypt the search query", with a predefined, and
+extensible syntax (that should fit URI schemes).
 
-To run a new find instance:
+# Install
+It is possible to use Find with
+- the default find instance website
+- a personal find instance website (can customize more)
 
-## npm
+## As a browser search engine
+In general, the UX should feel nicer when any instance is defined as
+the default web browser's search engine. Otherwise it is also possible
+to use a browser search engine keyword (still need to install a Find
+instance as a search engine in the browser, but no need to defined as
+the default one, as long as it has a keyword, which has to be prefixed
+to every find query).
 
-1. Use the npm package [i4k-find](https://www.npmjs.com/package/i4k-find).
-1. Check the `./index.html` file for how to import the package and the GUI.
+## As a npm package
+1. use the npm package [i4k-find](https://www.npmjs.com/package/i4k-find).
+1. check the `./index.html` file for how to import the package and the GUI.
 1. customize the `public/opensearch.xml` file for the new instance URL and information
 
-## github fork
-
-- fork this repository
-- enable "pages from actions" in the settings
-- customize the `I4K_FIND_URL` env var to `https://example.org/my-find`
-- run the "static.yml" workflow
-- visit the fork's github page
+It should be also available through a CDN: [!cdn
+i4k-find](https://internet4000.github.io/find/#q=!cdn%20i4k-find) to
+import.
 
 # About
+The URL bar of web-browsers is used to write text, websites adresses
+and search queries. Find is a tool that offers a user the possibility
+to customize the functionalities of any (device) web-browser's URL bar
+(aka the [omnibox](https://en.wiktionary.org/wiki/omnibox)).
 
-The URL bar of web-browsers is used to write text, websites adresses and search
-queries. Find is a tool that offers a user the possibility to customize the
-functionalities of any web-browser's browser URL bar
-([omnibox](https://en.wiktionary.org/wiki/omnibox)).
+It is similar (and a lighweight, self-hostable, customizable, free
+software alternatieve) to [DuckDuckGo
+bangs](https://duckduckgo.com/bangs), and runs only in the user
+browser.
 
-It is similar to [DuckDuckGo bangs](https://duckduckgo.com/bangs), but runs only
-in the user browser (only javascript client side code) and can be customized
-with new search engines, and synchronised across devices using the native
+The code is javascript running client side, and can be customized with
+new search engines, synchronised across devices using the native
 browser's password manager (treating the user search engines custom
 configuration as a passwrod for the instance of find you're using).
 
-It aims to be a lightweight way to enhance the URL bar user-experience,
-accesible to use and install a personal instance. Also, it is Free software, and can be
-customized and hosted quickly at your convenience.
+It aims to be a lightweight way to enhance the URL bar, the URI
+building user-experience, accesible to use and install on personal
+instance.
 
-The fastest way to test its features, is by trying the example queries
-on this page: [try Find! here](https://internet4000.github.io/find).
+It is Free software that can be customized and hosted quickly at your
+convenience.
+
+The fastest way to try its features, is by testing it with the example
+queries on this page: [try Find!
+here](https://internet4000.github.io/find).
 
 If you want to have the best experience, try it as your web browser's
 default search engine; so all the features are accesible directly in
-your URL bar (tip: focus it with `C-l`).
+your URL bar (tip: focus the omnibox with the keyboard shortcut
+`Control + l`, the keys `Control` and the lowercase letter `L`, aka
+`C-l` ).
 
-## Usage
+## Example usage
+Here are example usage of "user queries", one can type in an input
+supportin Find queries (such as the one on the homepage).
 
-Here are example usage of "user queries":
-
-```
+```txt
 !osm tokyo
 !gh linux
 +wr
@@ -61,17 +90,5 @@ Here are example usage of "user queries":
 ... and more (all customizable)
 ```
 
-> Type any of these in the find search input, or in your browser URL bar (when Find is one of your browser search engine).
-
-## Documentation
-
-Find more example and usages in the documention folder.
-
-- the javascript file `src/index.js` contains all the code for I4kFind.
-- the javascript file `src/ui/index.js` contains all the code for I4kFind web-components, composing the graphical user interface
-
-> The web-components are only loaded after the find logic, if the user stays on
-> the page (if there is no user query).
-
-> Find does not have any production dependency, uses vanilla javascript, html
-> and css code, that runs only in the user's browser tab.
+> Type any of these in a Find search input, or in your browser URL bar
+> (if Find is one of your browser search engine).

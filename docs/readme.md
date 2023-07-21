@@ -1,3 +1,18 @@
+# Find
+Web browser URL search engine utility to customize the omnibar actions.
+
+It is built as a single importable file, without dependency, that can
+run in web browsers and node.js javascript contexts.
+
+It is distributed as [a
+website](https://internet4000.github.io/find/), [javascript
+class](https://github.com/internet4000/find/blob/main/src/index.js),
+[npm package](https://www.npmjs.com/package/i4k-find) and [git
+repository](https://github.com/internet4000/find).
+
+To install and use your own instance, follow the
+installation/deployment guides.
+
 ## Browser search engine
 
 To make Find the default search engine of a web browser:
@@ -24,9 +39,8 @@ Query URL: `https://internet4000.github.io/find/#q=%s`
 > queries; so they sometimes make changing it slightly annoying.
 
 ## Usage
-
-All find "search queries" or "commands", are to be run in the browser omnibox,
-or a find search input.
+All find "search queries" or "commands", are to be run in the browser
+omnibox, or a find search input.
 
 ### Symbols
 
@@ -187,31 +201,28 @@ Description`. To do that, inspect the HTML code of the site you want
 > `application/opensearchdescription+xml"`. The file it points to will
 > have the infortmation you are looking for in the `Url` XML tag.
 
-### APIs
+### API(s)
+Find has different interfaces, some of which can be used
+programatically (better than others):
 
-Find has different APIs:
-
-- through its URL: [internet4000.github.io/find/#q=[query]](https://internet4000.github.io/find/#q=[query])
-- through the `I4kFind` Javascript class exported by the package
-- through the web component graphical interface `./src/ui/index.js`
-
-## NPM Module
-
-Find is available as a NPM module [!npm i4k-find](https://www.npmjs.com/package/i4k-find).
-
-- `npm install i4k-find`
+- through its URL: [internet4000.github.io/find/#q=[query]](https://internet4000.github.io/find/#q=[query]) with a Find search query
+- through the `I4kFind` Javascript class exported by the package (and
+  `.find("my query")` public method)
+- through the graphical interface `./src/ui/index.js`, and all
+  exported web-components
+- through the `./service-worker.js` client side OpenSearch suggestions
+  API (experimental; see development notes)
 
 ## Host a personal instance
-
 1. deploy and host the site on a server
-2. edit the file `public/opensearch.xml` to fit the URL address of the instance
+2. edit the file `public/opensearch.xml` to fit the URL address of the
+   instance
 
 ## Privacy
-
 This software does not collect any data, there are and should be no analytics
 functionalities on the user queries and usage.
 
-### Cloudflare analytics
+### (Privacy warning) Cloudflare analytics
 
 There is a cloudflare analytics beacon. It is used to warn the user, if the
 request goes through to cloudflare, that they should install a
@@ -219,7 +230,7 @@ advert-blocker. The resulting analytics of user who do not have advertising
 de-activated, are stored in Cloudflare analytics, but will never be used to
 process user data of any kind. Sometimes an admin looks at the map to see where the request to the site comes from.
 
-### About the hash paramter
+### About the hash parameter
 
 When making a search to an instance of find, the user query is passed to the client side application, and never to the server.
 
@@ -229,13 +240,11 @@ search parameter). This should protect more the privacy of the user, as it does
 not leak the query through the search param to, for example, github.io pages.
 
 ## License
-
 The code of this software uses the [GNU General Public License
 v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
 software](https://en.wikipedia.org/wiki/Free_software).
 
 ## Debug this software (live, in the browser)
-
 The easieset way to start debugging is from the developer tools of
 a web browser. Because Find is unminified javascript code, it is
 possible to look at what read what the code does and where it
@@ -246,30 +255,6 @@ From a browser we can look at it like so:
 
 ![find-browser-debug](./doc-debug.png "How to debug Find from the browser").
 
-## Development
-
-We don't need a development server to test and improve this software.
-
-- get all the code (clone or download this repository)
-- open the index.html in a web browser
-
-Alternatively, a node server for development and testing can be used:
-
-- `npm install` to get the development dependencies (there are and
-  should be no production dependencies)
-- `npm start` to run the local server
-
-All the code is located in the file `main.js`. Other files are
-configuration files for the continous integration, testing, opensearch,
-hosting.
-
-## Testing
-
-- `npm run test` runs tests once
-
-## Open Search (and suggestions)
-- https://developer.mozilla.org/en-US/docs/Web/OpenSearch
-- https://gist.github.com/eklem/453dea31bf92d7bf6564
 ## Firefox notes
 
 In firefox omnibar, we can use the prefixes:
