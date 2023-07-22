@@ -4,9 +4,9 @@ import Find, { OpenSearchDescription } from "../../src/index.js";
 const CONFIG_EXPORT = {
 	shortName: "Find",
 	description: "Find anything anywhere",
-	image: "https://internet4000.github.io/find/public/favicon.ico",
+	image: "https://internet4000.github.io/find/assets/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
-	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
+	templateXML: "https://internet4000.github.io/find/assets/opensearch.xml",
 	templateSuggestionsJSON:
 		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };
@@ -16,9 +16,9 @@ const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 	<InputEncoding>UTF-8</InputEncoding>
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
-	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/public/favicon.ico</Image>
+	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/assets/favicon.ico</Image>
 	<Url type="text/html" template="https://internet4000.github.io/find/#q={searchTerms}" method="GET"/>
-	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/public/opensearch.xml" method="GET"/>
+	<Url type="application/opensearchdescription+xml" rel="search" template="https://internet4000.github.io/find/assets/opensearch.xml" method="GET"/>
 	<Url type="application/x-suggestions+json" rel="suggestions" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" method="GET"/>
 </OpenSearchDescription>`;
 /* <moz:SearchForm>https://internet4000.github.io/find/#q={searchTerms}</moz:SearchForm> */

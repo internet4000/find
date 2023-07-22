@@ -1,10 +1,24 @@
+stages:
+  - site-publish
+
 pages:
+  stage: site-publish
+  image: node:latest
+  cache:
+    key:
+      files:
+        - package-lock.json
+      prefix: npm
+    paths:
+      - node_modules/
   script:
+    - npm install
+    - npm run test
     - mkdir .public
     - cp -r * .public
     - mv .public public
   artifacts:
     paths:
       - public
-  only:
-    - production
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

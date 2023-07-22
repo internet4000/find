@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Generate opensearch.xml
-        run: npm run opensearch public/opensearch.xml
+        run: npm run opensearch assets/opensearch.xml
         env:
           I4K_FIND_URL: ${{ steps.deployment.outputs.page_url }}
       - name: Setup Pages

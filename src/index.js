@@ -483,9 +483,9 @@ export class I4kFind {
 export const DEFAULT_OSD = {
 	shortName: "Find",
 	description: "Find anything anywhere",
-	image: "https://internet4000.github.io/find/public/favicon.ico",
+	image: "https://internet4000.github.io/find/assets/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
-	templateXML: "https://internet4000.github.io/find/public/opensearch.xml",
+	templateXML: "https://internet4000.github.io/find/assets/opensearch.xml",
 	templateSuggestionsJSON:
 		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };

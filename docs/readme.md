@@ -215,7 +215,7 @@ programatically (better than others):
 
 ## Host a personal instance
 1. deploy and host the site on a server
-2. edit the file `public/opensearch.xml` to fit the URL address of the
+2. edit the file `assets/opensearch.xml` to fit the URL address of the
    instance
 
 ## Privacy

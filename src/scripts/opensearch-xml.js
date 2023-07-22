@@ -4,7 +4,7 @@ import packageJson from "../../package.json" assert { type: "json" };
 import fs from "fs/promises";
 import path from "path";
 
-const OSD_PATH = "public/opensearch.xml";
+const OSD_PATH = "assets/opensearch.xml";
 const pkgName = packageJson["name"];
 const config = packageJson[pkgName];
 
@@ -36,7 +36,7 @@ const newUserConfig = async (url) => {
 			userConfig.osd.templateXML = `${url}/${OSD_PATH}`;
 		}
 		if (!userConfig.osd.image) {
-			userConfig.osd.image = `${url}/public/favicon.ico`;
+			userConfig.osd.image = `${url}/assets/favicon.ico`;
 		}
 	}
 	return userConfig;

@@ -2,5 +2,5 @@
   "name": "Find!",
   "short_name": "Find",
   "display": "minimal-ui",
-  "icon": "./public/find-logo.svg"
+  "icon": "./assets/find-logo.svg"
 }

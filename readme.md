@@ -34,7 +34,7 @@ to every find query).
 ## As a npm package
 1. use the npm package [i4k-find](https://www.npmjs.com/package/i4k-find).
 1. check the `./index.html` file for how to import the package and the GUI.
-1. customize the `public/opensearch.xml` file for the new instance URL and information
+1. customize the `assets/opensearch.xml` file for the new instance URL and information
 
 It should be also available through a CDN: [!cdn
 i4k-find](https://internet4000.github.io/find/#q=!cdn%20i4k-find) to

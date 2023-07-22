@@ -2,8 +2,8 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
-	<Image height="64" width="64" type="image/png">http://localhost:3000/public/favicons/favicon-32x32.png</Image>
+	<Image height="64" width="64" type="image/png">http://localhost:3000/assets/favicons/favicon-32x32.png</Image>
 	<Url type="text/html" template="http://localhost:3000/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="search" template="http://localhost:3000/public/opensearch.xml" />
+	<Url type="application/opensearchdescription+xml" rel="search" template="http://localhost:3000/assets/opensearch.xml" />
 	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" />
 </OpenSearchDescription>
