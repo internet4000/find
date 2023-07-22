@@ -43,6 +43,7 @@ export const DEFAULT_SYMBOLS = {
 			vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
 			w: "https://en.wikipedia.org/w/index.php?search={}",
 			wa: "http://www.wolframalpha.com/input/?i={}",
+			wdev: "https://developer.mozilla.org/search?q={}"
 			y: "https://www.youtube.com/results?search_query={}",
 			aurl: "https://web.archive.org/web/*/{}",
 			aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
