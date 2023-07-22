@@ -86,6 +86,8 @@ export default class I4kFindSync extends HTMLElement {
 		const formData = new FormData(event.target);
 		this.syncCredentials(formData);
 		this.syncLoginForm(formData);
+		event.target.reset()
+		this.render()
 	}
 
 	/* TODO: not working yet
