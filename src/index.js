@@ -6,6 +6,14 @@ if (typeof window === "undefined") {
 	window.location = new URL("i4k-find://");
 }
 
+/* Map of default `symbols`, `engines` (their `id` and `URL`);
+	 There is the possibility of `userSymbols` with the same structure.
+	 Ideas for symbols and functions (not user defined yet):
+	 - https://www.gnu.org/software/bash/manual/bash.html
+	 - https://en.wikipedia.org/wiki/APL_syntax_and_symbols
+	 - https://en.wikipedia.org/wiki/List_of_Lisp-family_programming_languages
+	 - DDG bangs, firefox URL prefixes
+ */
 export const DEFAULT_SYMBOLS = {
 	"!": {
 		name: "search",
@@ -245,6 +253,7 @@ export class I4kFind {
 
 	// returns a result url string to open
 	// default to "search for help if only a symbol"
+	// idea: https://en.wikipedia.org/wiki/Interpreter_(computing)
 	buildResultUrl(
 		userQuery,
 		symbols = this.symbols,
@@ -294,6 +303,7 @@ export class I4kFind {
 	// - userQuery: string `!m new york city`
 	// return:
 	// - url: string to be openned by the browser
+	// idea: https://en.wikipedia.org/wiki/Lexical_analysis
 	decodeUserRequest(userRequest) {
 		if (!userRequest) {
 			return false;
@@ -373,6 +383,7 @@ export class I4kFind {
 	// takes a string, request query of a user, decode the request
 	// and open the "correct destination site" with the user requested query
 	// we want that all request succeed in opening a resulting website
+	// idea: https://en.wikipedia.org/wiki/GNU_Readline
 	find(request, openInBrowser = true) {
 		if (!request) return false;
 		const decodedRequest = this.decodeUserRequest(request);
@@ -383,11 +394,15 @@ export class I4kFind {
 		return result;
 	}
 
+	// params: none
+	// URL-hash-params: `q` the user query as a string we will decode
+	// idea: https://en.wikipedia.org/wiki/Init
 	init() {
 		/* do-not extract user query/search from window url query param,
-			 the value of the query parameters (are sent to the servers)
+			 the value of the query parameters (are HTTP sent to the server)
 			 const query = url.searchParams.get('q');
-			 use hash, fragment identifier instead (data not sent to server) */
+			 use hash-param, fragment identifier instead (data not sent to server)
+		 */
 		// take the current browser's full url
 		const params = new URLSearchParams(window.location.hash.slice(1));
 		const query = params.get(this.queryParamName);
@@ -402,7 +417,7 @@ export class I4kFind {
 			if (queryParamVal) {
 				result = this.find(queryParamVal);
 			} else {
-				// "No search in the 'q' query parameter",
+				// "No search in the 'q' query parameter", noop (yet)
 			}
 		}
 		return result;
