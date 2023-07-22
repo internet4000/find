@@ -178,6 +178,7 @@ i4k-find-app li {
 	justify-content: center;
 	align-items: center;
 	margin: 0;
+	padding: 0;
 }
 .App-queries menu li {
 	margin: 0.5rem;
@@ -194,7 +195,6 @@ i4k-find-app li {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	flex-wrap: wrap;
 	position: sticky;
 	top: 0.3rem;
 	z-index: 1;
@@ -249,7 +249,6 @@ i4k-find-search {
 }
 i4k-find-search form {
 	display: flex;
-	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
@@ -262,7 +261,7 @@ i4k-find-search form {
 
 i4k-find-search form button {
 	/* push it from input, and stay visually centered on mobile */
-	margin: calc(var(--size) / 3);
+	margin: calc(var(--size) / 5);
 	background-color: var(--c-bg--contrast);
 }
 
@@ -349,6 +348,8 @@ i4k-symbols-list ul {
 i4k-symbols-list li {
 	display: flex;
 	flex-wrap: wrap;
+	white-space: pre-wrap;
+	word-break: break-all;
 }
 i4k-symbols-list li em {
 	text-align: left;
@@ -356,8 +357,8 @@ i4k-symbols-list li em {
 	flex-shrink: 0;
 }
 i4k-symbols-list li a {
-	word-break: break-word;
 	text-align: right;
+	flex-grow: 1;
 }
 i4k-symbols-list li a mark {
 	background-color: var(--c-symbol);
@@ -432,7 +433,6 @@ i4k-find-app i4k-find-info {
 	margin: 0.5rem;
 }
 i4k-find-app i4k-find-logo {
-	margin: calc(var(--size) / 2);
 	opacity: 1;
 	transition: opacity 333ms ease-in-out, transform 333ms ease-in-out;
 }
@@ -489,7 +489,6 @@ i4k-find-app i4k-find-search input[value^="#"] {
 i4k-find-app details[open] {
 	border: none;
 	background-color: var(--c-bg--summary);
-	margin: var(--size);
 }
 i4k-find-app details[open] summary {
 	margin: 0rem calc(var(--size) * 2);
