@@ -28,7 +28,6 @@ export default class I4kFindApp extends HTMLElement {
 		/* if no output to a search,
 			 it can only be because we have a "valid find command" (# fns)
 			 so we stay on the current page */
-		console.log("search");
 		if (event.detail.output) {
 			this.setAttribute("searched", true);
 		} else {

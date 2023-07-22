@@ -86,6 +86,8 @@ export default class I4kFindSync extends HTMLElement {
 		const formData = new FormData(event.target);
 		this.syncCredentials(formData);
 		this.syncLoginForm(formData);
+		event.target.reset()
+		this.render()
 	}
 
 	/* TODO: not working yet
@@ -123,7 +125,7 @@ export default class I4kFindSync extends HTMLElement {
 		}
 		if (!newDataJson) return;
 		const { userSymbols } = newDataJson;
-		Find.setUserSymbols(userSymbols);
+		Find.importUserSymbols(userSymbols);
 		console.info("newData imported", userSymbols, Find.getUserSymbols());
 	}
 

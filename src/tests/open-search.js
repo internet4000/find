@@ -27,7 +27,6 @@ test("OpenSearchDescription is in Find with a config", (t) => {
 	t.like(Find.osd.config, CONFIG_EXPORT);
 });
 test("OpenSearch can export to JSON", (t) => {
-	console.log(Find.osd.exportJSON(), JSON.stringify(CONFIG_EXPORT));
 	t.like(JSON.parse(Find.osd.exportJSON()), CONFIG_EXPORT);
 });
 test("OpenSearch can export to XML", (t) => {

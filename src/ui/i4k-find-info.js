@@ -1,10 +1,10 @@
-import Find from "../index.js";
+import Find, { DEFAULT_SYMBOLS } from "../index.js";
 
 export default class I4kFindInfo extends HTMLElement {
-	repoUrl = Find
-					? Find.documentationUrl
-					: "https://github.com/internet4000/find";
-	open = false;
+	constructor() {
+		super()
+		this.open = false;
+	}
 	connectedCallback() {
 		this.render();
 
@@ -46,19 +46,28 @@ export default class I4kFindInfo extends HTMLElement {
 	}
 	/* Can be used to render a symbols map,
 		 for example, the "default" or "user" symbols */
-	renderSymbols(symbols, title) {
+	renderSymbols(symbolsMap, title) {
 		/* for each symbol render a symbol list with info */
 		const $symbols = document.createElement("i4k-symbols-list");
-		const symbolsList = Object.keys(symbols);
-		Object.entries(symbols).forEach(([symbol, symbolData]) => {
-			const { name: symbolName, engines, fns } = symbolData;
+		Object.keys(DEFAULT_SYMBOLS).forEach((symbolId) => {
+			const defaultData = DEFAULT_SYMBOLS[symbolId]
+			const symbolData = symbolsMap[symbolId]
+			const {
+				name: symbolName = defaultData.name,
+				uri = defaultData.uri,
+				engines,
+				fns,
+			} = symbolData || {};
 
 			/* the info "of the symbol definition" Symbol/Name */
 			const $symbolInfoDefinition = document.createElement("dl");
+			$symbolInfoDefinition.title = uri
 			const $symbolTerm = document.createElement("dt");
 			const $symbolName = document.createElement("dd");
-			$symbolTerm.innerText = symbol;
-			$symbolName.innerText = symbolName
+			$symbolTerm.innerText = symbolId;
+			// user symbols don't have data byt the symbol id, and engines id/url
+			// only default symbol has data
+			$symbolName.innerText = symbolName || DEFAULT_SYMBOLS[symbol].name;
 			$symbolInfoDefinition.append($symbolTerm, $symbolName)
 
 			/* the list engines id/url for this symbol */
@@ -67,7 +76,7 @@ export default class I4kFindInfo extends HTMLElement {
 				Object.entries(engines).forEach(([engineName, engineUrl]) => {
 					const $symbolInfoListItem = document.createElement("li");
 					const $engineName = document.createElement("em");
-					$engineName.innerText = `${symbol}${engineName}`;
+					$engineName.innerText = `${symbolId}${engineName}`;
 					const $engineValue = document.createElement("a");
 					$engineValue.href = engineUrl;
 					try {
@@ -85,7 +94,7 @@ export default class I4kFindInfo extends HTMLElement {
 			} else if (!fns) {
 				const $noSymbolEngineListItem = document.createElement("li");
 				const $noSymbolEngine = document.createElement("input");
-				$noSymbolEngine.value = `#add ${symbol} ex https://example.org/?q={}`;
+				$noSymbolEngine.value = `#add ${symbolId} ex https://example.org/?q={}`;
 				$noSymbolEngine.readonly = true;
 				$noSymbolEngine.onclick = ({ target }) => target.select();
 				$noSymbolEngineListItem.append($noSymbolEngine);
@@ -97,7 +106,7 @@ export default class I4kFindInfo extends HTMLElement {
 					const $symbolInfoListItem = document.createElement("li");
 
 					const $engineName = document.createElement("em");
-					$engineName.innerText = `${symbol}${fnName}`;
+					$engineName.innerText = `${symbolId}${fnName}`;
 					const $engineValue = document.createElement("pre");
 					$engineValue.innerText = `${fn.toString()}`;
 
@@ -109,21 +118,18 @@ export default class I4kFindInfo extends HTMLElement {
 			}
 
 			if (!engines && !fns) {
-				const $newSymbolEngineInfo = document.createElement("kbd");
-				$newSymbolEngineInfo.innerText =
-					$symbolInfoList.append($newSymbolEngineInfo);
 			}
 
 			/* append the "definition" and "list" */
 			const $symbolInfo = document.createElement("article");
-			$symbolInfo.setAttribute('symbol', symbol)
+			$symbolInfo.setAttribute('symbol', symbolId)
 			$symbolInfo.append($symbolInfoDefinition, $symbolInfoList);
 			$symbols.append($symbolInfo);
 		});
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");
-		const symbolsLen = this.getSymbolsLength(symbols);
+		const symbolsLen = this.getSymbolsLength(symbolsMap);
 		$summary.title = "List of Find symbols !&#+ and engines (id and URL) with URI actions placeholder {} patterns"
 		$summary.innerText = `${title} [${symbolsLen}]`;
 
@@ -141,19 +147,16 @@ export default class I4kFindInfo extends HTMLElement {
 		// Split the url at the placeholder(s)
 		const urlParts = urlWithPlaceholders.split("{}");
 
-		// Loop over the urlParts, alternating between plain text and marked text
-		for (let i = 0; i < urlParts.length; i++) {
-			// For even indices, add a text node
-			if (i % 2 === 0) {
-				tempDiv.appendChild(document.createTextNode(urlParts[i]));
-			}
-			// For odd indices, add a marked placeholder
-			else {
-				const mark = document.createElement("mark");
-				mark.textContent = "{}";
+		// Loop over the urlParts, appending each part and a placeholder after it if it's not the last part
+		urlParts.forEach((part, index) => {
+			tempDiv.appendChild(document.createTextNode(part));
+
+			if (index < urlParts.length - 1) {
+				const mark = document.createElement('mark');
+				mark.textContent = '{}';
 				tempDiv.appendChild(mark);
 			}
-		}
+		});
 
 		// Return the innerHTML of the temporary div element
 		return tempDiv.innerHTML;

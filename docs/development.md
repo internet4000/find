@@ -222,6 +222,7 @@ References, links and inspirations:
 - https://nyxt.atlas.engineer
 - https://en.wikipedia.org/wiki/APL_(programming_language)
 - https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
+- https://en.wikipedia.org/wiki/List_of_URI_schemes
 - https://en.wikipedia.org/wiki/Menu_(computing)
 - https://en.wikipedia.org/wiki/Command-line_interface
 - https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
