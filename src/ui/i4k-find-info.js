@@ -147,19 +147,16 @@ export default class I4kFindInfo extends HTMLElement {
 		// Split the url at the placeholder(s)
 		const urlParts = urlWithPlaceholders.split("{}");
 
-		// Loop over the urlParts, alternating between plain text and marked text
-		for (let i = 0; i < urlParts.length; i++) {
-			// For even indices, add a text node
-			if (i % 2 === 0) {
-				tempDiv.appendChild(document.createTextNode(urlParts[i]));
-			}
-			// For odd indices, add a marked placeholder
-			else {
-				const mark = document.createElement("mark");
-				mark.textContent = "{}";
+		// Loop over the urlParts, appending each part and a placeholder after it if it's not the last part
+		urlParts.forEach((part, index) => {
+			tempDiv.appendChild(document.createTextNode(part));
+
+			if (index < urlParts.length - 1) {
+				const mark = document.createElement('mark');
+				mark.textContent = '{}';
 				tempDiv.appendChild(mark);
 			}
-		}
+		});
 
 		// Return the innerHTML of the temporary div element
 		return tempDiv.innerHTML;
