@@ -232,11 +232,9 @@ export class OpenSearchDescription {
 			this[attr] = val;
 		});
 	}
-
 	exportJSON() {
 		return JSON.stringify({ ...this.config }, null, 2);
 	}
-
 	exportXML() {
 		const config = { ...this.config };
 		return `<?xml version="1.0" encoding="UTF-8"?>
@@ -250,24 +248,6 @@ export class OpenSearchDescription {
 	<Url type="application/x-suggestions+json" rel="suggestions" template="${config.templateSuggestionsJSON}" method="GET"/>
 </OpenSearchDescription>`;
 		/* <moz:SearchForm>${config.templateHTML}</moz:SearchForm> */
-	}
-
-	download(filename, type) {
-		if (isBrowser()) {
-			const data = type === "json" ? this.toJSON() : this.toXML();
-			const blob = new Blob([data], { type: "application/octet-stream" });
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement("a");
-			link.download = filename;
-			link.href = url;
-			link.click();
-		} else if (isNode()) {
-			process.stdout.write(type === "json" ? this.toJSON() : this.toXML());
-		}
-	}
-
-	createSuggestions(query = "", suggestions = []) {
-		return [query, suggestions];
 	}
 }
 
@@ -607,11 +587,6 @@ export class I4kFind {
 	}
 	newUserSymbols(initialSymbols) {
 		return new I4kFindSymbols(initialSymbols).symbols
-	}
-	suggestSymbols(query) {
-		/* const userRequest = this.decodeUserRequest(query); */
-		const suggestions = [1, 2, 3, 4];
-		return this.osd.createSuggestions(query, suggestions);
 	}
 }
 
