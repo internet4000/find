@@ -123,7 +123,7 @@ export default class I4kFindSync extends HTMLElement {
 		}
 		if (!newDataJson) return;
 		const { userSymbols } = newDataJson;
-		Find.setUserSymbols(userSymbols);
+		Find.importUserSymbols(userSymbols);
 		console.info("newData imported", userSymbols, Find.getUserSymbols());
 	}
 

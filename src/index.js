@@ -14,124 +14,198 @@ if (typeof window === "undefined") {
 	 - https://en.wikipedia.org/wiki/List_of_Lisp-family_programming_languages
 	 - DDG bangs, firefox URL prefixes
  */
-export const DEFAULT_SYMBOLS = {
-	"!": {
-		name: "search",
-		uri: encodeURIComponent("!"),
-		engines: {
-			"?": `${window.location.href}/#q=!docs%20{}`,
-			docs: "https://github.com/internet4000/find/#{}",
-			c: "https://contacts.google.com/search/{}",
-			cdn: "https://www.jsdelivr.com/?query={}",
-			ciu: "https://caniuse.com/#search={}",
-			d: "https://duckduckgo.com/?q={}",
-			dd: "https://devdocs.io/#q={}",
-			dr: "https://drive.google.com/drive/search?q={}",
-			g: "https://encrypted.google.com/search?q={}",
-			gh: "https://github.com/search?q={}",
-			gho: "https://github.com/search?q=org:{}",
-			ghu: "https://github.com/search?q=user:{}",
-			ghr: "https://github.com/search?q=repo:{}",
-			hn: "https://hn.algolia.com/?sort=byDate&query={}",
-			k: "https://keep.google.com/?q=#search/text%3D{}",
-			l: "https://www.linguee.com/search?query={}",
-			m: "https://www.google.com/maps/search/{}",
-			npm: "https://www.npmjs.com/search?q={}",
-			osm: "https://www.openstreetmap.org/search?query={}",
-			r4: "https://radio4000.com/search?search={}",
-			so: "https://stackoverflow.com/search?q={}",
-			tr: "https://translate.google.com/?q={}",
-			vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
-			w: "https://en.wikipedia.org/w/index.php?search={}",
-			wa: "http://www.wolframalpha.com/input/?i={}",
-			wdev: "https://developer.mozilla.org/search?q={}",
-			y: "https://www.youtube.com/results?search_query={}",
-			aurl: "https://web.archive.org/web/*/{}",
-			aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
-			aurlid: "https://web.archive.org/web/20210311213055id_/{}",
-		},
-	},
-	"+": {
-		name: "do",
-		uri: encodeURIComponent("+"),
-		engines: {
-			aurl: "https://web.archive.org/save/{}",
-			draw: "https://docs.google.com/drawings/create?title={}",
-			/*
-				 WebBrowsers cannot directly open "data URLs",
-				 so (we will generate a goog.space with the "data URL to copy",
-				 via a new find query).
-				 data:[<mediatype>][;base64],<data>
-				 data:text/html,<script>alert('hi');</script>
-				 // how to handle the `;` for "optional param" ("named param" etc.)
-				 // should we change the placeholder from {} to [] to match URI/MDN?
-			 */
-			data: "data:{}{},{}",
-			"data-html": "data:text/html,{}",
-			"data-json": "data:application/json;charset=utf-8,{}",
-			doc: "https://docs.google.com/document/create?title={}",
-			r4: "https://radio4000.com/add?url={}",
-			r4p: "https://radio4000.com/{}/play",
-			r4pr: "https://radio4000.com/{}/play/random",
-			sheet: "https://docs.google.com/spreadsheets/create?title={}",
-			gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
-			gpt: "https://chat.openai.com/?model=gpt-4",
-			note: "https://note.internet4000.com/note?content={}",
-			wr: "https://en.wikipedia.org/wiki/Special:Random",
-			wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
-			rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
-			rtcmx:
+export class I4kFindSymbols {
+	get default() {
+		return {
+			"!": {
+				name: "search",
+				uri: encodeURIComponent("!"),
+				engines: {
+					"?": `${window.location.href}/#q=!docs%20{}`,
+					docs: "https://github.com/internet4000/find/#{}",
+					c: "https://contacts.google.com/search/{}",
+					cdn: "https://www.jsdelivr.com/?query={}",
+					ciu: "https://caniuse.com/#search={}",
+					d: "https://duckduckgo.com/?q={}",
+					dd: "https://devdocs.io/#q={}",
+					dr: "https://drive.google.com/drive/search?q={}",
+					g: "https://encrypted.google.com/search?q={}",
+					gh: "https://github.com/search?q={}",
+					gho: "https://github.com/search?q=org:{}",
+					ghu: "https://github.com/search?q=user:{}",
+					ghr: "https://github.com/search?q=repo:{}",
+					hn: "https://hn.algolia.com/?sort=byDate&query={}",
+					k: "https://keep.google.com/?q=#search/text%3D{}",
+					l: "https://www.linguee.com/search?query={}",
+					m: "https://www.google.com/maps/search/{}",
+					npm: "https://www.npmjs.com/search?q={}",
+					osm: "https://www.openstreetmap.org/search?query={}",
+					r4: "https://radio4000.com/search?search={}",
+					so: "https://stackoverflow.com/search?q={}",
+					tr: "https://translate.google.com/?q={}",
+					vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
+					w: "https://en.wikipedia.org/w/index.php?search={}",
+					wa: "http://www.wolframalpha.com/input/?i={}",
+					wdev: "https://developer.mozilla.org/search?q={}",
+					y: "https://www.youtube.com/results?search_query={}",
+					aurl: "https://web.archive.org/web/*/{}",
+					aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
+					aurlid: "https://web.archive.org/web/20210311213055id_/{}",
+				},
+			},
+			"+": {
+				name: "do",
+				uri: encodeURIComponent("+"),
+				engines: {
+					aurl: "https://web.archive.org/save/{}",
+					draw: "https://docs.google.com/drawings/create?title={}",
+					/*
+						 WebBrowsers cannot directly open "data URLs",
+						 so (we will generate a goog.space with the "data URL to copy",
+						 via a new find query).
+						 ref: https://developer.mozilla.org/en-US/docs/web/http/basics_of_http/data_urls
+						 data:[<mediatype>][;base64],<data>
+						 data:text/html,<script>alert('hi');</script>
+						 // how to handle the `;` for "optional param" ("named param" etc.)
+						 // should we change the placeholder from {} to [] to match URI/MDN?
+					 */
+					data: "data:{}:{},{}",
+					"data-plain": "data:,{}",
+					"data-html": "data:text/html,{}",
+					"data-json": "data:application/json;charset=utf-8,{}",
+					/* special utilities */
+					"data-64": "data:;base64,{}",
+					"data-un64": "data:,{}",
+
+					/* new google doc with title (no content query param;
+						 or named param for multiple strings and spaces
+						 (body, title, strings, lists etc.) */
+					doc: "https://docs.google.com/document/create?title={}",
+
+					/* A utility to go to Find the *local* development URL,
+						 since we no not store the find URL in the browser history;
+						 Also could allow access to locally executed functions.
+						 Note: ONLY "HTTP" (no -S-) URL */
+					local: "http://localhost:3000",
+					r4: "https://radio4000.com/add?url={}",
+					r4p: "https://radio4000.com/{}/play",
+					r4pr: "https://radio4000.com/{}/play/random",
+					sheet: "https://docs.google.com/spreadsheets/create?title={}",
+					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
+					gpt: "https://chat.openai.com/?model=gpt-4",
+					note: "https://note.internet4000.com/note?content={}",
+
+					/* "pollyfill the 'view-source:' for mobile device?
+						 browser catch that first when know how to handle " */
+					"view-source": "data:,{}",
+					wr: "https://en.wikipedia.org/wiki/Special:Random",
+					wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
+					rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
+					rtcmx:
 				"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
-			space: "https://goog.space/#input={}",
-		},
-	},
-	"&": {
-		name: "build",
-		uri: encodeURIComponent("&"),
-		engines: {
-			gh: "https://github.com/{}/{}",
-			gl: "https://gitlab.com/{}/{}",
-			i4kn: "https://{}.4000.network/{}",
-			firebase: "https://console.firebase.google.com/project/{}/overview",
-			mx: "https://matrix.to/#/{}",
-			netlify: "https://app.netlify.com/sites/{}/overview",
-			r4: "https://radio4000.com/{}",
-			r4c: "https://{}.4000.radio/{}",
-			ytid: "https://www.youtube.com/watch?v={}",
-		},
-	},
-	"#": {
-		name: "command",
-		uri: encodeURIComponent("#"),
-		fns: {
-			add: function (app, arg) {
-				/* Find function to "add a new engine":
-					 Example usage:
-					 #add ! ex https://example.org/?search={}
-				 */
-				let [symbol, id, url] = arg.split(" ");
-				if (symbol && id && window.confirm(`add ${symbol} ${id} ${url} ?`)) {
-					app.addEngine(app.getUserSymbols(), symbol, id, url);
-				}
+					space: "https://goog.space/#input={}",
+				},
 			},
-			del: function (app, arg) {
-				/* Find function to "delete an existing engine":
-					 Example usage:
-					 #del ! ex
-				 */
-				let [symbol, id] = arg.split(" ");
-				if (symbol && id && window.confirm(`del ${symbol} ${id} ?`)) {
-					app.delEngine(app.getUserSymbols(), symbol, id);
-				}
+			"&": {
+				name: "build",
+				uri: encodeURIComponent("&"),
+				engines: {
+					gh: "https://github.com/{}/{}",
+					gl: "https://gitlab.com/{}/{}",
+					i4kn: "https://{}.4000.network/{}",
+					firebase: "https://console.firebase.google.com/project/{}/overview",
+					mx: "https://matrix.to/#/{}",
+					netlify: "https://app.netlify.com/sites/{}/overview",
+					r4: "https://radio4000.com/{}",
+					r4c: "https://{}.4000.radio/{}",
+					so: "https://stackoverflow.com/questions/{}/",
+					ytid: "https://www.youtube.com/watch?v={}",
+				},
 			},
-			export: function(app, arg) {
-				/* Export userSymbols as data:json to a goog.space */
-				const userSymbols = app.getUserSymbols()
-				app.find(`+data-json ${userSymbols}`)
-			}
-		},
-	},
-};
+			"#": {
+				name: "command",
+				uri: encodeURIComponent("#"),
+				fns: {
+					help(app, arg) {
+						/* Finds help URL for a user query (with symbol) or not */
+						app.help();
+						if (arg) {
+							const {symbol} = app.decodeUserRequest(arg)
+							if (symbol) {
+								app.find(arg);
+							} else {
+								app.find(`!? ${arg}`);
+							}
+						}
+					},
+					add(app, arg) {
+						/* Find function to "add a new engine":
+							 Example usage (spaces matter):
+							 #add ! ex https://example.org/?search={}
+						 */
+						const [symbol, id, url] = arg.split(" ");
+						if (symbol && id && url) {
+							app.addEngine(app.getUserSymbols(), symbol, id, url);
+						}
+					},
+					del(app, arg) {
+						/* Find function to "delete an existing engine":
+							 Example usage (spaces matter):
+							 #del ! ex
+						 */
+						let [symbol, id] = arg.split(" ");
+						if (symbol && id) {
+							 app.delEngine(app.getUserSymbols(), symbol, id);
+						}
+					},
+					export(app, arg) {
+						/* Export userSymbols as data:json to a goog.space */
+						const userSymbols = app.getUserSymbols()
+						app.find(`+data-json ${JSON.stringify(userSymbols)}`)
+					},
+					import(app, jsonObjOrStr) {
+						/* Import user symbols from a JSON Object or String  */
+						if (jsonObjOrStr) {
+							app.importUserSymbols(jsonObjOrStr)
+						}
+					}
+				},
+			},
+		};
+	}
+	constructor(userSymbols = {}) {
+		if (userSymbols) {
+			this.symbols = this.newUserSymbols(userSymbols)
+		} else {
+			this.symbols = this.newUserSymbols()
+		}
+		return this
+	}
+	/* do not allow custom functions/commands (execute security risk;
+		 maybe until there is a decided URL DSL for Find),
+		 or custom symbol (community semantic on Find instance)*/
+	newUserSymbols(initialSymbolsMap = {}) {
+		return Object.keys(this.default)
+								 .filter((symbol) => !["#"].includes(symbol))
+								 .reduce((acc, symbol) => {
+									 acc[symbol] = {}
+									 const userSymbolData = initialSymbolsMap[symbol] || { engines: {} }
+									 const userEnginesForSymbol = userSymbolData.engines
+									 acc[symbol].engines = {}
+									 if (userEnginesForSymbol) {
+										 if (symbol === "#" || !this.default[symbol]) {
+											 // noop
+										 } else {
+											 acc[symbol].engines = userEnginesForSymbol
+										 }
+									 }
+									 return acc
+								 }, {})
+	}
+}
+
+/* a list of the default symbols */
+export const DEFAULT_SYMBOLS = new I4kFindSymbols().default
 
 /* generate the OSD needed to register as a browser search engine */
 export class OpenSearchDescription {
@@ -202,22 +276,19 @@ export class I4kFind {
 	constructor({
 		symbols,
 		queryParamName,
-		documentationUrl,
 		localStorageKey,
 		osd,
 	} = {}) {
 		this.localStorageKey = localStorageKey || "i4find";
 		this.queryParamName = queryParamName || "q";
-		this.documentationUrl =
-			documentationUrl || "https://github.com/internet4000/find";
-		this.symbols = symbols || DEFAULT_SYMBOLS;
+		// default I4KSymbol map of available symbols
+		this.symbols = symbols || new I4kFindSymbols().default;
 		this.osd = new OpenSearchDescription(osd || DEFAULT_OSD);
 	}
 
-	// add a new user engine
-	// to the list of user defined engines in user symbols
+	/* add a new user engine to the list of user symbols' engines */
 	addEngine(symbols, symbol, engineId, url) {
-		if (symbols[symbol]) {
+		if (this.symbols[symbol]) {
 			symbols[symbol].engines[engineId] = url;
 			this.setUserSymbols(symbols);
 		} else {
@@ -238,12 +309,13 @@ export class I4kFind {
 	// replaces the placeholder `{}` in a url, with the query, if any
 	// otherwise just returns the url
 	replaceUrlPlaceholders(url, query) {
-		if (typeof url != "string" || typeof query != "string") return "";
+		if (typeof url !== "string" || typeof query !== "string") return "";
 		const matches = url.match(/\{\}/g) || [];
 		if (!matches.length) return url;
 		if (!query.length) return url.replace(/\/?\{\}\/?/g, "");
-		if (matches.length === 1)
+		if (matches.length === 1) {
 			return url.replace("{}", encodeURIComponent(query));
+		}
 
 		query = query.trim();
 		const splitQuery = (function () {
@@ -261,34 +333,31 @@ export class I4kFind {
 				url = url.replace("{}", encodeURIComponent(splitQuery[index]));
 			}
 		});
-
 		return url;
 	}
 
 	// To get an engine url from its engine id,
 	// also pass a list of symbols and a symbol
 	getEngineUrl(symbols, symbol, engineId) {
-		const symbolEngines = symbols[symbol];
-		const engineUrl = symbolEngines.engines[engineId];
+		const symbolData = symbols[symbol];
+		let engineUrl;
+		if (symbol === "#") {
+			engineUrl = symbolData.fns[engineId];
+		} else {
+			engineUrl = symbolData.engines[engineId];
+		}
 		return engineUrl;
 	}
 
 	// returns a result url string to open
 	// default to "search for help if only a symbol"
 	// idea: https://en.wikipedia.org/wiki/Interpreter_(computing)
-	buildResultUrl(
+	buildEngineResultUrl(
 		userQuery,
 		symbols = this.symbols,
 		symbol = "!", // "search" by default
 		engineId = "d" // on the "default" engine
 	) {
-		const app = this;
-
-		// if symbol is fns, don't open url, but run the function
-		if (symbol === "#") {
-			const fns = symbols[symbol].fns[engineId];
-			return fns(app, userQuery);
-		}
 		const engineUrl = this.getEngineUrl(symbols, symbol, engineId);
 		return this.replaceUrlPlaceholders(engineUrl, userQuery);
 	}
@@ -301,10 +370,11 @@ export class I4kFind {
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
 	}
 
-	// is an engine available in a array of symbolGroups
-	getSymbolsForEngine(symbolGroups, symbol, engineId) {
-		if (!symbolGroups.length) return false;
-		const filteredGroups = symbolGroups.filter(function (symbols) {
+	/* in a list of symbolsMap,
+		 is an engine available  (priorize first symbolsMap, the user's)*/
+	getSymbolsMapForEngine(symbolMaps, symbol, engineId) {
+		if (!symbolMaps.length) return false;
+		const filteredGroups = symbolMaps.filter(function (symbols) {
 			if (!symbols || !symbols[symbol]) return false;
 			const engines = symbols[symbol].engines;
 			const fns = symbols[symbol].fns;
@@ -331,54 +401,58 @@ export class I4kFind {
 			return false;
 		}
 
-		const requestTerms = userRequest.split(" "),
-			requestSymbolGroup = requestTerms[0],
-			requestSymbol = this.checkForSymbol(requestSymbolGroup),
-			requestEngineId = requestSymbolGroup.slice(1),
-			allSymbolGroups = [this.getUserSymbols(), this.symbols];
+		const tokens = userRequest.split(" "),
+			symbolGroup = tokens[0],
+			symbol = this.checkForSymbol(symbolGroup),
+			engineId = symbolGroup.slice(1),
+			allSymbolMaps = [this.getUserSymbols(), this.symbols];
 
-		const returnData = {
-			requestTerms,
-			requestSymbolGroup,
-			requestSymbol,
-			requestEngineId,
+		const decodedRequest = {
+			tokens,
+			symbolGroup,
+			symbol,
+			engineId,
 			result: null,
 		};
 
-		// if there is no symbol, the whole userRequest is the query
-		if (!requestSymbol) {
-			returnData.result = this.buildResultUrl(userRequest);
-		}
-
 		// is the engine referenced in the	userSymbols or symbols
-		// let selectedSymbols = this.getRequestedSymbols(allSymbolGroups, requestSymbol, requestEngineId);
-		const selectedSymbols = this.getSymbolsForEngine(
-			allSymbolGroups,
-			requestSymbol,
-			requestEngineId
+		// let selectedSymbols = this.getRequestedSymbols(allSymbolMaps, symbol, engineId);
+		const symbolsMapWithEngine = this.getSymbolsMapForEngine(
+			allSymbolMaps,
+			symbol,
+			engineId
 		);
 
-		// if there are no selectedSymbols, we don't know the engine
-		if (!selectedSymbols && !returnData.result) {
-			returnData.result = this.buildResultUrl(userRequest);
+		// if there is no symbol, the whole userRequest is the query
+		if (!symbol) {
+			decodedRequest.result = this.buildEngineResultUrl(userRequest);
 		}
 
-		if (!returnData.result) {
+		// if there are no symbolsMapWithEngine, we don't know the engine
+		if (!decodedRequest.result && !symbolsMapWithEngine) {
+			decodedRequest.result = this.buildEngineResultUrl(userRequest);
+		}
+
+		if (!decodedRequest.result) {
 			// if we know the symbol and engine,
 			// the actual query is everything but the request's engine group (the first group)
-			const userRequestNoSymbol = requestTerms
-				.splice(1, requestTerms.length)
+			const userRequestWithoutSymbol = tokens
+				.splice(1, tokens.length)
 				.join(" ");
 
-			returnData.result = this.buildResultUrl(
-				userRequestNoSymbol,
-				selectedSymbols,
-				requestSymbol,
-				requestEngineId
-			);
+			/* if the symbol is for a function, the result is the user request */
+			if (symbol === "#") {
+				decodedRequest.result = userRequestWithoutSymbol
+			} else {
+				decodedRequest.result = this.buildEngineResultUrl(
+					userRequestWithoutSymbol,
+					symbolsMapWithEngine,
+					symbol,
+					engineId
+				);
+			}
 		}
-
-		return returnData;
+		return decodedRequest;
 	}
 
 	// check whether URL starts with a scheme
@@ -411,31 +485,45 @@ export class I4kFind {
 		if (!request) return false;
 		const decodedRequest = this.decodeUserRequest(request);
 		const { result } = decodedRequest;
-		const {open, display} = this.findUserAction(decodedRequest, openInBrowser)
-		debugger
+		const {open, display, exec} = this.findUserAction(decodedRequest, openInBrowser)
+		/* depending on the requested user/symbol(consequence) action,
+			 decide of an action to "evaluate" (open,display,tbd...); */
 		if (open) {
 			this.openUrl(result);
 		} else if (display) {
-			// we will display in the "+space" symbol engine (encodeURIComponent result?)
+			/* we will display in the "+space" symbol engine,
+				 (encodeURIComponent result?) */
 			this.find(`+space ${result}`)
+		} else if (exec) {
+			this.execUserRequest(decodedRequest)
 		}
 		return result;
+	}
+	execUserRequest(decodedRequest) {
+		const {symbol, engineId, result} = decodedRequest
+		const fns = this.symbols[symbol].fns[engineId];
+		fns(this, result);
 	}
 	findUserAction(decodedRequest, openInBrowser) {
 		const action = {
 			display: false,
 			open: false,
+			exec: false, // user defined `#` functions
 		}
 		/* treat the special cases, which should probably not "open a tab"
 			 because "re-read as a user-query" */
-		if (decodedRequest.requestSymbol === "+") {
+		if (decodedRequest.symbol === "+") {
 			// for all "do" action, which results in "data:" (a URI for no website)
 			if (decodedRequest.result.startsWith("data:")) {
 				action.display = true
 			}
 		}
-		/* by default we want to open a browser window/tab, if no "display" requested */
-		if (openInBrowser && !action.display) {
+		/* exec (user defined) functions */
+		if (decodedRequest.symbol === "#") {
+			action.exec = true
+		}
+		/* by default we want to open a browser window/tab, if no "display|exec|..." requested */
+		if (openInBrowser && !action.display && !action.exec) {
 			action.open = true;
 		}
 		return action
@@ -473,56 +561,57 @@ export class I4kFind {
 	// get the user symbols from local storage
 	// or returns an empty new set of symbols
 	getUserSymbols() {
-		let storageSymbols = {};
+		let userSymbols = {};
 		try {
-			storageSymbols = JSON.parse(localStorage.getItem(this.localStorageKey));
+			userSymbols = JSON.parse(localStorage.getItem(this.localStorageKey));
 		} catch (e) {
 			if (e.name === "SyntaxError") {
-				storageSymbols = null;
+				userSymbols = null;
 			}
 		}
-
-		if (!storageSymbols) {
-			storageSymbols = this.newUserSymbols();
+		if (!userSymbols) {
+			userSymbols = this.newUserSymbols();
 		}
-
-		return JSON.parse(JSON.stringify(storageSymbols));
+		return userSymbols;
 	}
 
 	// saves a new set of user symbols to local storage
-	setUserSymbols(newSymbols) {
-		if (!newSymbols) return;
-		const newSymbolsString = JSON.stringify(newSymbols);
-		localStorage.setItem(this.localStorageKey, newSymbolsString);
-		// cannot send event from here; we might be in browser/node
+	setUserSymbols(sourceSymbols) {
+		if (!sourceSymbols) return;
+		const serializedSymbols = this.newUserSymbols(sourceSymbols)
+		const symbolsString = JSON.stringify(serializedSymbols);
+		localStorage.setItem(this.localStorageKey, symbolsString);
+		// cannot send event from here; we might be in browser||node.js
 	}
 
 	// generates new userSymbols from copying original symbols
 	// to be used with Find default symbols (Find.symbols)
-	newUserSymbols() {
-		const fromSymbols = this.symbols;
-		const symbols = JSON.parse(JSON.stringify(fromSymbols));
-		Object.keys(symbols).forEach((symbol) => {
-			symbols[symbol].engines = {};
-			if (symbol === "#") {
-				delete symbols[symbol];
+	importUserSymbols(sourceSymbolsJSONAny) {
+		let userSymbols = null;
+		if (typeof sourceSymbolsJSONAny === 'string') {
+			try {
+				const sData = JSON.parse(sourceSymbolsJSONAny)
+				userSymbols = sData
+			} catch(e) {}
+		} else if (typeof sourceSymbolsJSONAny === 'object') {
+			userSymbols = sourceSymbolsJSONAny
+		}
+		if (userSymbols) {
+			/* "an entire object" */
+			if (userSymbols.userSymbols) {
+				this.setUserSymbols(this.newUserSymbols(userSymbols.userSymbols))
+			} else {
+				this.setUserSymbols(this.newUserSymbols(userSymbols))
 			}
-		});
-		return symbols;
+		}
+	}
+	newUserSymbols(initialSymbols) {
+		return new I4kFindSymbols(initialSymbols).symbols
 	}
 	suggestSymbols(query) {
 		/* const userRequest = this.decodeUserRequest(query); */
 		const suggestions = [1, 2, 3, 4];
 		return this.osd.createSuggestions(query, suggestions);
-	}
-
-	help() {
-		// write user documentation
-		console.info(`Documentation: ${this.documentationUrl}`);
-		console.info("— Usage: Find.find('!m brazil')");
-		console.info("- Usage: Find.getUserSymbols()");
-		console.info("- Usage:", "#add ! ex https://example.org/?search={}");
-		console.info("— Explore the window.Find object");
 	}
 }
 

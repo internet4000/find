@@ -31,7 +31,6 @@
   "i4k-find": {
     "localStorageKey": "i4find",
     "queryParamName": "q",
-    "documentationUrl": "https://github.com/internet4000/find",
     "shortName": "Find",
     "description": "Find anything anywhere",
     "image": "https://internet4000.github.io/find/assets/favicon.ico",
