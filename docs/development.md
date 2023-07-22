@@ -171,3 +171,80 @@ We try to only execute the user query part of the script, and not load
 any other file/assets, for speed.
 
 So the UI part (web components), 
+
+## Questions
+To be investigated.
+### symbols interpretation and combination
+Some questions about `symbols` and their lexical interpretation,
+combination, and execution (build & open URL currently).
+
+The pipe `|` symbol/operator? maybe to pipe the current url (or data)
+  as input, to other Find symbols, in the same query.
+
+"If first symbol is `|` pipe" or/and "if last symbol is `|` pipe";
+
+```txt
+# the user is on current URL: https://example.org
+|https://example.org <FindQuery|<SomethingElse>>
+|<stringData>|+space|+qrcode|+share-link
+|<stringURL>|+|+qrcode|+share-link
+|!sheet <spreadsheet-id>|&sheet-json
+```
+
+These could be saved as user/default defined "combinators" and
+function, to manipulate the data and URL they contain, and their app
+generates
+
+```txt
+## if a pipe `|` symbol existed
+#add | note2space2qr |+space {}|+qrcode
+## or if a #add-pipe "helper public user function" existed
+#
+```
+
+Could that do somehing interesting?
+
+Generally, a bit like shell or [reverse polish
+notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) or
+list based programming languages, could, from the URL, build things.
+
+Using the "local suggestion api" (see web-worker) and maybe [browser
+client side
+storage](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Client-side_storage), there could be interesting applications.
+
+## Links & refs
+References, links and inspirations:
+- https://en.wikipedia.org/wiki/OpenSearch
+- https://duckduckgo.com/bangs
+- https://github.com/arkenfox/user.js
+- https://kb.mozillazine.org/User.js_file
+- https://mozilla-services.readthedocs.io/en/latest/howtos/run-fxa.html
+- https://nyxt.atlas.engineer
+- https://en.wikipedia.org/wiki/APL_(programming_language)
+- https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
+- https://en.wikipedia.org/wiki/Menu_(computing)
+- https://en.wikipedia.org/wiki/Command-line_interface
+- https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
+- https://developer.mozilla.org/en-US/docs/web/http/basics_of_http/data_urls
+- https://developer.mozilla.org/en-US/docs/Web/HTML
+- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+- https://github.com/ch11ng/exwm
+- https://github.com/dundalek/awesome-lisp-languages (& BiwaScheme)
+- https://orgmode.org/manual/Properties-and-Columns.html (`#PROPERTY:`)
+- https://www.openapis.org/
+- https://postgrest.org
+- https://en.wikipedia.org/wiki/Bookmarklet
+- https://platform.openai.com/docs/plugins
+- https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs
+- https://plan9.io/sys/doc/acme/acme.html
+- https://en.wikipedia.org/wiki/Ed_(text_editor)
+- https://en.wikipedia.org/wiki/Bash_(Unix_shell)
+- https://en.wikipedia.org/wiki/Unix_filesystem
+- https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
+- https://docs.python.org/3/glossary.html#term-argument
+- https://en.wikipedia.org/wiki/Placeholder
+
+Explore as well:
+- https://stackoverflow.com/questions/4163879/call-javascript-function-from-url-address-bar

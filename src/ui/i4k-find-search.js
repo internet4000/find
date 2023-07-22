@@ -76,7 +76,8 @@ export default class I4kFindSearch extends HTMLElement {
 		$input.name = "search";
 		$input.value = this.search;
 		$input.required = true;
-		$input.pattern = this.pattern
+		/* not working, to only suggest available engines if empty */
+		/* $input.pattern = this.pattern */
 		$input.placeholder = this._buildRandomPlaceholder() || "!docs usage";
 		$input.setAttribute('title', 'Input a Find search query (any search)');
 		$input.addEventListener("input", this._handleInputChange.bind(this));

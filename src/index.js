@@ -17,6 +17,7 @@ if (typeof window === "undefined") {
 export const DEFAULT_SYMBOLS = {
 	"!": {
 		name: "search",
+		uri: encodeURIComponent("!"),
 		engines: {
 			"?": `${window.location.href}/#q=!docs%20{}`,
 			docs: "https://github.com/internet4000/find/#{}",
@@ -43,7 +44,7 @@ export const DEFAULT_SYMBOLS = {
 			vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
 			w: "https://en.wikipedia.org/w/index.php?search={}",
 			wa: "http://www.wolframalpha.com/input/?i={}",
-			wdev: "https://developer.mozilla.org/search?q={}"
+			wdev: "https://developer.mozilla.org/search?q={}",
 			y: "https://www.youtube.com/results?search_query={}",
 			aurl: "https://web.archive.org/web/*/{}",
 			aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
@@ -52,9 +53,22 @@ export const DEFAULT_SYMBOLS = {
 	},
 	"+": {
 		name: "do",
+		uri: encodeURIComponent("+"),
 		engines: {
 			aurl: "https://web.archive.org/save/{}",
 			draw: "https://docs.google.com/drawings/create?title={}",
+			/*
+				 WebBrowsers cannot directly open "data URLs",
+				 so (we will generate a goog.space with the "data URL to copy",
+				 via a new find query).
+				 data:[<mediatype>][;base64],<data>
+				 data:text/html,<script>alert('hi');</script>
+				 // how to handle the `;` for "optional param" ("named param" etc.)
+				 // should we change the placeholder from {} to [] to match URI/MDN?
+			 */
+			data: "data:{}{},{}",
+			"data-html": "data:text/html,{}",
+			"data-json": "data:application/json;charset=utf-8,{}",
 			doc: "https://docs.google.com/document/create?title={}",
 			r4: "https://radio4000.com/add?url={}",
 			r4p: "https://radio4000.com/{}/play",
@@ -65,7 +79,7 @@ export const DEFAULT_SYMBOLS = {
 			note: "https://note.internet4000.com/note?content={}",
 			wr: "https://en.wikipedia.org/wiki/Special:Random",
 			wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
-			rtc: "https://sctlib.gitlab.io/rtc/?matrix-peers={}&method={}",
+			rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
 			rtcmx:
 				"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
 			space: "https://goog.space/#input={}",
@@ -73,6 +87,7 @@ export const DEFAULT_SYMBOLS = {
 	},
 	"&": {
 		name: "build",
+		uri: encodeURIComponent("&"),
 		engines: {
 			gh: "https://github.com/{}/{}",
 			gl: "https://gitlab.com/{}/{}",
@@ -87,6 +102,7 @@ export const DEFAULT_SYMBOLS = {
 	},
 	"#": {
 		name: "command",
+		uri: encodeURIComponent("#"),
 		fns: {
 			add: function (app, arg) {
 				/* Find function to "add a new engine":
@@ -108,6 +124,11 @@ export const DEFAULT_SYMBOLS = {
 					app.delEngine(app.getUserSymbols(), symbol, id);
 				}
 			},
+			export: function(app, arg) {
+				/* Export userSymbols as data:json to a goog.space */
+				const userSymbols = app.getUserSymbols()
+				app.find(`+data-json ${userSymbols}`)
+			}
 		},
 	},
 };
@@ -258,8 +279,8 @@ export class I4kFind {
 	buildResultUrl(
 		userQuery,
 		symbols = this.symbols,
-		symbol = "!",
-		engineId = "d"
+		symbol = "!", // "search" by default
+		engineId = "d" // on the "default" engine
 	) {
 		const app = this;
 
@@ -384,15 +405,40 @@ export class I4kFind {
 	// takes a string, request query of a user, decode the request
 	// and open the "correct destination site" with the user requested query
 	// we want that all request succeed in opening a resulting website
+	// (AND?/OR) interpret the result with an other find action/query
 	// idea: https://en.wikipedia.org/wiki/GNU_Readline
 	find(request, openInBrowser = true) {
 		if (!request) return false;
 		const decodedRequest = this.decodeUserRequest(request);
 		const { result } = decodedRequest;
-		if (openInBrowser) {
+		const {open, display} = this.findUserAction(decodedRequest, openInBrowser)
+		debugger
+		if (open) {
 			this.openUrl(result);
+		} else if (display) {
+			// we will display in the "+space" symbol engine (encodeURIComponent result?)
+			this.find(`+space ${result}`)
 		}
 		return result;
+	}
+	findUserAction(decodedRequest, openInBrowser) {
+		const action = {
+			display: false,
+			open: false,
+		}
+		/* treat the special cases, which should probably not "open a tab"
+			 because "re-read as a user-query" */
+		if (decodedRequest.requestSymbol === "+") {
+			// for all "do" action, which results in "data:" (a URI for no website)
+			if (decodedRequest.result.startsWith("data:")) {
+				action.display = true
+			}
+		}
+		/* by default we want to open a browser window/tab, if no "display" requested */
+		if (openInBrowser && !action.display) {
+			action.open = true;
+		}
+		return action
 	}
 
 	// params: none

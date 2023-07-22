@@ -318,9 +318,8 @@ i4k-symbols-list article[symbol="#"] {
 	--c-symbol: var(--c-symbol--command);
 }
 
-i4k-symbols-list header {
+i4k-symbols-list dl {
 	border: 0.1rem solid var(--c-border);
-	background-color: var(--c-symbol);
 	border-radius: 0.2rem;
 	padding: 0.3rem 1rem;
 	font-size: 1.7rem;
@@ -330,9 +329,17 @@ i4k-symbols-list header {
 	top: 0;
 	margin: calc(var(--size) / 3);
 
+	background-color: var(--c-symbol);
+	background-clip: content-box;
+	-webkit-background-clip: content-box;
+	color: var(--c-fg);
+
 	/* visual vertical center tricks */
 	line-height: 1;
 	padding-top: 1rem;
+}
+i4k-symbols-list dd {
+	margin-left: 0;
 }
 i4k-symbols-list ul {
 	margin-top: 0.5rem;
@@ -351,6 +358,9 @@ i4k-symbols-list li em {
 i4k-symbols-list li a {
 	word-break: break-word;
 	text-align: right;
+}
+i4k-symbols-list li a mark {
+	background-color: var(--c-symbol);
 }
 i4k-symbols-list li input {
 	background-color: transparent;
