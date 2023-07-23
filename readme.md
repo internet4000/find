@@ -1,7 +1,67 @@
-About Find! (I4kFind, find, F!) URL and local first vanilla web app.
+# Find!
+Find (`I4kFind`) is a privacy friendly, client side, local/URL first
+toolkit, to customize a web browser's URL Omnibox (the search/address
+bar).
 
-> Find more examples and usages, and development notes in the
-> [./docs](./docs/) documention folder.
+> There are more examples of usages, and development notes in the
+> [./docs](./docs/) folder.
+
+It _does not need to be installed as a browser extension or addon_,
+though the UX feels more fluid when used as "default search engine"
+(can be self hosted, but does not need to in order to be customized).
+
+It does not make any search request itself, "just builds URLs" of
+_specialized websites_, to which is passed the user's "search query"
+(it could also be the value of URL parameters of any destination
+application).
+
+
+
+- makes a "normal search" by default (or if no Find syntax has been
+  found), as usual in browser's URL bar.
+- choose _on which search engine to search_, web search (default), map
+  position (`!m`), contacts (`!c`), wikipedia (`!w`) new spreadhseet
+  (`+sheet`) or matrix join chat link `&mx @user:domain.tld`, or
+  RTCPeerConnection to `&rtcmx @user:domain.tld`) etc.
+- DuckDuckGo also supports Bangs!, which will then be used if Find
+  does not know `!def find` (since a default query is passed to DDG)
+- save "user defined URLs" as engine(s) (a sort of "bookmark"), to be
+  re-accessed from their "shortcode", `!ex` → `https://example.org`
+- "route" the user query (with arguments), to any website
+  (application), by building its URL
+- build (custom) "destination URL" from patterns and placeholders
+  `https://example.org/my-app/{}/?query={}` (no support for named
+  placeholders yet)
+- URL utilility, build URIs, "data URL" (ex: `data:text/html,<h1>Hello
+  world</h1>`), to copy/share/edit/store temporary data, in various
+  formats
+- "pipe" outputs of other web-apps together, by their "(URL) outputs"
+- re-assign and customize the syntax, engines URLs and actions (under
+  the exisiting symbols); so it is the "user's favorite
+  applications/sites" that are used by default
+- synchronize between device(s) and browsers, without additional user
+  account (export/import to JSON, save as "site credentials", in JSON,
+  and optionally synchronize with the user/browser's password manager)
+- host a custom instance (with CI/CD or drag and drop), implemented in
+  vanilla HTML/CSS/Javascript(web-components), with no dependency and
+  no build-system (could be implemented with wasm or other tools)
+- define a new custom/local/browser-based "[open
+  search](https://opensearch.org/)" engine
+- "locally self hosted", with the web interface (`git clone`, `npm i
+  && npm run serve`, open `https://localhost?q=%s`, should be
+  discoverable as browser "open search engine"; and could use a
+  different "suggestion API")
+- (experiemental) get typing _suggestions_ from a client side API
+  (web-worker following the OpenSearchDescription suggestion
+  specification, catching "fetch queries" made to its own domain
+  (`window.location/api/suggestions/`))
+- as an accessible _starting template_ to experiment with what can the
+  browser URL can be used for, and how to _interpret_ and _execute_
+  queries, manage user defined data, syntax, functions
+- test/explore/save other aplication(s) "URL params", connect them
+  together, transform their output(s)
+- customize a user browser's starting page, default new tab, homepage,
+  HTML input and text string encoding/decoding/evaluation
 
 # Usage
 On [internet4000.github.io/find](https://internet4000.github.io/find)
@@ -9,14 +69,25 @@ it is possible to make queries to Find, such as `!docs usage` which
 will redirect the browser page, to this document (to the link with
 `#usage`).
 
-Find allows building URLs, linking to things avaiable as URIs in
-web-browsers, customizing what the omnibar can do, with code only
-running on the client side (as a website, with javascript).
+For additional usages see the [documentation](./docs/) folder.
 
-# How it works
-Find can intercept the user search query (also in the browser URL
-omnibar), and "decrypt the search query", with a predefined, and
-extensible syntax (that should fit URI schemes).
+# How
+Find is opened by the browser, as a search engine, with the query
+typed by the user in their web-browser's URL bar (or from a query
+inside a `<i4k-find-search/>` web-component, or a call to
+`Find.find("my query")` etc.).
+
+From the query, it will try to look for "the pattern it knows", to see
+it the user typed a Find query, if there are none, it will default to
+seaching, like a usual web-search, to the user's default search engine
+(to be defined by the user)
+
+# Help
+For community chat and support, see the
+[#i4k-find:matrix.org](https://matrix.to/#/#i4k-find:matrix.org) room,
+or the [git issues](https://github.com/internet4000/find/issues), as
+you see fit. Feedback, bug reports, engine/symbol/feature requests,
+suggestions welcome.
 
 # Install
 It is possible to use Find with
@@ -75,22 +146,112 @@ your URL bar (tip: focus the omnibox with the keyboard shortcut
 `Control + l`, the keys `Control` and the lowercase letter `L`, aka
 `C-l` ).
 
-## Example usage
-Here are example usage of "user queries", one can type in an input
-supportin Find queries (such as the one on the homepage).
+
+## Examples
+By default, a Find search query, goes to the default search engine
+(`!d`) in our case, [duckduckgo](https://duckduckgo.com), and it is
+possible to re-assign the "default search engine's value".
+
+Here are example usage of _user queries_, one can type in an input
+supporting _Find queries_ (such as [the one on the
+homepage](https://internet4000.github.io/find)). A Find search input
+will try to suggest the available symbols (`!&+#`) and their
+associated engines.
+
+> In the examples, lines prefixed with `;;` are comments, with `;;→`
+> outputs URL or Find queries.
+
+Example `search` with `!` symbol:
 
 ```txt
-!osm tokyo
-!gh linux
-+wr
-+wri
-&gh
-&gh internet4000
-&gh internet4000 find
-+sheet my new sheet
-+draw hello world
-... and more (all customizable)
+;; "default search", without anything "Find related"
+Hello world
+;;→ https://duckduckgo.com/?q=hello+world
+
+;; A "map" search, defaults to google map (can be re-assigned to open street map etc.)
+!m egypt
+;;→ https://www.google.com/maps/search/egypt
 ```
+
+Example `build` with `&` symbol:
+```
+;; go to, or buid a github profile/actor url
+&gh
+;;→ https://github.com
+
+&gh internet4000
+;;→ https://github.com/internet4000
+
+&gh internet4000 find
+... and more (all customizable)
+
+;; to build a "matrix link to room/user" URL
+&mx #i4k-find:matrix.org
+;;→ https://matrix.to/#/%23i4k-find%3Amatrix.org
+```
+
+Example `do` with `+` symbol:
 
 > Type any of these in a Find search input, or in your browser URL bar
 > (if Find is one of your browser search engine).
+
+```text
+;; create a new google spreadsheet (with a title)
++sheet my new sheet
+
+;; draw a new "google draw"
++draw hello world
+
+;; take a note
++note My note content
+
+;; create temporary "URL space" with text/|data
++space my data
+
+;; create a "data json url" value
+;; can be copied again to a new URL, stored as bookmark etc.
++data-json {"my-json": true}
+```
+
+Example `command` with the `#` symbol prefix (functions cannot
+currently be user defined, only the other exisiting symbols):
+
+```txt
+;; to "save" an engine as a new "user defined engine" (userEngines)
+#add ! ex https://example.org/
+;;→ will save this URL, can be called as !ex
+
+;; to add a new engine, with URL placeholders
+#add ! ex https://example.org/blog/{}
+;;→ will save this URL, can be called as !ex <blog-article-id>
+
+;; to add a new "buid" engine, with URL placeholders
+#add & ghi https://github.com/internet4000/{}
+;;→ will save this URL, can be called as &ghi find (to reach the project)
+```
+
+## Why
+Some reasons why this project exists:
+- gain (self) control of where search queries go after leaving the
+web-browser.
+- experiement with what can be done from typing into any browser's URL
+  (is the current cursor in a URL bar, a text search input, a REPL, a
+  notebook? Or it is just me typing on the keyboard?)
+- try to handle "not just search"
+- explore using the different URI/URL(s) outputed by the "user/Find
+   search queries", by the output(s) of the "web-app/sites" they
+   serve, and what the user is intending to do
+- share practical and nice URL(s) (`+wr` and `+wri` for serendipity,
+  placeholders)
+- interacting with computing interface(s) (url, shell, repl, notes,
+  chats, links) and other actors
+
+Some reasons why duckduckgo is the default search engine:
+- it supports `!` [bangs](https://duckduckgo.com/bangs) (13,563+
+  bangs! search engines)
+- it seems more privacy friendly that the rest (that support bangs;
+  are there any other?)
+
+Cons:
+- seems to "re-writte" the search results when you visit the search
+  result page, again, after visiting a first result's page

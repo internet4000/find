@@ -162,15 +162,14 @@ from their content.
 Maybe:
 - use their opensearch file, if they have one, and we can get data
   there (make a search query to their search/suggestion endpoint?)
-- 
 
 ## Visiting the find URL
 It is visited each time a search is made.
 
 We try to only execute the user query part of the script, and not load
-any other file/assets, for speed.
+any other file/assets if there is any, for speed.
 
-So the UI part (web components), 
+So the UI part (web components)
 
 ## Questions
 To be investigated.
@@ -231,11 +230,13 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+- https://www.postman.com/
 - https://github.com/ch11ng/exwm
-- https://github.com/dundalek/awesome-lisp-languages (& BiwaScheme)
+- https://github.com/dundalek/awesome-lisp-languages (`#BiwaScheme`)
 - https://orgmode.org/manual/Properties-and-Columns.html (`#PROPERTY:`)
 - https://www.openapis.org/
-- https://postgrest.org
+- https://postgrest.org/en/stable/references/api/url_grammar.html
+- https://jqlang.github.io/jq/ (json_grammar.html)
 - https://en.wikipedia.org/wiki/Bookmarklet
 - https://platform.openai.com/docs/plugins
 - https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs
@@ -249,3 +250,18 @@ References, links and inspirations:
 
 Explore as well:
 - https://stackoverflow.com/questions/4163879/call-javascript-function-from-url-address-bar
+## Notes
+Creating and using URI/URL, with a comprehensive syntax, allows to
+interact with the destination website/application, to feed it input
+parameters (and their values). This is a general pattern used in the
+Web and computing systems in general, for accessing web address and
+file system references.
+
+The data contained in the URL can then be re-used in the web site as
+an application input value, and that works well with web-components
+(executed on the user client side).
+
+```txt
+https://example.org/my-app?my-attribute=true&my-data={"my-json": 2}
+<my-component my-attribute="true" my-data='{"my-json": 2}'/>
+```

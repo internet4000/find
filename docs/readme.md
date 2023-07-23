@@ -10,7 +10,7 @@ class](https://github.com/internet4000/find/blob/main/src/index.js),
 [npm package](https://www.npmjs.com/package/i4k-find) and [git
 repository](https://github.com/internet4000/find).
 
-To install and use your own instance, follow the
+To install and use a personal/community instance, follow the
 installation/deployment guides.
 
 ## Browser search engine
@@ -219,25 +219,60 @@ programatically (better than others):
    instance
 
 ## Privacy
-This software does not collect any data, there are and should be no analytics
-functionalities on the user queries and usage.
+This software does not collect any data, there are and should be no
+analytics functionalities on the user queries and usage.
+
+It stores in the browsers local storage (could be improved, or
+enhanced), only the user defined customization(s).
 
 ### (Privacy warning) Cloudflare analytics
 
-There is a cloudflare analytics beacon. It is used to warn the user, if the
-request goes through to cloudflare, that they should install a
-advert-blocker. The resulting analytics of user who do not have advertising
-de-activated, are stored in Cloudflare analytics, but will never be used to
-process user data of any kind. Sometimes an admin looks at the map to see where the request to the site comes from.
+There is a cloudflare analytics beacon.
+
+It sends a HTTP get request, to cloudflare, to check if it can. If it
+can, it warns the user that they should install a "blocker" with
+instructions.
+
+If the HTTP request succeeds (user has no advert blocker),
+[Cloudflare](https://www.cloudflare.com/analytics/), eventually must
+be saving the "request information", for a certain amount of time.
+
+The user query is (and should) never be shared with Cloudflare, the
+`#` param where the user request, always stays on the client side of
+the browser.
+
+It is used to warn the user:
+- if the request goes through to cloudflare, that they should install
+a advert-blocker. The resulting analytics of user who do not have
+advertising de-activated, are stored in Cloudflare analytics, but will
+never be used to process user data of any kind. Sometimes an admin
+looks at the map to see where the request to the site comes from.
+- if the request is rejected, it removes itself from the DOM (see
+@TODO:flag-rm-analytics-beacon)
 
 ### About the hash parameter
+When making a search to an instance of find, the user query is passed
+to the client side application, and never to the server.
 
-When making a search to an instance of find, the user query is passed to the client side application, and never to the server.
+The query should never leave the user browser (and reach the server
+hosting the site serving the Find webpage and code), [as it is passed
+to the browser as value of the `hash` parameter](
+https://en.wikipedia.org/wiki/URI_fragment).
 
-The query should never leave the user browser, to reach to host of the Find
-static webpage/code, as it is passed to the browser hash parameter (and not
-search parameter). This should protect more the privacy of the user, as it does
-not leak the query through the search param to, for example, github.io pages.
+This should help protect more the privacy of the user, as the value of
+the `hash` parameter in a URL, does not "leak the user query" to the
+server it is hosted on (or any third party; there are none, except the
+Cloudflare beacon, which can be removed; @TODO: add flag to local
+storage to not even insert; but need to define first user settings,
+more than just the custom engines).
+
+- Find uses the [hash](https://en.wikipedia.org/wiki/URI_fragment) `#`
+  URL Search Parameter; uses `#q=`
+- versus the [query](https://en.wikipedia.org/wiki/Query_string) `?`
+  URL Search Parameter (do not use; it used to only handle `?q=`, but
+  removed for the reason explained here; @TODO:rm-query-search-param
+  currently left in as fallback for legacy migration; and maybe
+  alternative entry point, somehow if some need)
 
 ## License
 The code of this software uses the [GNU General Public License
