@@ -172,6 +172,20 @@ export class I4kFindSymbols {
 					}
 				},
 			},
+			/* protocol(s) "follyfill/proxy" in the form `<protocol><:>//`
+				 ref: https://en.wikipedia.org/wiki/List_of_URI_schemes
+				 For protocols, use `//` engine as the default "protocol proxy",
+				 so it is "user customizable; but kinf of private"
+			 */
+			/* ex: gemini://kennedy.gemi.dev */
+			"gemini:": {
+				name: "gemini",
+				uri: encodeURIComponent("gemini:"),
+				engines: {
+					"//": "https://portal.mozz.us/gemini/{}",
+					d: "gemini://kennedy.gemi.dev/{}",
+				}
+			},
 		};
 	}
 	constructor(userSymbols = {}) {
@@ -343,12 +357,37 @@ export class I4kFind {
 		return this.replaceUrlPlaceholders(engineUrl, userQuery);
 	}
 
-	// is there a symbol in this symbol group? `!ex` return `!` !
+	// is there a symbol in this symbol group? `!ex` returns `!`
 	checkForSymbol(symbolGroup) {
-		const availableSymbols = Object.keys(this.symbols),
+		const availableSymbols = Object.keys(this.symbols);
+		let symbol;
+		try {
+			// if is a URI scheme
+			const symbolUri = new URL(symbolGroup)
+			symbol = symbolUri.protocol;
+		} catch(e) {
+			// not an error
+		}
+		if (!symbol) {
+			// otherwise it is "the first char", (of the symbol/engine group)
 			symbol = symbolGroup.charAt(0);
-
+		}
 		return availableSymbols.indexOf(symbol) >= 0 ? symbol : false;
+	}
+
+	checkForEngine(symbolGroup, symbol) {
+		const engine = symbolGroup.split(symbol)[1];
+		/* handle a symbol that is a URI scheme protocol polyfill */
+		if (symbol.endsWith(":")) {
+			if (engine.startsWith('//')) {
+				/* the "protocol proxy engine" */
+				return "//"
+			} else {
+				return engine
+			}
+		} else {
+			return engine
+		}
 	}
 
 	/* in a list of symbolsMap,
@@ -357,8 +396,7 @@ export class I4kFind {
 		if (!symbolMaps.length) return false;
 		const filteredGroups = symbolMaps.filter(function (symbols) {
 			if (!symbols || !symbols[symbol]) return false;
-			const engines = symbols[symbol].engines;
-			const fns = symbols[symbol].fns;
+			const {engines, fns} = symbols[symbol];
 			if (engines) {
 				return engines[engineId] ? true : false;
 			}
@@ -382,22 +420,24 @@ export class I4kFind {
 			return false;
 		}
 
+		const allSymbolMaps = [this.getUserSymbols(), this.symbols];
 		const tokens = userRequest.split(" "),
-			symbolGroup = tokens[0],
-			symbol = this.checkForSymbol(symbolGroup),
-			engineId = symbolGroup.slice(1),
-			allSymbolMaps = [this.getUserSymbols(), this.symbols];
+					symbolGroup = tokens[0],
+					symbol = this.checkForSymbol(symbolGroup),
+					engineId = this.checkForEngine(symbolGroup, symbol),
+					userRequestWithoutSymbol = symbol ? tokens.splice(1, tokens.length).join(" ") : userRequest;
 
 		const decodedRequest = {
 			tokens,
 			symbolGroup,
 			symbol,
 			engineId,
+			userRequest,
+			userRequestWithoutSymbol,
 			result: null,
 		};
 
 		// is the engine referenced in the	userSymbols or symbols
-		// let selectedSymbols = this.getRequestedSymbols(allSymbolMaps, symbol, engineId);
 		const symbolsMapWithEngine = this.getSymbolsMapForEngine(
 			allSymbolMaps,
 			symbol,
@@ -414,15 +454,25 @@ export class I4kFind {
 			decodedRequest.result = this.buildEngineResultUrl(userRequest);
 		}
 
+		// if we know the symbol and engine
 		if (!decodedRequest.result) {
-			// if we know the symbol and engine,
-			// the actual query is everything but the request's engine group (the first group)
-			const userRequestWithoutSymbol = tokens
-				.splice(1, tokens.length)
-				.join(" ");
-
-			/* if the symbol is for a function, the result is the user request */
-			if (symbol === "#") {
+			/* if the symbol is a URI "protocol" */
+			if (symbol.endsWith(':')) {
+				/* if it is a URI from this protocol (not a "search text query"),
+				 build a result from the entire query (URI),
+					 using `//` as "protocol proxy engine ID" (of <scheme)://<info>) */
+				if (symbolGroup.startsWith(`${symbol}${engineId}`)) {
+					decodedRequest.result = this.buildEngineResultUrl(
+						symbolGroup.split(`${symbol}${engineId}`)[1],
+						symbolsMapWithEngine,
+						symbol,
+						engineId
+					);
+				} else {
+					debugger
+				}
+			} else if (symbol === "#") {
+				/* if the symbol is for a find "#command"  */
 				decodedRequest.result = userRequestWithoutSymbol
 			} else {
 				decodedRequest.result = this.buildEngineResultUrl(
@@ -446,7 +496,9 @@ export class I4kFind {
 		// so after transition, clicking the back button does not hit find/?q=search
 		// that would transition again to a search result
 		if (!url) return;
-		if (!this.checkUrl(url)) url = "//" + url;
+		if (!this.checkUrl(url)) {
+			url = "//" + url;
+		}
 
 		/* when in browser */
 		if (isBrowser) {
