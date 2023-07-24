@@ -419,13 +419,16 @@ export class I4kFind {
 	}
 
 	checkForEngine(symbolGroup, symbol) {
+		if (!symbol) {
+			return
+		}
 		const engine = symbolGroup.split(symbol)[1];
 		/* handle a symbol that is a URI scheme protocol polyfill */
 		if (symbol.endsWith(":")) {
 			if (engine.startsWith('//')) {
-				/* the "protocol proxy engine" */
-				return "//"
-			} else {
+			/* the "protocol proxy engine" */
+			return "//"
+	} else {
 				return engine
 			}
 		} else {
@@ -462,7 +465,6 @@ export class I4kFind {
 		if (!userRequest) {
 			return false;
 		}
-
 		const allSymbolMaps = [this.getUserSymbols(), this.symbols];
 		const tokens = userRequest.split(" "),
 					symbolGroup = tokens[0],
@@ -502,7 +504,7 @@ export class I4kFind {
 			/* if the symbol is a URI "protocol" */
 			if (symbol.endsWith(':')) {
 				/* if it is a URI from this protocol (not a "search text query"),
-				 build a result from the entire query (URI),
+					 build a result from the entire query (URI),
 					 using `//` as "protocol proxy engine ID" (of <scheme)://<info>) */
 				if (symbolGroup.startsWith(`${symbol}${engineId}`)) {
 					decodedRequest.result = this.buildEngineResultUrl(
@@ -558,7 +560,9 @@ export class I4kFind {
 	// (AND?/OR) interpret the result with an other find action/query
 	// idea: https://en.wikipedia.org/wiki/GNU_Readline
 	find(request, openInBrowser = true) {
-		if (!request) return false;
+		if (!request || typeof request !== "string")  {
+			return
+		}
 		const decodedRequest = this.decodeUserRequest(request);
 		const { result } = decodedRequest;
 		const {open, display, exec} = this.findUserAction(decodedRequest, openInBrowser)
