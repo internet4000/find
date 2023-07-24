@@ -15,10 +15,9 @@ _specialized websites_, to which is passed the user's "search query"
 (it could also be the value of URL parameters of any destination
 application).
 
-
-
-- makes a "normal search" by default (or if no Find syntax has been
-  found), as usual in browser's URL bar.
+- used as fallback when the browser does resolve a URL address
+- "normal web search" by default (and if no Find syntax is
+  found), to the "default web search engine"
 - choose _on which search engine to search_, web search (default), map
   position (`!m`), contacts (`!c`), wikipedia (`!w`) new spreadhseet
   (`+sheet`) or matrix join chat link `&mx @user:domain.tld`, or
@@ -56,6 +55,10 @@ application).
   (web-worker following the OpenSearchDescription suggestion
   specification, catching "fetch queries" made to its own domain
   (`window.location/api/suggestions/`))
+- (experiemental) "proxy/polyfill URISchemeProtocol
+  `<protocol><:><//><ressource>`, to support a fallback when user
+  requests `gopher://gopher.floodgap.com`,
+  `gemini://kennedy.gemi.dev`, `finger://`, `text://` etc.
 - as an accessible _starting template_ to experiment with what can the
   browser URL can be used for, and how to _interpret_ and _execute_
   queries, manage user defined data, syntax, functions

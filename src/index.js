@@ -156,7 +156,7 @@ export class I4kFindSymbols {
 						 */
 						let [symbol, id] = arg.split(" ");
 						if (symbol && id) {
-							 app.delEngine(app.getUserSymbols(), symbol, id);
+							app.delEngine(app.getUserSymbols(), symbol, id);
 						}
 					},
 					export(app, arg) {
@@ -178,7 +178,9 @@ export class I4kFindSymbols {
 				 so it is "user customizable; but kinf of private"
 				 ;; note: could lead to re-organizing symbols by protocols?
 				 ;; or it is handled by "nested Find queries in the syntax"
-			 */
+				 ;; note: protocols might need "to declare Find as handler app",
+				 we should do a for each and register, somewhere
+			*/
 			/* ex: gemini://kennedy.gemi.dev */
 			"gemini:": {
 				name: "gemini",
@@ -227,6 +229,24 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("nex:"),
 				engines: {
 					"//": "https://portal.mozz.us/nex/{}",
+				},
+			},
+			/* ex: maps:<tokyo river>
+				 issue: `maps:` should have no `//` part in scheme */
+			"maps:": {
+				name: "maps",
+				uri: encodeURIComponent("maps:"),
+				engines: {
+					"//": "https://www.openstreetmap.org/search?query={}",
+				},
+			},
+			/* ex: maps:<tokyo river>
+				 issue: `maps:` should have no `//` part in scheme */
+			"git:": {
+				name: "git",
+				uri: encodeURIComponent("git:"),
+				engines: {
+					"//": "https://{}",
 				},
 			},
 		};
@@ -346,13 +366,13 @@ export class I4kFind {
 
 	// replaces the placeholder `{}` in a url, with the query, if any
 	// otherwise just returns the url
-	replaceUrlPlaceholders(url, query) {
+	replaceUrlPlaceholders(url, query, encode = true) {
 		if (typeof url !== "string" || typeof query !== "string") return "";
 		const matches = url.match(/\{\}/g) || [];
 		if (!matches.length) return url;
 		if (!query.length) return url.replace(/\/?\{\}\/?/g, "");
 		if (matches.length === 1) {
-			return url.replace("{}", encodeURIComponent(query));
+			return url.replace("{}", encode ? encodeURIComponent(query) : query);
 		}
 
 		query = query.trim();
@@ -368,7 +388,8 @@ export class I4kFind {
 			if (index >= splitQuery.length) {
 				url = url.replace(/\/?\{\}\/?/g, "");
 			} else {
-				url = url.replace("{}", encodeURIComponent(splitQuery[index]));
+				const value = splitQuery[index]
+				url = url.replace("{}", encode ? encodeURIComponent(value) : value);
 			}
 		});
 		return url;
@@ -394,10 +415,11 @@ export class I4kFind {
 		userQuery,
 		symbols = this.symbols,
 		symbol = "!", // "search" by default
-		engineId = "d" // on the "default" engine
+		engineId = "d", // on the "default" engine
+		encode = true // encodeUriComponent (not for "protocol:" symbol)
 	) {
 		const engineUrl = this.getEngineUrl(symbols, symbol, engineId);
-		return this.replaceUrlPlaceholders(engineUrl, userQuery);
+		return this.replaceUrlPlaceholders(engineUrl, userQuery, encode);
 	}
 
 	// is there a symbol in this symbol group? `!ex` returns `!`
@@ -511,7 +533,8 @@ export class I4kFind {
 						symbolGroup.split(`${symbol}${engineId}`)[1],
 						symbolsMapWithEngine,
 						symbol,
-						engineId
+						engineId,
+						false // do not encode the URI component (broken `/` for protocol ressource pathes)
 					);
 				} else {
 					debugger

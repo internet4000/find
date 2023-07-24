@@ -169,7 +169,25 @@ It is visited each time a search is made.
 We try to only execute the user query part of the script, and not load
 any other file/assets if there is any, for speed.
 
-So the UI part (web components)
+So the UI part (web components) only loads if find does not need to
+redirect to the final page requested by the user.
+
+Also, as a utility for "other internet protocols", Find tries to
+"polyfill" different protocols with a "proxy".
+
+`gopher://gopher.floodgap.com`
+`gemini://kennedy.gemi.dev`
+`spartan://spartan.mozz.us`
+`finger://happynetbox.com`
+`text://txt.textprotocol.org`
+`<URISchemeProtocol><:><//><ressource>`
+
+Where `//` is the default "engine used by the protocol, and the
+protocol symbol ID is the value of `new URL(<schemeID:>//).protocol`.
+
+So to overvwritte the protocol proxy **web** app (protocol http(s) to
+protocol `<schemeId>`), we need to overvwritte its engine `//` (the
+default "web-to-protocol proxy").
 
 ## Questions
 To be investigated.
@@ -257,6 +275,7 @@ References, links and inspirations:
 - https://kb.mozillazine.org/User.js_file
 - https://mozilla-services.readthedocs.io/en/latest/howtos/run-fxa.html
 - https://nyxt.atlas.engineer
+- https://en.wikipedia.org/wiki/Web_Ontology_Language
 - https://en.wikipedia.org/wiki/APL_(programming_language)
 - https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
 - https://en.wikipedia.org/wiki/List_of_URI_schemes
