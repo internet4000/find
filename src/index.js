@@ -176,6 +176,8 @@ export class I4kFindSymbols {
 				 ref: https://en.wikipedia.org/wiki/List_of_URI_schemes
 				 For protocols, use `//` engine as the default "protocol proxy",
 				 so it is "user customizable; but kinf of private"
+				 ;; note: could lead to re-organizing symbols by protocols?
+				 ;; or it is handled by "nested Find queries in the syntax"
 			 */
 			/* ex: gemini://kennedy.gemi.dev */
 			"gemini:": {
@@ -183,8 +185,49 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("gemini:"),
 				engines: {
 					"//": "https://portal.mozz.us/gemini/{}",
-					d: "gemini://kennedy.gemi.dev/{}",
+					// can't yet handle "protocol engine case"
+					/* d: "gemini://kennedy.gemi.dev/{}", */
 				}
+			},
+			/* ex: text://txt.textprotocol.org */
+			"text:": {
+				name: "text",
+				uri: encodeURIComponent("text:"),
+				engines: {
+					"//": "https://portal.mozz.us/text/{}",
+				}
+			},
+			/* ex: finger://thebackupbox.net/ring */
+			"finger:": {
+				name: "finger",
+				uri: encodeURIComponent("finger:"),
+				engines: {
+					"//": "https://portal.mozz.us/finger/{}",
+				}
+			},
+			/* ex: gopher://gopher.floodgap.com  */
+			"gopher:": {
+				name: "gopher",
+				uri: encodeURIComponent("gopher:"),
+				engines: {
+					"//": "https://portal.mozz.us/gopher/{}",
+				}
+			},
+			/* ex: spartan://spartan.mozz.us  */
+			"spartan:": {
+				name: "spartan",
+				uri: encodeURIComponent("spartan:"),
+				engines: {
+					"//": "https://portal.mozz.us/spartan/{}",
+				},
+			},
+			/* ex: nex://nex.nightfall.city */
+			"nex:": {
+				name: "nex",
+				uri: encodeURIComponent("nex:"),
+				engines: {
+					"//": "https://portal.mozz.us/nex/{}",
+				},
 			},
 		};
 	}
