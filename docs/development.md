@@ -173,6 +173,7 @@ So the UI part (web components)
 
 ## Questions
 To be investigated.
+
 ### symbols interpretation and combination
 Some questions about `symbols` and their lexical interpretation,
 combination, and execution (build & open URL currently).
@@ -211,6 +212,43 @@ Using the "local suggestion api" (see web-worker) and maybe [browser
 client side
 storage](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Client-side_storage), there could be interesting applications.
 
+### i4k-find URI scheme
+
+To represent a find query and what to expect; ref:
+https://en.wikipedia.org/wiki/List_of_URI_schemes
+
+```txt
+i4k-find://host[:port][;/#<param>=<query>]
+;; https://host[:port][;/#<param>=<query>]
+;; file://host[:port][;/#<param>=<query>]
+```
+
+> with a `#` param, its value should not be sent by the client
+> (accessing the URL), to the server (serving the document, pointed by
+> this URL). But the client should use the hash param value, with the
+> document (code/data) returned by the server
+
+Could also imagine (if we trust the server):
+```txt
+i4k-find://host[:port]/<query>
+i4k-find://host[:port]/<symbol>/<engine>/<query>
+i4k-find://host[:port]/<symbol>/<engine>/<query>
+```
+
+Where `<symbol>` and `<engine>` are utf-8 text strings, without
+spaces, and query is also a string but can contain any characters.
+
+In the case of find symbols and engines, where the engine URL, is a
+"non-standardly accesible URL" (ex:
+`data:application/json;charset=utf-8,{}`), we could also use a Find
+URI scheme, to return a `i4k-find://` prefix. Find could therefore
+figure that it needs to be called again, to interpret a query again.
+
+As an alternative, `window.location` is the equivalent if the current
+Find client needs to check if the user request should be re-analyzed
+by Find.
+
+
 ## Links & refs
 References, links and inspirations:
 - https://en.wikipedia.org/wiki/OpenSearch
@@ -231,6 +269,7 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 - https://www.postman.com/
+- https://www.dns.toys/
 - https://github.com/ch11ng/exwm
 - https://github.com/dundalek/awesome-lisp-languages (`#BiwaScheme`)
 - https://orgmode.org/manual/Properties-and-Columns.html (`#PROPERTY:`)

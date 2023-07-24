@@ -24,7 +24,8 @@ application).
   (`+sheet`) or matrix join chat link `&mx @user:domain.tld`, or
   RTCPeerConnection to `&rtcmx @user:domain.tld`) etc.
 - DuckDuckGo also supports Bangs!, which will then be used if Find
-  does not know `!def find` (since a default query is passed to DDG)
+  does not know a "search `!` engine"; ex: `!def find` (will will
+  delegate the to DDG, which knows what to do with `!def`)
 - save "user defined URLs" as engine(s) (a sort of "bookmark"), to be
   re-accessed from their "shortcode", `!ex` → `https://example.org`
 - "route" the user query (with arguments), to any website
@@ -255,3 +256,9 @@ Some reasons why duckduckgo is the default search engine:
 Cons:
 - seems to "re-writte" the search results when you visit the search
   result page, again, after visiting a first result's page
+
+# License
+The code of this software uses the [GNU General Public License
+v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
+software](https://en.wikipedia.org/wiki/Free_software) (see
+`/license.txt`).

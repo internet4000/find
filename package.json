@@ -14,7 +14,7 @@
     "url": "git+https://github.com/internet4000/find.git"
   },
   "author": "internet4000 and contributors",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/internet4000/find/issues"
   },

@@ -274,11 +274,6 @@ more than just the custom engines).
   currently left in as fallback for legacy migration; and maybe
   alternative entry point, somehow if some need)
 
-## License
-The code of this software uses the [GNU General Public License
-v3](https://www.gnu.org/licenses/gpl.html), which makes it [Free
-software](https://en.wikipedia.org/wiki/Free_software).
-
 ## Debug this software (live, in the browser)
 The easieset way to start debugging is from the developer tools of
 a web browser. Because Find is unminified javascript code, it is
