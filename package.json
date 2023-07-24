@@ -9,6 +9,9 @@
     "test": "ava",
     "opensearch": "node ./src/scripts/opensearch-xml.js"
   },
+  "bin": {
+    "i4k-find": "src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/internet4000/find.git"
