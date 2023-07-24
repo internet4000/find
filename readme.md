@@ -200,8 +200,8 @@ Example `do` with `+` symbol:
 ;; create a new google spreadsheet (with a title)
 +sheet my new sheet
 
-;; draw a new "google draw"
-+draw hello world
+;; make a drawing
++draw 
 
 ;; take a note
 +note My note content

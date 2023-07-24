@@ -89,7 +89,7 @@ complete an action; add a item to a library, create a drawing, find a random
 image or text etc.
 
 - `+r4 [url]` - add a new track to a radio4000, from a youtube URL
-- `+draw [title]` - open a new drawing in Google Drive Draw
+- `+draw` - create a new drawing in tldraw
 - `+doc [title]` - open a new Google Docs document
 - `+sheet` - open a new Google Spreadsheets document
 - `+gmail` - open a new Gmail (Google Mail) email

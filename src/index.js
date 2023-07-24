@@ -58,7 +58,7 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("+"),
 				engines: {
 					aurl: "https://web.archive.org/save/{}",
-					draw: "https://docs.google.com/drawings/create?title={}",
+					draw: "https://www.tldraw.com",
 					/*
 						 WebBrowsers cannot directly open "data URLs",
 						 so (we will generate a goog.space with the "data URL to copy",
