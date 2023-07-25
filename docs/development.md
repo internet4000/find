@@ -2,6 +2,15 @@
 To deploy a new instance, work on new features, bug fixes, tests and
 prototypes.
 
+> The project should be able to run locally without the need of a
+> developement server, but requires manually fixing the "assets path"
+> (CORS error if `file:///.../internet4000/find/index.html` is
+> opened).
+
+>Similarely, an other server can be used than the one provided, ex:
+>`python3 -m http.server --directory .` Node.js is currently only
+>required for running the tests.
+
 ## Documentation
 
 - the javascript file `src/index.js` contains all the code for I4kFind.
@@ -14,15 +23,7 @@ prototypes.
 > and css code, that runs only in the user's browser tab.
 
 ## General
-We don't need a development server to use locally.
 
-1. get all the code (clone or download this repository)
-1. open the index.html in a web browser
-
-> With this method, refresh the pages after you make changes, to test
-> them.
-
-Alternatively, a node server for development and testing can be used. In this project's `package.json` file, are defined some script that can help us get started, run the following commands in a terminal shell:
 
 - `npm install` to get the development dependencies (there are, and
   should be, no production dependencies)
@@ -56,9 +57,36 @@ version on npm).
 
 ## Deployment
 There are diverse possibilities to deploy a new instance with a custom
-Find, generally it will need the correct values for:
+Find, generally it will need the correct values for the `I4K_FIND_URL`
+environment variable, `https://example.org/my-find`. As reference,
+check the different CI/CD workflow recipes.
 
-- `I4K_FIND_URL` environment variable, `https://example.org/my-find`
+> The recommended method is to use a CI/CD recipe to deploy a custom
+> instance, to a custom server (or pages like the default
+> insance). That way it regroups the code, the infrastructure that
+> deploys it and the server that hosts it together.
+
+### Drag and drop on a "static file server"
+Because the code of Find has no build pipeline, deploying a new
+instance of Find should be as simple as copying the entire `/find`
+folder (this repo) on a web server.
+
+For a "clean deployment", it is better to copy the required files,
+into a new folder. See the CI/CD recipes references, which automate
+this process by listing the required steps and commands.
+
+### static pages from providers
+Makes a fork of the project, and deploy to a "static pages provider"
+connected with the git repo. There is no `build` step, and the
+project's root folder is `.` for the current proejct folder (or `/`
+depending on the provider).
+
+[![Deploy to
+Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/internet4000/find)
+
+[![Deploy with
+Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/internet4000/find)
+
 
 ### github fork & actions (for own instance)
 - fork this repository
@@ -73,10 +101,9 @@ Find, generally it will need the correct values for:
 - it should use the `pages` job/pipeline, that will deploy a new instance
 ## Testing
 To run the tests, after having done `npm install` to get the initial
-dependencies:
-- run `npm run test`
-- it will run test onces
-- 
+dependencies, and `npm run test` to run the tests once.
+
+See [ava's documentation](https://github.com/avajs/ava) for usage.
 
 ## Sync
 Could try to auto sync user defined engines, by "submitting all
@@ -110,9 +137,12 @@ scripts), and the deployment && XML file (and all config) would be
 correct.
 
 The generation is done by the file `src/scripts/opensearch-xml.js`,
-which can be called with the command `npm run opensearch`.
+which can be called with the command `npm run opensearch`, (and is run
+for each new deploy in the CI/CD recipes).
 
-This should generate the correct `/opensearch.xml
+This should generate the correct `opensearch.xml`, from information
+that the scripts finds from the `package.json` file and `"i4k-find"`
+key. As reference, check the project's own.
 
 ## Open Search Suggestions API
 The objective with this "web-worker client-side API", is to allow Find

@@ -27,9 +27,10 @@ export default class I4kFindInfo extends HTMLElement {
 	}
 	getSymbolsLength(symbols) {
 		let length = 0;
-		Object.values(symbols).forEach((symbol) => {
-			length += symbol.engines ? Object.keys(symbol.engines).length : 0;
-		});
+		Object.values(symbols)
+					.forEach((symbol) => {
+						length += symbol.engines ? Object.keys(symbol.engines).length : 0;
+					});
 		return length;
 	}
 	/* an alias for the public api */
@@ -49,83 +50,85 @@ export default class I4kFindInfo extends HTMLElement {
 	renderSymbols(symbolsMap, title) {
 		/* for each symbol render a symbol list with info */
 		const $symbols = document.createElement("i4k-symbols-list");
-		Object.keys(DEFAULT_SYMBOLS).forEach((symbolId) => {
-			const defaultData = DEFAULT_SYMBOLS[symbolId]
-			const symbolData = symbolsMap[symbolId]
-			const {
-				name: symbolName = defaultData.name,
-				uri = defaultData.uri,
-				engines,
-				fns,
-			} = symbolData || {};
+		Object.keys(DEFAULT_SYMBOLS)
+					.filter((symbolId) => !symbolId.endsWith(':'))
+					.forEach((symbolId) => {
+						const defaultData = DEFAULT_SYMBOLS[symbolId]
+						const symbolData = symbolsMap[symbolId]
+						const {
+							name: symbolName = defaultData.name,
+							uri = defaultData.uri,
+							engines,
+							fns,
+						} = symbolData || {};
 
-			/* the info "of the symbol definition" Symbol/Name */
-			const $symbolInfoDefinition = document.createElement("dl");
-			$symbolInfoDefinition.title = uri
-			const $symbolTerm = document.createElement("dt");
-			const $symbolName = document.createElement("dd");
-			$symbolTerm.innerText = symbolId;
-			// user symbols don't have data byt the symbol id, and engines id/url
-			// only default symbol has data
-			$symbolName.innerText = symbolName || DEFAULT_SYMBOLS[symbol].name;
-			$symbolInfoDefinition.append($symbolTerm, $symbolName)
+						/* the info "of the symbol definition" Symbol/Name */
+						const $symbolInfoDefinition = document.createElement("dl");
+						$symbolInfoDefinition.title = uri
+						const $symbolTerm = document.createElement("dt");
+						const $symbolName = document.createElement("dd");
+						$symbolTerm.innerText = symbolId;
+						// user symbols don't have data byt the symbol id, and engines id/url
+						// only default symbol has data
+						$symbolName.innerText = symbolName || DEFAULT_SYMBOLS[symbol].name;
+						$symbolInfoDefinition.append($symbolTerm, $symbolName)
 
-			/* the list engines id/url for this symbol */
-			const $symbolInfoList = document.createElement("ul");
-			if (engines && Object.keys(engines).length) {
-				Object.entries(engines).forEach(([engineName, engineUrl]) => {
-					const $symbolInfoListItem = document.createElement("li");
-					const $engineName = document.createElement("em");
-					$engineName.innerText = `${symbolId}${engineName}`;
-					const $engineValue = document.createElement("a");
-					$engineValue.href = engineUrl;
-					try {
-						// to be "sure" it is a valid (find) URL and does not contain weird things
-						new URL(engineUrl)
-						$engineValue.innerHTML = this.highlightPlaceholders(engineUrl);
-					} catch(e) {
-						$engineValue.innerText = engineUrl;
-					}
+						/* the list engines id/url for this symbol */
+						const $symbolInfoList = document.createElement("ul");
+						if (engines && Object.keys(engines).length) {
+							Object.entries(engines).forEach(([engineName, engineUrl]) => {
+								const $symbolInfoListItem = document.createElement("li");
+								const $engineName = document.createElement("em");
+								$engineName.innerText = `${symbolId}${engineName}`;
+								const $engineValue = document.createElement("a");
+								$engineValue.href = engineUrl;
+								try {
+									// to be "sure" it is a valid (find) URL and does not contain weird things
+									new URL(engineUrl)
+									$engineValue.innerHTML = this.highlightPlaceholders(engineUrl);
+								} catch(e) {
+									$engineValue.innerText = engineUrl;
+								}
 
-					$symbolInfoListItem.append($engineName);
-					$symbolInfoListItem.append($engineValue);
-					$symbolInfoList.append($symbolInfoListItem);
-				});
-			} else if (!fns) {
-				const $noSymbolEngineListItem = document.createElement("li");
-				const $noSymbolEngine = document.createElement("input");
-				$noSymbolEngine.value = `#add ${symbolId} ex https://example.org/?q={}`;
-				$noSymbolEngine.readonly = true;
-				$noSymbolEngine.onclick = ({ target }) => target.select();
-				$noSymbolEngineListItem.append($noSymbolEngine);
-				$symbolInfoList.append($noSymbolEngineListItem);
-			}
+								$symbolInfoListItem.append($engineName);
+								$symbolInfoListItem.append($engineValue);
+								$symbolInfoList.append($symbolInfoListItem);
+							});
+						} else if (!fns) {
+							const $noSymbolEngineListItem = document.createElement("li");
+							const $noSymbolEngine = document.createElement("input");
+							$noSymbolEngine.value = `#add ${symbolId} ex https://example.org/?q={}`;
+							$noSymbolEngine.readonly = true;
+							$noSymbolEngine.onclick = ({ target }) => target.select();
+							$noSymbolEngineListItem.append($noSymbolEngine);
+							$symbolInfoList.append($noSymbolEngineListItem);
+						}
 
-			if (fns) {
-				Object.entries(fns).forEach(([fnName, fn]) => {
-					const $symbolInfoListItem = document.createElement("li");
+						if (fns) {
+							Object.entries(fns).forEach(([fnName, fn]) => {
+								const $symbolInfoListItem = document.createElement("li");
 
-					const $engineName = document.createElement("em");
-					$engineName.innerText = `${symbolId}${fnName}`;
-					const $engineValue = document.createElement("pre");
-					$engineValue.innerText = `${fn.toString()}`;
+								const $engineName = document.createElement("em");
+								$engineName.innerText = `${symbolId}${fnName}`;
+								const $engineValue = document.createElement("pre");
+								$engineValue.innerText = `${fn.toString()}`;
 
-					$symbolInfoListItem.append($engineName);
-					$symbolInfoListItem.append($engineValue);
+								$symbolInfoListItem.append($engineName);
+								$symbolInfoListItem.append($engineValue);
 
-					$symbolInfoList.append($symbolInfoListItem);
-				});
-			}
+								$symbolInfoList.append($symbolInfoListItem);
+							});
+						}
 
-			if (!engines && !fns) {
-			}
+						if (!engines && !fns) {
+						}
 
-			/* append the "definition" and "list" */
-			const $symbolInfo = document.createElement("article");
-			$symbolInfo.setAttribute('symbol', symbolId)
-			$symbolInfo.append($symbolInfoDefinition, $symbolInfoList);
-			$symbols.append($symbolInfo);
-		});
+						/* append the "definition" and "list" */
+						const $symbolInfo = document.createElement("article");
+						$symbolInfo.setAttribute('symbol', symbolId)
+						$symbolInfo.append($symbolInfoDefinition, $symbolInfoList);
+						$symbols.append($symbolInfo);
+					});
 
 		const $detail = document.createElement("details");
 		const $summary = document.createElement("summary");

@@ -240,8 +240,7 @@ export class I4kFindSymbols {
 					"//": "https://www.openstreetmap.org/search?query={}",
 				},
 			},
-			/* ex: maps:<tokyo river>
-				 issue: `maps:` should have no `//` part in scheme */
+			/* ex: git://github.com/user/project-name.git */
 			"git:": {
 				name: "git",
 				uri: encodeURIComponent("git:"),

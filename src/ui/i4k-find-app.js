@@ -4,7 +4,6 @@ export default class I4kFindApp extends HTMLElement {
 		return this.getAttribute("cf-beacon");
 	}
 	connectedCallback() {
-		console.info("Find.help()");
 		this.render();
 		this._setupColor();
 
