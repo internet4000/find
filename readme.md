@@ -89,7 +89,7 @@ will redirect the browser page, to this document (to the link with
 - explore new URI schemes and string data de/encoding patterns
 - customize a user browser's starting page, default new tab, homepage,
   HTML input and text string encoding/decoding/evaluation
-<details>
+</details>
 
 For additional usages see the [documentation](./docs/) folder.
 

@@ -114,6 +114,7 @@ export class I4kFindSymbols {
 					gl: "https://gitlab.com/{}/{}",
 					i4kn: "https://{}.4000.network/{}",
 					internet: "https://portal.mozz.us/{}/{}/",
+					ipfs: "ipfs://{}",
 					firebase: "https://console.firebase.google.com/project/{}/overview",
 					mx: "https://matrix.to/#/{}",
 					netlify: "https://app.netlify.com/sites/{}/overview",
@@ -557,7 +558,6 @@ export class I4kFind {
 						false // do not encode the URI component (broken `/` for protocol ressource pathes)
 					);
 				} else {
-					debugger
 				}
 			} else if (symbol === "#") {
 				/* if the symbol is for a find "#command"  */
@@ -608,10 +608,15 @@ export class I4kFind {
 		}
 		const decodedRequest = this.decodeUserRequest(request);
 		const { result } = decodedRequest;
-		const {open, display, exec} = this.findUserAction(decodedRequest, openInBrowser)
+		const {
+			open, display, exec, find
+		} = this.findUserAction(decodedRequest, openInBrowser)
+
 		/* depending on the requested user/symbol(consequence) action,
-			 decide of an action to "evaluate" (open,display,tbd...); */
-		if (open) {
+			 decide of an action to "evaluate" (open,find,display,tbd...); */
+		if (find) {
+			this.find(result)
+		} else if (open) {
 			this.openUrl(result);
 		} else if (display) {
 			/* we will display in the "+space" symbol engine,
@@ -634,6 +639,16 @@ export class I4kFind {
 			display: false,
 			open: false,
 			exec: false, // user defined `#` functions
+			find: false, // recursive call to find again
+		}
+		/* try the result for find syntax; URI scheme */
+		try {
+			const {protocol} = new URL(decodedRequest.result)
+			if (protocol && this.symbols[protocol]) {
+				action.find = true
+			}
+		} catch(e) {
+			// not-an-error
 		}
 		/* treat the special cases, which should probably not "open a tab"
 			 because "re-read as a user-query" */
