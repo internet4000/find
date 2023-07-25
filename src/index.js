@@ -261,6 +261,14 @@ export class I4kFindSymbols {
 					"//": "https://{}",
 				},
 			},
+			/* ex: git://github.com/user/project-name.git */
+			"ipfs:": {
+				name: "ipfs",
+				uri: encodeURIComponent("ipfs:"),
+				engines: {
+					"//": "https://ipfs.io/ipfs/{}",
+				},
+			},
 		};
 	}
 	constructor(userSymbols = {}) {
