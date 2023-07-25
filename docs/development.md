@@ -280,7 +280,7 @@ So the UI part (web components) only loads if find does not need to
 redirect to the final page requested by the user.
 
 Also, as a utility for "other internet protocols", Find tries to
-"polyfill" different protocols with a "proxy".
+"polyfill" different protocols with a "proxy/gateway".
 
 `gopher://gopher.floodgap.com`
 `gemini://kennedy.gemi.dev`
@@ -296,6 +296,20 @@ protocol symbol ID is the value of `new URL(<schemeID:>//).protocol`.
 So to overvwritte the protocol proxy **web** app (protocol http(s) to
 protocol `<schemeId>`), we need to overvwritte its engine `//` (the
 default "web-to-protocol proxy").
+
+## Adding symbols
+It is possible to edit the code and add new symbols.
+
+For example, adding the `?` symbol does not work, because the browser
+treat it as a special reserved character since it builds the _search
+param_ part of a URI.
+
+To test if a new symbol can work, try a new "omnibox search" (not just
+a Find input search), and see if the resulting "default search page",
+contains the exact query that was first inputed. If the resulting
+search includes all characters, then the first one (or `<symbol>:`)
+can be treated as a _symbol_ since the browser does not catch it (find
+has the opportunity to do).
 
 ## Questions
 To be investigated.
@@ -379,10 +393,14 @@ by Find.
 References, links and inspirations:
 - https://en.wikipedia.org/wiki/OpenSearch
 - https://duckduckgo.com/bangs
+- https://searx.netzspielplatz.de/info/en/search-syntax
+- https://en.wikipedia.org/wiki/Searx
+- https://en.wikipedia.org/wiki/Metasearch_engine
 - https://github.com/arkenfox/user.js
 - https://kb.mozillazine.org/User.js_file
 - https://mozilla-services.readthedocs.io/en/latest/howtos/run-fxa.html
 - https://nyxt.atlas.engineer
+- https://docs.ipfs.tech/how-to/address-ipfs-on-web
 - https://en.wikipedia.org/wiki/Web_Ontology_Language
 - https://en.wikipedia.org/wiki/APL_(programming_language)
 - https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
@@ -398,6 +416,7 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 - https://www.postman.com/
 - https://www.dns.toys/
+- https://en.wikipedia.org/wiki/Nucleic_acid_notation
 - https://en.wikipedia.org/wiki/Alfred_(software)
 - https://github.com/ch11ng/exwm
 - https://github.com/dundalek/awesome-lisp-languages (`#BiwaScheme`)
@@ -407,6 +426,7 @@ References, links and inspirations:
 - https://jqlang.github.io/jq/ (json_grammar.html)
 - https://en.wikipedia.org/wiki/Bookmarklet
 - https://platform.openai.com/docs/plugins
+- https://en.wikipedia.org/wiki/Sam_(text_editor)
 - https://en.wikipedia.org/wiki/Plan_9_from_Bell_Labs
 - https://plan9.io/sys/doc/acme/acme.html
 - https://en.wikipedia.org/wiki/Ed_(text_editor)
