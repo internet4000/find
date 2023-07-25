@@ -10,7 +10,7 @@
     "opensearch": "node ./src/scripts/opensearch-xml.js"
   },
   "bin": {
-    "i4k-find": "src/index.js"
+    "i4k-find": "./src/index.js"
   },
   "repository": {
     "type": "git",

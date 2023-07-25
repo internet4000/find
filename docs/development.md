@@ -55,6 +55,29 @@ created, for example `0.0.10`, which should match the value of the
 `package.json.version` (and not already but published with this
 version on npm).
 
+## node CLI utility
+To get a Find result from a shell, in node.js. Can run for example:
+- `node ../../internet4000/find/src/index.js "&gh i4k find"` (if download loacally)
+- `npx i4k-find "my query in bash string"`
+- `npm link i4k-find` or `npm link <path_to_local_find_index_js>` (to test locally)
+
+It is possible to bind i4k-find to a "shell environment variable", to
+use Find from a shortcut, and pipe its output to other program (ex:
+browser open URL of the result), or pipe other program's input to it.
+
+```txt
+echo hello | xargs npx i4k-find
+```
+
+> `xargs` is a unix utility to convert "stdin" to "arguments" in a
+> shell. Find is trying to be "isomorphic" without build tool, getting
+> to read stdin input in node.js requires to import readline
+
+> Note: it could be improved to allow calling more or its "methods"
+> from the CLI, or be passed arugments (more than the default `q`
+> query string), such as --json, to get a for detailed "parsing result
+> answer" (also see i4k npm pkg media-url-parser).
+
 ## Deployment
 There are diverse possibilities to deploy a new instance with a custom
 Find, generally it will need the correct values for the `I4K_FIND_URL`

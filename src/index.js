@@ -594,7 +594,9 @@ export class I4kFind {
 			this.openUrl(result);
 		} else if (display) {
 			/* we will display in the "+space" symbol engine,
-				 (encodeURIComponent result?) */
+				 (encodeURIComponent result?);
+			 maybe make a more general rule here; for "recursive Find" calls;
+			 query that translate to other queries, instead of "just URLs" */
 			this.find(`+space ${result}`)
 		} else if (exec) {
 			this.execUserRequest(decodedRequest)
@@ -726,9 +728,36 @@ export const DEFAULT_OSD = {
 const App = new I4kFind();
 
 /* handle node input if any */
-if (!isBrowser && isNode && process.argv.length > 2) {
-	const userArg = process.argv.slice(2).join(" ");
-	App.find(userArg);
+if (!isBrowser && isNode) {
+	// console.log('stdin', process.stdin)
+	if (process.argv.length > 2) {
+		const userArg = process.argv.slice(2).join(" ");
+		const queryResult = App.find(userArg);
+		/* output for node, with a new line at the end */
+		process.stdout.write(queryResult + "\n");
+	} else {
+		/* read user stream */
+		process.stdin.resume();
+		process.stdin.setEncoding('utf8');
+		let userQueryStream = "";
+		process.stdin.on('data', function(userQueryChunk) {
+			// const queryResult = App.find(userQuery.toString().trim());
+			userQueryStream += userQueryChunk
+		})
+		process.stdin.on('end', function() {
+			const userQuery = userQueryStream.toString()
+			const userQueryLines = userQuery.split('\n')
+			userQueryLines.forEach(query => {
+				const cleanQuery = query.trim()
+				let queryResult = ""
+				if (cleanQuery) {
+					queryResult = App.find(cleanQuery);
+				}
+				process.stdout.write(queryResult + "\n");
+			})
+			process.exit(0);
+		})
+	}
 }
 
 /* let's register a service worker,
