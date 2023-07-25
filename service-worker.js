@@ -1,5 +1,8 @@
-/* not yet supported for type module ;( */
+/* Note: not yet supported for type module ;( */
 /* self.importScripts("./src/index.js"); */
+
+/* The service worker is put at the root of the repo, and the site; so
+   it has browser API access to the entire "root" of the site. */
 
 self.symbols = {};
 self.userSymbols = {};
@@ -107,6 +110,7 @@ const _respondWithSuggestions = (request) => {
 	} catch (e) {
 		console.info("Could not fetch any suggestion", e);
 	}
+
 	/* https://stackoverflow.com/questions/36535642/serving-an-opensearch-application-x-suggestionsjson-through-a-service-worker */
 	return new Response(JSON.stringify(suggestionBody), {
 		status: 200,
@@ -137,7 +141,7 @@ const _handleMessage = ({ data }) => {
 };
 
 self.addEventListener("install", (event) => {
-	console.info("Service worker installed");
+	console.info("I4kFind Service Worker installed");
 });
 
 self.addEventListener("activate", (event) => {

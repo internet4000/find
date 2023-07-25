@@ -20,11 +20,20 @@ _specialized websites_, to which is passed the user's "search query"
 (it could also be the value of URL parameters of any destination
 application).
 
-- used as fallback when the browser does resolve a URL address
+# Usage
+
+On [internet4000.github.io/find](https://internet4000.github.io/find)
+it is possible to make queries to Find, such as `!docs usage` which
+will redirect the browser page, to this document (to the link with
+`#usage`).
+
+<details>
+<summary>How it could be used</summary>
+- as fallback when the browser does resolve a URL address
 - "normal web search" by default (and if no Find syntax is
   found), to the "default web search engine"
 - decide with which sites and application to share a search query, by
-  "routing them" directly there
+  "routing them" directly to a destination site
 - choose _on which search engine to search_, web search (default), map
   position (`!m`), contacts (`!c`), wikipedia (`!w`) new spreadhseet
   (`+sheet`), matrix link `&mx @user:domain.tld`, create a WebRTCPeer
@@ -80,12 +89,7 @@ application).
 - explore new URI schemes and string data de/encoding patterns
 - customize a user browser's starting page, default new tab, homepage,
   HTML input and text string encoding/decoding/evaluation
-
-# Usage
-On [internet4000.github.io/find](https://internet4000.github.io/find)
-it is possible to make queries to Find, such as `!docs usage` which
-will redirect the browser page, to this document (to the link with
-`#usage`).
+<details>
 
 For additional usages see the [documentation](./docs/) folder.
 
@@ -163,7 +167,6 @@ default search engine; so all the features are accesible directly in
 your URL bar (tip: focus the omnibox with the keyboard shortcut
 `Control + l`, the keys `Control` and the lowercase letter `L`, aka
 `C-l` ).
-
 
 ## Examples
 By default, a Find search query, goes to the default search engine
@@ -253,8 +256,9 @@ Some reasons why this project exists:
 - gain (self) control of where search queries go after leaving the
 web-browser.
 - experiement with what can be done from typing into any browser's URL
-  (is the current cursor in a URL bar, a text search input, a REPL, a
-  notebook? Or it is just me typing on the keyboard?)
+  (is the current cursor in a URL bar, a text search input, a
+  REPL, a notebook? Or it is just me typing on
+  the keyboard?)
 - try to handle "not just search"
 - explore using the different URI/URL(s) outputed by the "user/Find
    search queries", by the output(s) of the "web-app/sites" they

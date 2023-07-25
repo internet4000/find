@@ -42,6 +42,23 @@ Query URL: `https://internet4000.github.io/find/#q=%s`
 All find "search queries" or "commands", are to be run in the browser
 omnibox, or a find search input.
 
+A "find search query" is a string of text, which "Finds tries to
+decode", to find some syntax it knows, to build (destination) URLs
+(what the user is requesting).
+
+The user query string, is splitted into a list of strings, for every
+white space, and from there, find looks for a "symbol", probably the
+first character of the first string, for example `!`, or `+`.
+
+It then looks for an "engine ID", for example `m` in the user query
+starting with `!m`.
+
+The last part, are the user *arguments* to the the requested
+destination URL/web-application.
+
+For example `!m tokyo` in order to *search* (`!`) for "tokyo" on the
+map application (`m`).
+
 ### Symbols
 
 If the query we write in Find starts by one of these **symbols**, Find will try

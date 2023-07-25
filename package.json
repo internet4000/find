@@ -1,6 +1,6 @@
 {
   "name": "i4k-find",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "URL action engine",
   "main": "src/index.js",
   "type": "module",

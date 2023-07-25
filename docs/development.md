@@ -219,7 +219,7 @@ that the scripts finds from the `package.json` file and `"i4k-find"`
 key. As reference, check the project's own.
 
 ## Open Search Suggestions API
-The objective with this "web-worker client-side API", is to allow Find
+The objective with the "service-worker client-side API", is to allow Find
 to give feedback, directly in the URL bar, while typing.
 
 ### Usage
@@ -266,6 +266,9 @@ from their content.
 Maybe:
 - use their opensearch file, if they have one, and we can get data
   there (make a search query to their search/suggestion endpoint?)
+	
+open `about:debugging` (from the application dev tools tab, for
+accessing the service worker's console, debugging etc.)
 
 ## Visiting the find URL
 It is visited each time a search is made.
