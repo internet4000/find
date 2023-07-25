@@ -123,6 +123,19 @@ export class I4kFindSymbols {
 					ytid: "https://www.youtube.com/watch?v={}",
 				},
 			},
+			/* API endpoints
+				 could be used to build API calls URL patterns (postman collection style);
+				 really feels like we need a URL pattern placeholder/language improvement,
+				 for {named_pattern} {...} recursion {$} references {&id} find pattern replacement? etc. */
+			"?": {
+				name: "api",
+				uri: encodeURIComponent("?"),
+				engines: {
+					ghsr:"https://api.github.com/search/repositories?q=fork:true+topic:{}+topic:package+{}",
+					/* try to use this value for the package mananger */
+					i4kfpm:"https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+{}",
+				}
+			},
 			"#": {
 				name: "command",
 				uri: encodeURIComponent("#"),
