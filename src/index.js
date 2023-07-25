@@ -727,39 +727,6 @@ export const DEFAULT_OSD = {
 
 const App = new I4kFind();
 
-/* handle node input if any */
-if (!isBrowser && isNode) {
-	// console.log('stdin', process.stdin)
-	if (process.argv.length > 2) {
-		const userArg = process.argv.slice(2).join(" ");
-		const queryResult = App.find(userArg);
-		/* output for node, with a new line at the end */
-		process.stdout.write(queryResult + "\n");
-	} else {
-		/* read user stream */
-		process.stdin.resume();
-		process.stdin.setEncoding('utf8');
-		let userQueryStream = "";
-		process.stdin.on('data', function(userQueryChunk) {
-			// const queryResult = App.find(userQuery.toString().trim());
-			userQueryStream += userQueryChunk
-		})
-		process.stdin.on('end', function() {
-			const userQuery = userQueryStream.toString()
-			const userQueryLines = userQuery.split('\n')
-			userQueryLines.forEach(query => {
-				const cleanQuery = query.trim()
-				let queryResult = ""
-				if (cleanQuery) {
-					queryResult = App.find(cleanQuery);
-				}
-				process.stdout.write(queryResult + "\n");
-			})
-			process.exit(0);
-		})
-	}
-}
-
 /* let's register a service worker,
 	 to try work with the open-search suggestions api, on client side only */
 if (isBrowser) {

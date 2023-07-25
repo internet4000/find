@@ -6,6 +6,11 @@ bar).
 > There are more examples of usages, and development notes in the
 > [./docs](./docs/) folder.
 
+> Remember, this is an experimental project, please make regular
+> backups of your custom syntax, and "pin a package version that
+> works" if you are running a custom instance. For full privacy, run a
+> personal instance.
+
 It _does not need to be installed as a browser extension or addon_,
 though the UX feels more fluid when used as "default search engine"
 (can be self hosted, but does not need to in order to be customized).
@@ -18,10 +23,13 @@ application).
 - used as fallback when the browser does resolve a URL address
 - "normal web search" by default (and if no Find syntax is
   found), to the "default web search engine"
+- decide with which sites and application to share a search query, by
+  "routing them" directly there
 - choose _on which search engine to search_, web search (default), map
   position (`!m`), contacts (`!c`), wikipedia (`!w`) new spreadhseet
-  (`+sheet`) or matrix join chat link `&mx @user:domain.tld`, or
-  RTCPeerConnection to `&rtcmx @user:domain.tld`) etc.
+  (`+sheet`), matrix link `&mx @user:domain.tld`, create a WebRTCPeer
+  data channel to `&rtcmx @user:domain.tld`) etc. It is all built on
+  open standard web technologies
 - DuckDuckGo also supports Bangs!, which will then be used if Find
   does not know a "search `!` engine"; ex: `!def find` (will will
   delegate the to DDG, which knows what to do with `!def`)
@@ -50,7 +58,8 @@ application).
 - "locally self hosted", with the web interface (`git clone`, `npm i
   && npm run serve`, open `https://localhost?q=%s`, should be
   discoverable as browser "open search engine"; and could use a
-  different "suggestion API")
+  different "suggestion API"; or under VPN, such as a Tailscale
+  tailnet, for all devices to share)
 - (experiemental) get typing _suggestions_ from a client side API
   (web-worker following the OpenSearchDescription suggestion
   specification, catching "fetch queries" made to its own domain
@@ -62,8 +71,13 @@ application).
 - as an accessible _starting template_ to experiment with what can the
   browser URL can be used for, and how to _interpret_ and _execute_
   queries, manage user defined data, syntax, functions
+- an open "finder/Alfred/CLI" for the web; can be used to suggest
+  custom prefilled links and utilities (ex: community projects
+  `+issue` or `+chat`)
+- embeded in an other app/site (ex: matrix.org iframe widget)
 - test/explore/save other aplication(s) "URL params", connect them
   together, transform their output(s)
+- explore new URI schemes and string data de/encoding patterns
 - customize a user browser's starting page, default new tab, homepage,
   HTML input and text string encoding/decoding/evaluation
 

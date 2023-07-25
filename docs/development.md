@@ -55,18 +55,28 @@ created, for example `0.0.10`, which should match the value of the
 `package.json.version` (and not already but published with this
 version on npm).
 
-## node CLI utility
+## Node.js CLI utility
 To get a Find result from a shell, in node.js. Can run for example:
-- `node ../../internet4000/find/src/index.js "&gh i4k find"` (if download loacally)
-- `npx i4k-find "my query in bash string"`
+- `node ../com.github/internet4000/find/src/scripts/i4k-find.js "&gh
+  i4k find"` (if downloaded loacally, from an other folder)
+- `npx i4k-find "my query in bash string"`, directly from npm
 - `npm link i4k-find` or `npm link <path_to_local_find_index_js>` (to test locally)
+- `npm run find "hello"` when developing in this repo (`package.json.scripts.fin`)
+- as a [shell alias](https://en.wikipedia.org/wiki/Alias_%28command%29)
 
 It is possible to bind i4k-find to a "shell environment variable", to
 use Find from a shortcut, and pipe its output to other program (ex:
 browser open URL of the result), or pipe other program's input to it.
 
+> Running from the shell, should only output the "translated query";
+> and liberty to the user to "pipe" this output to an other unix
+> utility (maybe open in a browser)
+
 ```txt
+# feed "text string" to Find as arguments
 echo hello | xargs npx i4k-find
+npx i4k-find "&gh internet4000 find" | firefox
+# the previous is currently not working @TODO
 ```
 
 > `xargs` is a unix utility to convert "stdin" to "arguments" in a
@@ -77,6 +87,31 @@ echo hello | xargs npx i4k-find
 > from the CLI, or be passed arugments (more than the default `q`
 > query string), such as --json, to get a for detailed "parsing result
 > answer" (also see i4k npm pkg media-url-parser).
+
+From a `queries.txt` file with the content:
+```txt
+&gh internet4000 find
++space hello world
++data-json {"my_boolean": true}
+```
+
+The following could be used to generate a Find result for each line:
+```shell
+cat queries.txt | npx i4k-find
+# will output
+https://github.com/internet4000/find
+https://goog.space/#input=hello%20world
+data:application/json;charset=utf-8,%7B%22my_boolean%22%3A%20true%7D
+# there is a newline charater at the end of the output (@TODO: rm)
+```
+
+Notes: Not sure about many things here:
+- new lines `\n`, insert or not? difference with `ls` output
+- how to best pipe out to other programs? pipe in to recieve from
+  other programs, or user input `npx i4k-find "hello"` versus `npx i4k-find` then `hello \n world \n +space test \n +m tokyo \n C-d / C-d`
+- how to best read from files
+- how to best pass the result to the browser CLI command, to open a
+  new tab with the result, or multiple tabs per "line result" ?
 
 ## Deployment
 There are diverse possibilities to deploy a new instance with a custom
@@ -122,6 +157,22 @@ Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=
 ### gitlab pages
 - fork this repository on gitlab
 - it should use the `pages` job/pipeline, that will deploy a new instance
+
+Gitlab offfer "private pages", so a page could be accessed only by
+users who are logged in to the repo
+
+### local/private/VPN instance
+
+Can run on `localhost:<port>` on any machine, with the dev server
+  (though maybe something more efficient could be nice).
+
+Can be served from a "private local machine" (ex: unused phone over
+4g, or raspi), runnin a wireguard VPN or private [Tailscale
+Tailnet](https://tailscale.com/kb/1136/tailnet/?q=tailnet).
+
+That way requests should never leave the user network, until resolved
+by Find to a URL that the browser can resolve
+
 ## Testing
 To run the tests, after having done `npm install` to get the initial
 dependencies, and `npm run test` to run the tests once.
@@ -233,6 +284,7 @@ Also, as a utility for "other internet protocols", Find tries to
 `spartan://spartan.mozz.us`
 `finger://happynetbox.com`
 `text://txt.textprotocol.org`
+`git://txt.textprotocol.org`
 `<URISchemeProtocol><:><//><ressource>`
 
 Where `//` is the default "engine used by the protocol, and the
@@ -334,6 +386,7 @@ References, links and inspirations:
 - https://en.wikipedia.org/wiki/List_of_URI_schemes
 - https://en.wikipedia.org/wiki/Menu_(computing)
 - https://en.wikipedia.org/wiki/Command-line_interface
+- https://en.wikipedia.org/wiki/Alias_%28command%29
 - https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
 - https://developer.mozilla.org/en-US/docs/web/http/basics_of_http/data_urls
 - https://developer.mozilla.org/en-US/docs/Web/HTML
@@ -342,6 +395,7 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 - https://www.postman.com/
 - https://www.dns.toys/
+- https://en.wikipedia.org/wiki/Alfred_(software)
 - https://github.com/ch11ng/exwm
 - https://github.com/dundalek/awesome-lisp-languages (`#BiwaScheme`)
 - https://orgmode.org/manual/Properties-and-Columns.html (`#PROPERTY:`)
