@@ -167,6 +167,12 @@ This should generate the correct `opensearch.xml`, from information
 that the scripts finds from the `package.json` file and `"i4k-find"`
 key. As reference, check the project's own.
 
+```shell
+export I4K_FIND_URL=https://example.org/i4k-find
+npm run opensearch
+# assets/opensearch.xml
+```
+
 ## Open Search Suggestions API
 The objective with the "service-worker client-side API", is to allow Find
 to give feedback, directly in the URL bar, while typing.

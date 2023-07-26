@@ -321,6 +321,16 @@ export class I4kFindSymbols {
 /* a list of the default symbols */
 export const DEFAULT_SYMBOLS = new I4kFindSymbols().default
 
+/* find's default OSD */
+export const DEFAULT_OSD = {
+	shortName: "Find",
+	description: "Find anything anywhere",
+	image: "https://example.org/i4k-find/assets/favicon.ico",
+	templateHTML: "https://example.org/i4k-find/#q={searchTerms}",
+	templateXML: "https://example.org/i4k-find/assets/opensearch.xml",
+	templateSuggestions: "https://example.org/i4k-find/api/suggestions/#q={searchTerms}",
+};
+
 /* generate the OSD needed to register as a browser search engine */
 export class OpenSearchDescription {
 	get attributes() {
@@ -776,17 +786,6 @@ export class I4kFind {
 		return new I4kFindSymbols(initialSymbols).symbols
 	}
 }
-
-/* find's default OSD */
-export const DEFAULT_OSD = {
-	shortName: "Find",
-	description: "Find anything anywhere",
-	image: "https://internet4000.github.io/find/assets/favicon.ico",
-	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
-	templateXML: "https://internet4000.github.io/find/assets/opensearch.xml",
-	templateSuggestions:
-		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
-};
 
 const App = new I4kFind();
 

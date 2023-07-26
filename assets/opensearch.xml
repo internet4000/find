@@ -3,8 +3,8 @@
 	<InputEncoding>UTF-8</InputEncoding>
 	<ShortName>Find</ShortName>
 	<Description>Find anything anywhere</Description>
-	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/assets/favicon.ico</Image>
-	<Url type="text/html" template="https://example.org/#q={searchTerms}" method="GET"/>
-	<Url type="application/opensearchdescription+xml" rel="search" template="https://example.org/assets/opensearch.xml" method="GET"/>
-	<Url type="application/x-suggestions+json" rel="suggestions" template="https://example.org/api/suggestions/#q={searchTerms}" method="GET"/>
+	<Image height="64" width="64" type="image/png">https://example.org/i4k-find/assets/favicon.ico</Image>
+	<Url type="text/html" template="https://example.org/i4k-find/#q={searchTerms}" method="GET"/>
+	<Url type="application/opensearchdescription+xml" rel="search" template="https://example.org/i4k-find/assets/opensearch.xml" method="GET"/>
+	<Url type="application/x-suggestions+json" rel="suggestions" template="https://example.org/i4k-find/api/suggestions/#q={searchTerms}" method="GET"/>
 </OpenSearchDescription>
