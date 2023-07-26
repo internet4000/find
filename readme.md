@@ -27,8 +27,8 @@ it is possible to make queries to Find, such as `!docs usage` which
 will redirect the browser page, to this document (to the link with
 `#usage`).
 
-<details>
-<summary>How it could be used</summary>
+How it could be used:
+
 - as fallback when the browser does resolve a URL address
 - "normal web search" by default (and if no Find syntax is
   found), to the "default web search engine"
@@ -89,7 +89,6 @@ will redirect the browser page, to this document (to the link with
 - explore new URI schemes and string data de/encoding patterns
 - customize a user browser's starting page, default new tab, homepage,
   HTML input and text string encoding/decoding/evaluation
-</details>
 
 For additional usages see the [documentation](./docs/) folder.
 
