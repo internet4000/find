@@ -10,11 +10,6 @@ export default class I4kFindSearch extends HTMLElement {
 	set search(str) {
 		this.setAttribute("search", str);
 	}
-	/* input regex to validate a Find search query (symbols)
-		 See: https://regexr.com/7hdlc */
-	get pattern() {
-		return "([\!|\#|\+|\#])?"
-	}
 	connectedCallback() {
 		this._render();
 	}
@@ -35,10 +30,9 @@ export default class I4kFindSearch extends HTMLElement {
 		this.querySelector("form input").value = "";
 	}
 	_handleSubmit = (event) => {
+		debugger
 		event.preventDefault();
 		this.findSearch(this.search);
-		// prevents form autotransition to `?search=<query>` not triggering `Find` `#q=`
-		return false;
 	};
 	_handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
@@ -76,8 +70,6 @@ export default class I4kFindSearch extends HTMLElement {
 		$input.name = "search";
 		$input.value = this.search;
 		$input.required = true;
-		/* not working, to only suggest available engines if empty */
-		/* $input.pattern = this.pattern */
 		$input.placeholder = this._buildRandomPlaceholder() || "!docs usage";
 		$input.setAttribute('title', 'Input a Find search query (any search)');
 		$input.addEventListener("input", this._handleInputChange.bind(this));
