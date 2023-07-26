@@ -132,9 +132,23 @@ export class I4kFindSymbols {
 				name: "api",
 				uri: encodeURIComponent(">"),
 				engines: {
-					ghsr:"https://api.github.com/search/repositories?q=fork:true+topic:{}+topic:package+{}",
-					/* try to use this value for the package mananger */
-					i4kfpm:"https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+{}",
+					/* github */
+					gh: "https://api.github.com/{}",
+					gho: "https://api.github.com//{}",
+					ghr: "https://api.github.com/repos/{}",
+					ghsr: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+{}",
+					ghsrt: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+topic:{}+{}",
+					ghu: "https://api.github.com/user/{}",
+					/* gitlab */
+					gl: "https://docs.gitlab.com/ee/api/rest/?suggestion=add-api-json-root#note=wikip-has-txt",
+					glg: "https://gitlab.com/api/v4/groups/{}",
+					glsr: "https://gitlab.com/api/v4/projects?search={}",
+					/* trying to use this value for the "I4kFind Package Manager"; a github repo search for topics */
+					i4kfpm: "https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+{}",
+					/* wikipedia */
+					w: "https://en.wikipedia.org/api/rest_v1/{}",
+					wp: "https://en.wikipedia.org/api/rest_v1/page/{}",
+					wpt: "https://en.wikipedia.org/api/rest_v1/page/title/{}",
 				}
 			},
 			"#": {
@@ -262,6 +276,7 @@ export class I4kFindSymbols {
 					"//": "https://{}",
 				},
 			},
+
 			/* ex: git://github.com/user/project-name.git */
 			"ipfs:": {
 				name: "ipfs",
@@ -555,12 +570,14 @@ export class I4kFind {
 					 build a result from the entire query (URI),
 					 using `//` as "protocol proxy engine ID" (of <scheme)://<info>) */
 				if (symbolGroup.startsWith(`${symbol}${engineId}`)) {
+					/* do not encode the URI component (broken `/` for protocol ressource pathes) */
+					const encodeUserRequest = false
 					decodedRequest.result = this.buildEngineResultUrl(
 						symbolGroup.split(`${symbol}${engineId}`)[1],
 						symbolsMapWithEngine,
 						symbol,
 						engineId,
-						false // do not encode the URI component (broken `/` for protocol ressource pathes)
+						encodeUserRequest
 					);
 				} else {
 				}
@@ -568,11 +585,16 @@ export class I4kFind {
 				/* if the symbol is for a find "#command"  */
 				decodedRequest.result = userRequestWithoutSymbol
 			} else {
+				/* for all other cases of symbols: user user request without symbol
+					 and, only encode the user query if not ">" API symbol (probably a PATH,
+					 and if not a path a multiple word, user can use "quotes''" to escape the query) */
+				const encodeUserRequest = symbol !== ">"
 				decodedRequest.result = this.buildEngineResultUrl(
 					userRequestWithoutSymbol,
 					symbolsMapWithEngine,
 					symbol,
-					engineId
+					engineId,
+					encodeUserRequest
 				);
 			}
 		}

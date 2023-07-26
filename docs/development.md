@@ -388,6 +388,7 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
 - https://docs.python.org/3/glossary.html#term-argument
 - https://en.wikipedia.org/wiki/Placeholder
+- https://en.wikipedia.org/wiki/Wikipedia:Directory → https://en.wikipedia.org/wiki/Wikipedia:Directories_and_indexes
 
 Explore as well:
 - https://stackoverflow.com/questions/4163879/call-javascript-function-from-url-address-bar
