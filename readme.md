@@ -110,6 +110,10 @@ or the [git issues](https://github.com/internet4000/find/issues), as
 you see fit. Feedback, bug reports, engine/symbol/feature requests,
 suggestions welcome.
 
+For new URL patterns, syntax and engine suggestions `>i4kfpm <queyr>`
+for searching github repo with topics:
+"[i4k-find+package](https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+)
+
 # Install
 It is possible to use Find with
 - the default find instance website
@@ -258,7 +262,9 @@ web-browser.
   (is the current cursor in a URL bar, a text search input, a
   REPL, a notebook? Or it is just me typing on
   the keyboard?)
-- try to handle "not just search"
+- try to handle "not just search" (alternative URL client entry point
+  to [DDG](https://duckduckgo.com) or
+  [Searx](https://en.wikipedia.org/wiki/Searx))
 - explore using the different URI/URL(s) outputed by the "user/Find
    search queries", by the output(s) of the "web-app/sites" they
    serve, and what the user is intending to do
@@ -272,6 +278,10 @@ Some reasons why duckduckgo is the default search engine:
   bangs! search engines)
 - it seems more privacy friendly that the rest (that support bangs;
   are there any other?)
+- [SearX](https://searx.space/) instances have bangs suppport; maybe
+  users can decide for themselves which one to use. ([ref:
+  issue#96](https://github.com/internet4000/find/issues/96))
+
 
 Cons:
 - seems to "re-writte" the search results when you visit the search

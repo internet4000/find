@@ -1,6 +1,5 @@
-# Development (and deployment)
-To deploy a new instance, work on new features, bug fixes, tests and
-prototypes.
+# Development
+To work on new features, bug fixes, tests and prototypes.
 
 > The project should be able to run locally without the need of a
 > developement server, but requires manually fixing the "assets path"
@@ -48,7 +47,17 @@ Find is available as a javascript es6 NPM module [!npm
 i4k-find](https://www.npmjs.com/package/i4k-find).
 
 ### Install
-In a new project use `npm instal i4k-find`
+In a new project use `npm instal i4k-find`.
+
+```js
+import find from "https://cdn.jsdelivr.net/npm/i4k-find@latest";
+
+const openWindow = false; ;; defaults to true
+const userQuery = "&gh internet4000 find"
+const queryResult = find.find(userQuery, openWindow)
+console.info(queryResult)
+```
+
 ### Publish as a package
 It uses a github workflow to run `npm publish` when a new tag is
 created, for example `0.0.10`, which should match the value of the
@@ -112,66 +121,6 @@ Notes: Not sure about many things here:
 - how to best read from files
 - how to best pass the result to the browser CLI command, to open a
   new tab with the result, or multiple tabs per "line result" ?
-
-## Deployment
-There are diverse possibilities to deploy a new instance with a custom
-Find, generally it will need the correct values for the `I4K_FIND_URL`
-environment variable, `https://example.org/my-find`. As reference,
-check the different CI/CD workflow recipes.
-
-> The recommended method is to use a CI/CD recipe to deploy a custom
-> instance, to a custom server (or pages like the default
-> insance). That way it regroups the code, the infrastructure that
-> deploys it and the server that hosts it together.
-
-### Drag and drop on a "static file server"
-Because the code of Find has no build pipeline, deploying a new
-instance of Find should be as simple as copying the entire `/find`
-folder (this repo) on a web server.
-
-For a "clean deployment", it is better to copy the required files,
-into a new folder. See the CI/CD recipes references, which automate
-this process by listing the required steps and commands.
-
-### static pages from providers
-Makes a fork of the project, and deploy to a "static pages provider"
-connected with the git repo. There is no `build` step, and the
-project's root folder is `.` for the current proejct folder (or `/`
-depending on the provider).
-
-[![Deploy to
-Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/internet4000/find)
-
-[![Deploy with
-Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/internet4000/find)
-
-
-### github fork & actions (for own instance)
-- fork this repository
-- enable "pages from actions" in the settings
-- customize the `I4K_FIND_URL` env var (it will try to default to the
-  github pages deployment URL)
-- run the "static.yml" workflow
-- visit the fork's github page
-
-### gitlab pages
-- fork this repository on gitlab
-- it should use the `pages` job/pipeline, that will deploy a new instance
-
-Gitlab offfer "private pages", so a page could be accessed only by
-users who are logged in to the repo
-
-### local/private/VPN instance
-
-Can run on `localhost:<port>` on any machine, with the dev server
-  (though maybe something more efficient could be nice).
-
-Can be served from a "private local machine" (ex: unused phone over
-4g, or raspi), runnin a wireguard VPN or private [Tailscale
-Tailnet](https://tailscale.com/kb/1136/tailnet/?q=tailnet).
-
-That way requests should never leave the user network, until resolved
-by Find to a URL that the browser can resolve
 
 ## Testing
 To run the tests, after having done `npm install` to get the initial
