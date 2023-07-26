@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "serve -p 8000 || python3 -m http.server --directory .",
     "test": "ava",
-    "opensearch": "node ./src/scripts/opensearch-xml.js",
+    "opensearch": "node ./src/scripts/opensearch-xml.js ?generate=true",
     "find": "node ./src/scripts/i4k-find.js"
   },
   "bin": {

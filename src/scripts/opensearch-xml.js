@@ -1,6 +1,5 @@
-import { I4kFind } from "../index.js";
+import { OpenSearchDescription } from "../open-search.js";
 import packageJson from "../../package.json" assert { type: "json" };
-
 import fs from "fs/promises";
 import path from "path";
 
@@ -41,6 +40,9 @@ const newUserConfig = async (baseUrl) => {
 
 const openSearchXml = async () => {
 	const { I4K_FIND_URL } = process.env;
+	if (!I4K_FIND_URL) {
+		throw "missing I4K_FIND_URL=https://example.org/my-find"
+	}
 	let newConfig;
 	try {
 		newConfig = await newUserConfig(I4K_FIND_URL);
@@ -48,20 +50,53 @@ const openSearchXml = async () => {
 		console.error(e);
 		newConfig = config;
 	}
-	const find = new I4kFind(newConfig);
-	const xmlOutput = find.osd.exportXML();
-
-	if (OSD_PATH) {
-		try {
-			const localPath = path.join(process.cwd(), OSD_PATH);
-			await path.resolve(localPath);
-			await fs.writeFile(localPath, xmlOutput);
-		} catch (e) {
-			console.error("Unable to write opensearch.xml", e);
-		}
-	}
+	const {
+		shortName,
+		description,
+		image,
+		templateHTML,
+		templateXML,
+		templateSuggestions,
+	} = config
+	const osd = new OpenSearchDescription({
+		shortName,
+		description,
+		image,
+		templateHTML,
+		templateXML,
+		templateSuggestions,
+	});
+	const xmlOutput = osd.exportXML();
+	return xmlOutput
 };
 
-openSearchXml().catch((e) => console.error(e));
+const init = async () => {
+	const argumementsUrlHash = process.argv[2]
+	let userArgs
+	try {
+		userArgs = new URLSearchParams(argumementsUrlHash)
+	} catch(e) {
+		/* console.log("No user scrip 'URL arguments'", process.argv) */
+	}
+
+	const {
+		generate = false
+	} = userArgs
+
+	const osdXml = await openSearchXml()
+	if (generate) {
+		if (outputPath) {
+			try {
+				const localPath = path.join(process.cwd(), OSD_PATH);
+				await path.resolve(localPath);
+				await fs.writeFile(localPath, osdXml);
+			} catch (e) {
+				throw(e);
+			}
+		}
+	}
+	return osdXml
+}
+init()
 
 export default openSearchXml;
