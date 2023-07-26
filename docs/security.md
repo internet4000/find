@@ -148,5 +148,11 @@ There was a `window.confirm()` call before executing a `#` command
 call, but was removed. Maybe this should be enforced again, for this
 and other scenarios.
 
+To mitigate this risk, users could deploy their own instance, to a
+"private URL" (either behind a login flow), or "unshared with a random
+pattern" (example, deploy from private github repo with name
+`my-find-abcd1234` for `<actor>.github.io/my-find-abcd1234`; gitlab
+also has "authed private pages for free").
+
 ## Notes
 Get in touch for any concern, or contribution; this is experimental.
