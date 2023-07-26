@@ -1,3 +1,5 @@
+> Check the other files of this folder for more documentation.
+
 # Find
 Web browser URL search engine utility to customize the omnibar actions.
 

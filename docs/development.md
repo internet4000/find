@@ -363,6 +363,9 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+- https://spec.matrix.org/v1.7/appendices/#common-namespaced-identifier-grammar
+- https://en.wikipedia.org/wiki/Usenet `x.*.**`
+- https://en.wikipedia.org/wiki/Namespace
 - https://www.postman.com/
 - https://www.dns.toys/
 - https://en.wikipedia.org/wiki/Nucleic_acid_notation

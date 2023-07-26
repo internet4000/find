@@ -258,10 +258,15 @@ currently be user defined, only the other exisiting symbols):
 Some reasons why this project exists:
 - gain (self) control of where search queries go after leaving the
 web-browser.
+- to reflect on where all browser search queries and actions go (and
+  their ammount)
 - experiement with what can be done from typing into any browser's URL
-  (is the current cursor in a URL bar, a text search input, a
-  REPL, a notebook? Or it is just me typing on
-  the keyboard?)
+  (is the current cursor in a URL bar, a text search input, a REPL, a
+  notebook? Or it is just me typing on the keyboard?)
+- experiment with maybe storing URL as bookmarks more easily; "local
+  first/only" database explorations of "my own content" (could also
+  optin keep track of searches, to re-use and edit, as `.bash_history`
+  etc.)
 - try to handle "not just search" (alternative URL client entry point
   to [DDG](https://duckduckgo.com) or
   [Searx](https://en.wikipedia.org/wiki/Searx))
@@ -273,7 +278,7 @@ web-browser.
 - interacting with computing interface(s) (url, shell, repl, notes,
   chats, links) and other actors
 
-Some reasons why duckduckgo is the default search engine:
+Some reasons why DuckDuckGo is the default search engine:
 - it supports `!` [bangs](https://duckduckgo.com/bangs) (13,563+
   bangs! search engines)
 - it seems more privacy friendly that the rest (that support bangs;
@@ -283,7 +288,7 @@ Some reasons why duckduckgo is the default search engine:
   issue#96](https://github.com/internet4000/find/issues/96))
 
 
-Cons:
+Cons for DDG:
 - seems to "re-writte" the search results when you visit the search
   result page, again, after visiting a first result's page
 
