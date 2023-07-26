@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<InputEncoding>UTF-8</InputEncoding>
 	<ShortName>Find</ShortName>
-	<Description>URL action engine</Description>
-	<Image height="64" width="64" type="image/png">http://localhost:3000/assets/find-logo.svg</Image>
-	<Url type="text/html" template="http://localhost:3000/#q={searchTerms}" />
-	<Url type="application/opensearchdescription+xml" rel="search" template="http://localhost:3000/assets/opensearch.xml" />
-	<Url type="application/x-suggestions+json" template="https://internet4000.github.io/find/api/suggestions/#q={searchTerms}" />
+	<Description>Find anything anywhere</Description>
+	<Image height="64" width="64" type="image/png">https://internet4000.github.io/find/assets/favicon.ico</Image>
+	<Url type="text/html" template="https://example.org/#q={searchTerms}" method="GET"/>
+	<Url type="application/opensearchdescription+xml" rel="search" template="https://example.org/assets/opensearch.xml" method="GET"/>
+	<Url type="application/x-suggestions+json" rel="suggestions" template="https://example.org/api/suggestions/#q={searchTerms}" method="GET"/>
 </OpenSearchDescription>

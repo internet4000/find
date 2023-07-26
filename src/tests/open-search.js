@@ -1,5 +1,5 @@
 import test from "ava";
-import Find, { OpenSearchDescription } from "../../src/index.js";
+import find, { I4kFind, OpenSearchDescription } from "../../src/index.js";
 
 const CONFIG_EXPORT = {
 	shortName: "Find",
@@ -7,9 +7,14 @@ const CONFIG_EXPORT = {
 	image: "https://internet4000.github.io/find/assets/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
 	templateXML: "https://internet4000.github.io/find/assets/opensearch.xml",
-	templateSuggestionsJSON:
+	templateSuggestions:
 		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };
+
+let CONFIG_EMPTY = { ...CONFIG_EXPORT }
+CONFIG_EMPTY.templateHTML = undefined
+CONFIG_EMPTY.templateXML = undefined
+CONFIG_EMPTY.templateSuggestions = undefined
 
 const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
@@ -24,11 +29,21 @@ const XML_EXPORT = `<?xml version="1.0" encoding="UTF-8"?>
 /* <moz:SearchForm>https://internet4000.github.io/find/#q={searchTerms}</moz:SearchForm> */
 
 test("OpenSearchDescription is in Find with a config", (t) => {
-	t.like(Find.osd.config, CONFIG_EXPORT);
+	t.like(CONFIG_EMPTY, find.osd.config);
 });
 test("OpenSearch can export to JSON", (t) => {
-	t.like(JSON.parse(Find.osd.exportJSON()), CONFIG_EXPORT);
+	const myFind = new I4kFind({
+		templateHTML:CONFIG_EXPORT.templateHTML,
+		templateXML: CONFIG_EXPORT.templateXML,
+		templateSuggestions: CONFIG_EXPORT.templateSuggestions,
+	})
+	t.like(JSON.parse(myFind.osd.exportJSON()), CONFIG_EXPORT);
 });
 test("OpenSearch can export to XML", (t) => {
-	t.deepEqual(Find.osd.exportXML(), XML_EXPORT);
+	const myFind = new I4kFind({
+		templateHTML:CONFIG_EXPORT.templateHTML,
+		templateXML: CONFIG_EXPORT.templateXML,
+		templateSuggestions: CONFIG_EXPORT.templateSuggestions,
+	})
+	t.deepEqual(myFind.osd.exportXML(), XML_EXPORT);
 });

@@ -20,23 +20,20 @@ const readUserPackageJson = async () => {
 	return userData;
 };
 
-const newUserConfig = async (url) => {
+const newUserConfig = async (baseUrl) => {
 	const userPackageJson = await readUserPackageJson();
 	const userPkgConfig = userPackageJson[pkgName];
 	const userConfig = { ...userPkgConfig };
-	if (url) {
-		const { queryParamName } = userConfig;
-		if (!userConfig.osd) {
-			userConfig.osd = {};
-		}
-		if (!userConfig.osd.templateHTML) {
-			userConfig.osd.templateHTML = `${url}/#${queryParamName}={searchTerms}`;
-		}
-		if (!userConfig.osd.templateXML) {
-			userConfig.osd.templateXML = `${url}/${OSD_PATH}`;
-		}
-		if (!userConfig.osd.image) {
-			userConfig.osd.image = `${url}/assets/favicon.ico`;
+	if (baseUrl) {
+		try {
+			new URL(baseUrl)
+			const { queryParamName } = userConfig;
+			userConfig.templateHTML = `${baseUrl}/#${queryParamName}={searchTerms}`;
+			userConfig.templateXML = `${baseUrl}/${OSD_PATH}`;
+			userConfig.templateSuggestions = `${baseUrl}/api/suggestions/#${queryParamName}={searchTerms}`;
+			userConfig.image = `${baseUrl}/assets/favicon.ico`;
+		} catch(e) {
+			console.error("Wrong config site URL", e)
 		}
 	}
 	return userConfig;

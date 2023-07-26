@@ -314,7 +314,7 @@ export class OpenSearchDescription {
 			"description",
 			"templateHTML",
 			"templateXML",
-			"templateSuggestionsJSON",
+			"templateSuggestions",
 			"image",
 		];
 	}
@@ -344,7 +344,7 @@ export class OpenSearchDescription {
 	<Image height="64" width="64" type="image/png">${config.image}</Image>
 	<Url type="text/html" template="${config.templateHTML}" method="GET"/>
 	<Url type="application/opensearchdescription+xml" rel="search" template="${config.templateXML}" method="GET"/>
-	<Url type="application/x-suggestions+json" rel="suggestions" template="${config.templateSuggestionsJSON}" method="GET"/>
+	<Url type="application/x-suggestions+json" rel="suggestions" template="${config.templateSuggestions}" method="GET"/>
 </OpenSearchDescription>`;
 		/* <moz:SearchForm>${config.templateHTML}</moz:SearchForm> */
 	}
@@ -356,13 +356,18 @@ export class I4kFind {
 		symbols,
 		queryParamName,
 		localStorageKey,
-		osd,
+		templateHTML,
+		templateXML,
+		templateSuggestions,
 	} = {}) {
 		this.localStorageKey = localStorageKey || "i4find";
 		this.queryParamName = queryParamName || "q";
 		// default I4KSymbol map of available symbols
 		this.symbols = symbols || new I4kFindSymbols().default;
-		this.osd = new OpenSearchDescription(osd || DEFAULT_OSD);
+
+		/* use default OSD and overwritte with the user's defined keys */
+		const osd = { templateHTML, templateXML, templateSuggestions };
+		this.osd = new OpenSearchDescription({...DEFAULT_OSD, ...osd});
 	}
 
 	/* add a new user engine to the list of user symbols' engines */
@@ -757,7 +762,7 @@ export const DEFAULT_OSD = {
 	image: "https://internet4000.github.io/find/assets/favicon.ico",
 	templateHTML: "https://internet4000.github.io/find/#q={searchTerms}",
 	templateXML: "https://internet4000.github.io/find/assets/opensearch.xml",
-	templateSuggestionsJSON:
+	templateSuggestions:
 		"https://internet4000.github.io/find/api/suggestions/#q={searchTerms}",
 };
 
