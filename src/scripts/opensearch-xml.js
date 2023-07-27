@@ -32,71 +32,45 @@ const newUserConfig = async (baseUrl) => {
 			userConfig.templateSuggestions = `${baseUrl}/api/suggestions/#${queryParamName}={searchTerms}`;
 			userConfig.image = `${baseUrl}/assets/favicon.ico`;
 		} catch(e) {
-			console.error("Wrong config site URL", e)
+			throw e
 		}
 	}
 	return userConfig;
 };
 
 const openSearchXml = async () => {
-	const { I4K_FIND_URL } = process.env;
-	if (!I4K_FIND_URL) {
-		throw "missing I4K_FIND_URL=https://example.org/my-find"
-	}
-	let newConfig;
-	try {
-		newConfig = await newUserConfig(I4K_FIND_URL);
-	} catch (e) {
-		console.error(e);
-		newConfig = config;
-	}
-	const {
-		shortName,
-		description,
-		image,
-		templateHTML,
-		templateXML,
-		templateSuggestions,
-	} = config
-	const osd = new OpenSearchDescription({
-		shortName,
-		description,
-		image,
-		templateHTML,
-		templateXML,
-		templateSuggestions,
-	});
-	const xmlOutput = osd.exportXML();
-	return xmlOutput
-};
-
-const init = async () => {
 	const argumementsUrlHash = process.argv[2]
 	let userArgs
 	try {
 		userArgs = new URLSearchParams(argumementsUrlHash)
-	} catch(e) {
-		/* console.log("No user scrip 'URL arguments'", process.argv) */
+	} catch(e) {}
+	const { generate = false } = userArgs
+	const { I4K_FIND_URL } = process.env;
+	if (!I4K_FIND_URL) {
+		return
 	}
 
-	const {
-		generate = false
-	} = userArgs
+	let osdXml;
+	try {
+		const newConfig = await newUserConfig(I4K_FIND_URL);
+		const osd = new OpenSearchDescription(newConfig);
+		osdXml = osd.exportXML();
+	} catch (e) {
+		console.error(e);o
+		return
+	}
 
-	const osdXml = await openSearchXml()
-	if (generate) {
-		if (outputPath) {
-			try {
-				const localPath = path.join(process.cwd(), OSD_PATH);
-				await path.resolve(localPath);
-				await fs.writeFile(localPath, osdXml);
-			} catch (e) {
-				throw(e);
-			}
+	if (osdXml && generate && outputPath) {
+		try {
+			const localPath = path.join(process.cwd(), OSD_PATH);
+			await path.resolve(localPath);
+			await fs.writeFile(localPath, osdXml);
+		} catch (e) {
+			throw(e);
 		}
 	}
 	return osdXml
 }
-init()
+openSearchXml()
 
 export default openSearchXml;

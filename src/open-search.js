@@ -1,6 +1,6 @@
 export const DEFAULT_OSD = {
 	shortName: "Find",
-	description: "Find Search",
+	description: "Find search",
 	image: "https://example.org/i4k-find/assets/favicon.ico",
 	templateHTML: "https://example.org/i4k-find/#q={searchTerms}",
 	templateXML: "https://example.org/i4k-find/assets/opensearch.xml",
