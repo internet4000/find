@@ -140,7 +140,8 @@ export class I4kFindSymbols {
 					ghr: "https://api.github.com/repos/{}",
 					ghsr: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+{}",
 					ghsrt: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+topic:{}+{}",
-					ghu: "https://api.github.com/user/{}",
+					ghu: "https://api.github.com/users/{}",
+					ghuid: "https://api.github.com/user/{}",
 					/* gitlab */
 					gl: "https://docs.gitlab.com/ee/api/rest/?suggestion=add-api-json-root#note=wikip-has-txt",
 					glg: "https://gitlab.com/api/v4/groups/{}",
