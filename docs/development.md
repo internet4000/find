@@ -369,6 +369,7 @@ References, links and inspirations:
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+- https://console.spec.whatwg.org/#formatter (DOM+CSS+JS Object parsing)
 - https://spec.matrix.org/v1.7/appendices/#common-namespaced-identifier-grammar
 - https://www.w3.org/People/Berners-Lee/1996/ppf.html
 - https://en.wikipedia.org/wiki/Usenet `x.*.**`
