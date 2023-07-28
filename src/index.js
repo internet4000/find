@@ -23,6 +23,7 @@ export class I4kFindSymbols {
 				engines: {
 					"?": `${window.location.href}/#q=!docs%20{}`,
 					ai: "https://attention1.gitlab.io/ai-interface/#input={}",
+					arxiv: "https://arxiv.org/search/?query={}",
 					docs: "https://github.com/internet4000/find/#{}",
 					c: "https://contacts.google.com/search/{}",
 					cdn: "https://www.jsdelivr.com/?query={}",
@@ -38,18 +39,21 @@ export class I4kFindSymbols {
 					hn: "https://hn.algolia.com/?sort=byDate&query={}",
 					k: "https://keep.google.com/?q=#search/text%3D{}",
 					l: "https://www.linguee.com/search?query={}",
+					libgen: "https://libgen.rs/search.php?req={}",
 					m: "https://www.google.com/maps/search/{}",
 					npm: "https://www.npmjs.com/search?q={}",
 					osm: "https://www.openstreetmap.org/search?query={}",
 					r4: "https://radio4000.com/search?search={}",
 					sci: "https://sci-hub.se/{}",
 					so: "https://stackoverflow.com/search?q={}",
+					tpb: "https://thepiratebay.org/search.php?q={}",
 					tr: "https://translate.google.com/?q={}",
 					vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
 					w: "https://en.wikipedia.org/w/index.php?search={}",
 					wa: "http://www.wolframalpha.com/input/?i={}",
 					wdev: "https://developer.mozilla.org/search?q={}",
 					y: "https://www.youtube.com/results?search_query={}",
+					zlib: "https://z-lib.is/s?q={}",
 					aurl: "https://web.archive.org/web/*/{}",
 					aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
 					aurlid: "https://web.archive.org/web/20210311213055id_/{}",
@@ -292,6 +296,8 @@ export class I4kFindSymbols {
 					"//": "https://ipfs.io/ipfs/{}",
 				},
 			},
+			/* https://en.wikipedia.org/wiki/Digital_object_identifier;
+			 ex: doi:// */
 			"doi:": {
 				name: "doi",
 				uri:encodeURIComponent("doi:"),
