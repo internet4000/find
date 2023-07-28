@@ -58,6 +58,7 @@ export class I4kFindSymbols {
 					aurl: "https://web.archive.org/web/*/{}",
 					aurlcdx: "https://web.archive.org/cdx/search/cdx?url={}",
 					aurlid: "https://web.archive.org/web/20210311213055id_/{}",
+					aurlis: "https://archive.is/{}",
 				},
 			},
 			"+": {
@@ -66,6 +67,7 @@ export class I4kFindSymbols {
 				engines: {
 					ai: "https://attention1.gitlab.io/ai-interface/#system={}&input={}",
 					aurl: "https://web.archive.org/save/{}",
+					aurlis: "https://archive.is/?url={}",
 					draw: "https://docs.google.com/drawings/create?title={}",
 					/*
 						 WebBrowsers cannot directly open "data URLs",
@@ -98,7 +100,7 @@ export class I4kFindSymbols {
 					r4: "https://radio4000.com/add?url={}",
 					r4p: "https://radio4000.com/{}/play",
 					r4pr: "https://radio4000.com/{}/play/random",
-					scanurl: "https://radar.cloudflare.com/scan&url={}",
+					scanurl: "https://radar.cloudflare.com/scan?url={}",
 					sheet: "https://docs.google.com/spreadsheets/create?title={}",
 					space: "https://goog.space/#input={}",
 					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
