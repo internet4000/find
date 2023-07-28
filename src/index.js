@@ -42,6 +42,7 @@ export class I4kFindSymbols {
 					npm: "https://www.npmjs.com/search?q={}",
 					osm: "https://www.openstreetmap.org/search?query={}",
 					r4: "https://radio4000.com/search?search={}",
+					sci: "https://sci-hub.se/{}",
 					so: "https://stackoverflow.com/search?q={}",
 					tr: "https://translate.google.com/?q={}",
 					vinyl: "https://vinyl.internet4000.com/#gsc.q={}",
@@ -152,6 +153,9 @@ export class I4kFindSymbols {
 					w: "https://en.wikipedia.org/api/rest_v1/{}",
 					wp: "https://en.wikipedia.org/api/rest_v1/page/{}",
 					wpt: "https://en.wikipedia.org/api/rest_v1/page/title/{}",
+					wpm: "https://en.wikipedia.org/api/rest_v1/page/media-list/{}",
+
+					weather: "http://api.openweathermap.org/geo/1.0/direct?q={},{}&limit={100}&appid={API key}"
 				}
 			},
 			"#": {
@@ -288,6 +292,13 @@ export class I4kFindSymbols {
 					"//": "https://ipfs.io/ipfs/{}",
 				},
 			},
+			"doi:": {
+				name: "doi",
+				uri:encodeURIComponent("doi:"),
+				engines: {
+					"//": "https://doi.org/{}",
+				},
+			}
 		};
 	}
 	constructor(userSymbols = {}) {

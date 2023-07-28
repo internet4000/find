@@ -24,15 +24,17 @@ export default class I4kFindSearch extends HTMLElement {
 			},
 		});
 		this.dispatchEvent(event);
-		this._clearSearch();
+		return output
 	};
 	_clearSearch() {
 		this.querySelector("form input").value = "";
 	}
 	_handleSubmit = (event) => {
-		debugger
 		event.preventDefault();
-		this.findSearch(this.search);
+		const output = this.findSearch(this.search);
+		if (output) {
+			this._clearSearch();
+		}
 	};
 	_handleInputChange = (input) => {
 		this[input.target.name] = input.target.value;
