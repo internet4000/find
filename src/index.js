@@ -98,7 +98,9 @@ export class I4kFindSymbols {
 					r4: "https://radio4000.com/add?url={}",
 					r4p: "https://radio4000.com/{}/play",
 					r4pr: "https://radio4000.com/{}/play/random",
+					scanurl: "https://radar.cloudflare.com/scan&url={}",
 					sheet: "https://docs.google.com/spreadsheets/create?title={}",
+					space: "https://goog.space/#input={}",
 					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
 					gpt: "https://chat.openai.com/?model=gpt-4",
 					note: "https://note.internet4000.com/note?content={}",
@@ -111,7 +113,7 @@ export class I4kFindSymbols {
 					rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
 					rtcmx:
 				"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
-					space: "https://goog.space/#input={}",
+					webhook: "https://webhook.site",
 				},
 			},
 			"&": {
