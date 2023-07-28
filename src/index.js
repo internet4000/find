@@ -52,6 +52,7 @@ export class I4kFindSymbols {
 					w: "https://en.wikipedia.org/w/index.php?search={}",
 					wa: "http://www.wolframalpha.com/input/?i={}",
 					wdev: "https://developer.mozilla.org/search?q={}",
+					whois: "https://who.is/whois-ip/ip-address/{}",
 					y: "https://www.youtube.com/results?search_query={}",
 					zlib: "https://z-lib.is/s?q={}",
 					aurl: "https://web.archive.org/web/*/{}",
