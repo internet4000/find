@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  I4K_FIND_URL: ${{ env.url }}
+  I4K_FIND_URL: ${{ vars.I4K_FIND_URL }}
 
 jobs:
   deploy:
