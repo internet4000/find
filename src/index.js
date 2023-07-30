@@ -163,8 +163,6 @@ export class I4kFindSymbols {
 					wp: "https://en.wikipedia.org/api/rest_v1/page/{}",
 					wpt: "https://en.wikipedia.org/api/rest_v1/page/title/{}",
 					wpm: "https://en.wikipedia.org/api/rest_v1/page/media-list/{}",
-
-					weather: "http://api.openweathermap.org/geo/1.0/direct?q={},{}&limit={100}&appid={API key}"
 				}
 			},
 			"#": {
