@@ -103,6 +103,7 @@ export class I4kFindSymbols {
 					scanurl: "https://radar.cloudflare.com/scan?url={}",
 					sheet: "https://docs.google.com/spreadsheets/create?title={}",
 					space: "https://goog.space/#input={}",
+					sqlite: "https://sqlime.org/#{}",
 					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
 					gpt: "https://chat.openai.com/?model=gpt-4",
 					note: "https://note.internet4000.com/note?content={}",
