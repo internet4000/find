@@ -31,6 +31,7 @@ export class I4kFindSymbols {
 					d: "https://duckduckgo.com/?q={}",
 					dd: "https://devdocs.io/#q={}",
 					dr: "https://drive.google.com/drive/search?q={}",
+					fstv: "https://firesky.tv/?filter={}",
 					g: "https://encrypted.google.com/search?q={}",
 					gh: "https://github.com/search?q={}",
 					gho: "https://github.com/search?q=org:{}",
@@ -115,7 +116,7 @@ export class I4kFindSymbols {
 					wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
 					rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
 					rtcmx:
-				"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
+						"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
 					webhook: "https://webhook.site",
 				},
 			},
@@ -150,7 +151,8 @@ export class I4kFindSymbols {
 					gho: "https://api.github.com//{}",
 					ghr: "https://api.github.com/repos/{}",
 					ghsr: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+{}",
-					ghsrt: "https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+topic:{}+{}",
+					ghsrt:
+						"https://api.github.com/search/repositories?page=1&per_page=100&q=fork:true+topic:{}+{}",
 					ghu: "https://api.github.com/users/{}",
 					ghuid: "https://api.github.com/user/{}",
 					/* gitlab */
@@ -158,13 +160,14 @@ export class I4kFindSymbols {
 					glg: "https://gitlab.com/api/v4/groups/{}",
 					glsr: "https://gitlab.com/api/v4/projects?search={}",
 					/* trying to use this value for the "I4kFind Package Manager"; a github repo search for topics */
-					i4kfpm: "https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+{}",
+					i4kfpm:
+						"https://api.github.com/search/repositories?q=fork:true+topic:i4k-find+topic:package+{}",
 					/* wikipedia */
 					w: "https://en.wikipedia.org/api/rest_v1/{}",
 					wp: "https://en.wikipedia.org/api/rest_v1/page/{}",
 					wpt: "https://en.wikipedia.org/api/rest_v1/page/title/{}",
 					wpm: "https://en.wikipedia.org/api/rest_v1/page/media-list/{}",
-				}
+				},
 			},
 			"#": {
 				name: "command",
@@ -174,7 +177,7 @@ export class I4kFindSymbols {
 						/* Finds help URL for a user query (with symbol) or not */
 						app.help();
 						if (arg) {
-							const {symbol} = app.decodeUserRequest(arg)
+							const { symbol } = app.decodeUserRequest(arg);
 							if (symbol) {
 								app.find(arg);
 							} else {
@@ -204,15 +207,15 @@ export class I4kFindSymbols {
 					},
 					export(app, arg) {
 						/* Export userSymbols as data:json to a goog.space */
-						const userSymbols = app.getUserSymbols()
-						app.find(`+data-json ${JSON.stringify(userSymbols)}`)
+						const userSymbols = app.getUserSymbols();
+						app.find(`+data-json ${JSON.stringify(userSymbols)}`);
 					},
 					import(app, jsonObjOrStr) {
 						/* Import user symbols from a JSON Object or String  */
 						if (jsonObjOrStr) {
-							app.importUserSymbols(jsonObjOrStr)
+							app.importUserSymbols(jsonObjOrStr);
 						}
-					}
+					},
 				},
 			},
 			/* protocol(s) "follyfill/proxy" in the form `<protocol><:>//`
@@ -232,7 +235,7 @@ export class I4kFindSymbols {
 					"//": "https://portal.mozz.us/gemini/{}",
 					// can't yet handle "protocol engine case"
 					/* d: "gemini://kennedy.gemi.dev/{}", */
-				}
+				},
 			},
 			/* ex: text://txt.textprotocol.org */
 			"text:": {
@@ -240,7 +243,7 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("text:"),
 				engines: {
 					"//": "https://portal.mozz.us/text/{}",
-				}
+				},
 			},
 			/* ex: finger://thebackupbox.net/ring */
 			"finger:": {
@@ -248,7 +251,7 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("finger:"),
 				engines: {
 					"//": "https://portal.mozz.us/finger/{}",
-				}
+				},
 			},
 			/* ex: gopher://gopher.floodgap.com  */
 			"gopher:": {
@@ -256,7 +259,7 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("gopher:"),
 				engines: {
 					"//": "https://portal.mozz.us/gopher/{}",
-				}
+				},
 			},
 			/* ex: spartan://spartan.mozz.us  */
 			"spartan:": {
@@ -304,54 +307,50 @@ export class I4kFindSymbols {
 			 ex: doi:// */
 			"doi:": {
 				name: "doi",
-				uri:encodeURIComponent("doi:"),
+				uri: encodeURIComponent("doi:"),
 				engines: {
 					"//": "https://doi.org/{}",
 				},
-			}
+			},
 		};
 	}
 	constructor(userSymbols = {}) {
 		if (userSymbols) {
-			this.symbols = this.newUserSymbols(userSymbols)
+			this.symbols = this.newUserSymbols(userSymbols);
 		} else {
-			this.symbols = this.newUserSymbols()
+			this.symbols = this.newUserSymbols();
 		}
-		return this
+		return this;
 	}
 	/* do not allow custom functions/commands (execute security risk;
 		 maybe until there is a decided URL DSL for Find),
 		 or custom symbol (community semantic on Find instance)*/
 	newUserSymbols(initialSymbolsMap = {}) {
 		return Object.keys(this.default)
-								 .filter((symbol) => !["#"].includes(symbol))
-								 .reduce((acc, symbol) => {
-									 acc[symbol] = {}
-									 const userSymbolData = initialSymbolsMap[symbol] || { engines: {} }
-									 const userEnginesForSymbol = userSymbolData.engines
-									 acc[symbol].engines = {}
-									 if (userEnginesForSymbol) {
-										 if (symbol === "#" || !this.default[symbol]) {
-											 // noop
-										 } else {
-											 acc[symbol].engines = userEnginesForSymbol
-										 }
-									 }
-									 return acc
-								 }, {})
+			.filter((symbol) => !["#"].includes(symbol))
+			.reduce((acc, symbol) => {
+				acc[symbol] = {};
+				const userSymbolData = initialSymbolsMap[symbol] || { engines: {} };
+				const userEnginesForSymbol = userSymbolData.engines;
+				acc[symbol].engines = {};
+				if (userEnginesForSymbol) {
+					if (symbol === "#" || !this.default[symbol]) {
+						// noop
+					} else {
+						acc[symbol].engines = userEnginesForSymbol;
+					}
+				}
+				return acc;
+			}, {});
 	}
 }
 
 /* a list of the default symbols */
-export const DEFAULT_SYMBOLS = new I4kFindSymbols().default
+export const DEFAULT_SYMBOLS = new I4kFindSymbols().default;
 
 /* the logic for search engines and actions */
 export class I4kFind {
-	constructor({
-		symbols,
-		queryParamName,
-		localStorageKey,
-	} = {}) {
+	constructor({ symbols, queryParamName, localStorageKey } = {}) {
 		this.localStorageKey = localStorageKey || "i4find";
 		this.queryParamName = queryParamName || "q";
 		// default I4KSymbol map of available symbols
@@ -402,7 +401,7 @@ export class I4kFind {
 			if (index >= splitQuery.length) {
 				url = url.replace(/\/?\{\}\/?/g, "");
 			} else {
-				const value = splitQuery[index]
+				const value = splitQuery[index];
 				url = url.replace("{}", encode ? encodeURIComponent(value) : value);
 			}
 		});
@@ -430,7 +429,7 @@ export class I4kFind {
 		symbols = this.symbols,
 		symbol = "!", // "search" by default
 		engineId = "d", // on the "default" engine
-		encode = true // encodeUriComponent (not for "protocol:" symbol)
+		encode = true, // encodeUriComponent (not for "protocol:" symbol)
 	) {
 		const engineUrl = this.getEngineUrl(symbols, symbol, engineId);
 		return this.replaceUrlPlaceholders(engineUrl, userQuery, encode);
@@ -442,9 +441,9 @@ export class I4kFind {
 		let symbol;
 		try {
 			// if is a URI scheme
-			const symbolUri = new URL(symbolGroup)
+			const symbolUri = new URL(symbolGroup);
 			symbol = symbolUri.protocol;
-		} catch(e) {
+		} catch (e) {
 			// not an error
 		}
 		if (!symbol) {
@@ -456,19 +455,19 @@ export class I4kFind {
 
 	checkForEngine(symbolGroup, symbol) {
 		if (!symbol) {
-			return
+			return;
 		}
 		const engine = symbolGroup.split(symbol)[1];
 		/* handle a symbol that is a URI scheme protocol polyfill */
 		if (symbol.endsWith(":")) {
-			if (engine.startsWith('//')) {
-			/* the "protocol proxy engine" */
-			return "//"
-	} else {
-				return engine
+			if (engine.startsWith("//")) {
+				/* the "protocol proxy engine" */
+				return "//";
+			} else {
+				return engine;
 			}
 		} else {
-			return engine
+			return engine;
 		}
 	}
 
@@ -478,7 +477,7 @@ export class I4kFind {
 		if (!symbolMaps.length) return false;
 		const filteredGroups = symbolMaps.filter(function (symbols) {
 			if (!symbols || !symbols[symbol]) return false;
-			const {engines, fns} = symbols[symbol];
+			const { engines, fns } = symbols[symbol];
 			if (engines) {
 				return engines[engineId] ? true : false;
 			}
@@ -503,10 +502,12 @@ export class I4kFind {
 		}
 		const allSymbolMaps = [this.getUserSymbols(), this.symbols];
 		const tokens = userRequest.split(" "),
-					symbolGroup = tokens[0],
-					symbol = this.checkForSymbol(symbolGroup),
-					engineId = this.checkForEngine(symbolGroup, symbol),
-					userRequestWithoutSymbol = symbol ? tokens.splice(1, tokens.length).join(" ") : userRequest;
+			symbolGroup = tokens[0],
+			symbol = this.checkForSymbol(symbolGroup),
+			engineId = this.checkForEngine(symbolGroup, symbol),
+			userRequestWithoutSymbol = symbol
+				? tokens.splice(1, tokens.length).join(" ")
+				: userRequest;
 
 		const decodedRequest = {
 			tokens,
@@ -522,7 +523,7 @@ export class I4kFind {
 		const symbolsMapWithEngine = this.getSymbolsMapForEngine(
 			allSymbolMaps,
 			symbol,
-			engineId
+			engineId,
 		);
 
 		// if there is no symbol, the whole userRequest is the query
@@ -538,36 +539,36 @@ export class I4kFind {
 		// if we know the symbol and engine
 		if (!decodedRequest.result) {
 			/* if the symbol is a URI "protocol" */
-			if (symbol.endsWith(':')) {
+			if (symbol.endsWith(":")) {
 				/* if it is a URI from this protocol (not a "search text query"),
 					 build a result from the entire query (URI),
 					 using `//` as "protocol proxy engine ID" (of <scheme)://<info>) */
 				if (symbolGroup.startsWith(`${symbol}${engineId}`)) {
 					/* do not encode the URI component (broken `/` for protocol ressource pathes) */
-					const encodeUserRequest = false
+					const encodeUserRequest = false;
 					decodedRequest.result = this.buildEngineResultUrl(
 						symbolGroup.split(`${symbol}${engineId}`)[1],
 						symbolsMapWithEngine,
 						symbol,
 						engineId,
-						encodeUserRequest
+						encodeUserRequest,
 					);
 				} else {
 				}
 			} else if (symbol === "#") {
 				/* if the symbol is for a find "#command"  */
-				decodedRequest.result = userRequestWithoutSymbol
+				decodedRequest.result = userRequestWithoutSymbol;
 			} else {
 				/* for all other cases of symbols: user user request without symbol
 					 and, only encode the user query if not ">" API symbol (probably a PATH,
 					 and if not a path a multiple word, user can use "quotes''" to escape the query) */
-				const encodeUserRequest = symbol !== ">"
+				const encodeUserRequest = symbol !== ">";
 				decodedRequest.result = this.buildEngineResultUrl(
 					userRequestWithoutSymbol,
 					symbolsMapWithEngine,
 					symbol,
 					engineId,
-					encodeUserRequest
+					encodeUserRequest,
 				);
 			}
 		}
@@ -603,19 +604,20 @@ export class I4kFind {
 	// (AND?/OR) interpret the result with an other find action/query
 	// idea: https://en.wikipedia.org/wiki/GNU_Readline
 	find(request, openInBrowser = true) {
-		if (!request || typeof request !== "string")  {
-			return
+		if (!request || typeof request !== "string") {
+			return;
 		}
 		const decodedRequest = this.decodeUserRequest(request);
 		const { result } = decodedRequest;
-		const {
-			open, display, exec, find
-		} = this.findUserAction(decodedRequest, openInBrowser)
+		const { open, display, exec, find } = this.findUserAction(
+			decodedRequest,
+			openInBrowser,
+		);
 
 		/* depending on the requested user/symbol(consequence) action,
 			 decide of an action to "evaluate" (open,find,display,tbd...); */
 		if (find) {
-			this.find(result)
+			this.find(result);
 		} else if (open) {
 			this.openUrl(result);
 		} else if (display) {
@@ -623,14 +625,14 @@ export class I4kFind {
 				 (encodeURIComponent result?);
 			 maybe make a more general rule here; for "recursive Find" calls;
 			 query that translate to other queries, instead of "just URLs" */
-			this.find(`+space ${result}`)
+			this.find(`+space ${result}`);
 		} else if (exec) {
-			this.execUserRequest(decodedRequest)
+			this.execUserRequest(decodedRequest);
 		}
 		return result;
 	}
 	execUserRequest(decodedRequest) {
-		const {symbol, engineId, result} = decodedRequest
+		const { symbol, engineId, result } = decodedRequest;
 		const fns = this.symbols[symbol].fns[engineId];
 		fns(this, result);
 	}
@@ -640,14 +642,14 @@ export class I4kFind {
 			open: false,
 			exec: false, // user defined `#` functions
 			find: false, // recursive call to find again
-		}
+		};
 		/* try the result for find syntax; URI scheme */
 		try {
-			const {protocol} = new URL(decodedRequest.result)
+			const { protocol } = new URL(decodedRequest.result);
 			if (protocol && this.symbols[protocol]) {
-				action.find = true
+				action.find = true;
 			}
-		} catch(e) {
+		} catch (e) {
 			// not-an-error
 		}
 		/* treat the special cases, which should probably not "open a tab"
@@ -655,18 +657,18 @@ export class I4kFind {
 		if (decodedRequest.symbol === "+") {
 			// for all "do" action, which results in "data:" (a URI for no website)
 			if (decodedRequest.result.startsWith("data:")) {
-				action.display = true
+				action.display = true;
 			}
 		}
 		/* exec (user defined) functions */
 		if (decodedRequest.symbol === "#") {
-			action.exec = true
+			action.exec = true;
 		}
 		/* by default we want to open a browser window/tab, if no "display|exec|..." requested */
 		if (openInBrowser && !action.display && !action.exec) {
 			action.open = true;
 		}
-		return action
+		return action;
 	}
 
 	// params: none
@@ -718,7 +720,7 @@ export class I4kFind {
 	// saves a new set of user symbols to local storage
 	setUserSymbols(sourceSymbols) {
 		if (!sourceSymbols) return;
-		const serializedSymbols = this.newUserSymbols(sourceSymbols)
+		const serializedSymbols = this.newUserSymbols(sourceSymbols);
 		const symbolsString = JSON.stringify(serializedSymbols);
 		localStorage.setItem(this.localStorageKey, symbolsString);
 		// cannot send event from here; we might be in browser||node.js
@@ -728,25 +730,25 @@ export class I4kFind {
 	// to be used with Find default symbols (Find.symbols)
 	importUserSymbols(sourceSymbolsJSONAny) {
 		let userSymbols = null;
-		if (typeof sourceSymbolsJSONAny === 'string') {
+		if (typeof sourceSymbolsJSONAny === "string") {
 			try {
-				const sData = JSON.parse(sourceSymbolsJSONAny)
-				userSymbols = sData
-			} catch(e) {}
-		} else if (typeof sourceSymbolsJSONAny === 'object') {
-			userSymbols = sourceSymbolsJSONAny
+				const sData = JSON.parse(sourceSymbolsJSONAny);
+				userSymbols = sData;
+			} catch (e) {}
+		} else if (typeof sourceSymbolsJSONAny === "object") {
+			userSymbols = sourceSymbolsJSONAny;
 		}
 		if (userSymbols) {
 			/* "an entire object" */
 			if (userSymbols.userSymbols) {
-				this.setUserSymbols(this.newUserSymbols(userSymbols.userSymbols))
+				this.setUserSymbols(this.newUserSymbols(userSymbols.userSymbols));
 			} else {
-				this.setUserSymbols(this.newUserSymbols(userSymbols))
+				this.setUserSymbols(this.newUserSymbols(userSymbols));
 			}
 		}
 	}
 	newUserSymbols(initialSymbols) {
-		return new I4kFindSymbols(initialSymbols).symbols
+		return new I4kFindSymbols(initialSymbols).symbols;
 	}
 }
 
@@ -765,7 +767,7 @@ if (isBrowser) {
 				/* we locate the file at the root of the project,
 					 to have a "large scope for catching fetch requests" */
 				const sw = await navigator.serviceWorker.register(
-					`${moduleUrl}/service-worker.js`
+					`${moduleUrl}/service-worker.js`,
 				);
 				if (sw.active) {
 					/* we can't pass the entire app */
@@ -774,7 +776,7 @@ if (isBrowser) {
 							userSymbols: App.getUserSymbols(),
 							symbols: App.symbols,
 							pathname: window.location.pathname,
-						})
+						}),
 					);
 				}
 			} catch (e) {
