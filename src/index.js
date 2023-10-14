@@ -70,6 +70,7 @@ export class I4kFindSymbols {
 					aurl: "https://web.archive.org/save/{}",
 					aurlis: "https://archive.is/?url={}",
 					draw: "https://docs.google.com/drawings/create?title={}",
+					tldraw: "https://www.tldraw.com",
 					/*
 						 WebBrowsers cannot directly open "data URLs",
 						 so (we will generate a goog.space with the "data URL to copy",
