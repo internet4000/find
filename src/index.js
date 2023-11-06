@@ -109,6 +109,7 @@ export class I4kFindSymbols {
 					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
 					gpt: "https://chat.openai.com/?model=gpt-4",
 					note: "https://note.internet4000.com/note?content={}",
+					paywall: "https://1ft.io/{}",
 
 					/* "pollyfill the 'view-source:' for mobile device?
 						 browser catch that first when know how to handle " */
