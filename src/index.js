@@ -318,7 +318,7 @@ export class I4kFindSymbols {
 				name: "did",
 				uri: encodeURIComponent("did:"),
 				engines: {
-					"//": "https://plc.directory/{}",
+					"//": "https://plc.directory/did:{}",
 				},
 			},
 		};
@@ -470,10 +470,11 @@ export class I4kFind {
 		/* handle a symbol that is a URI scheme protocol polyfill */
 		if (symbol.endsWith(":")) {
 			if (engine.startsWith("//")) {
-				/* the "protocol proxy engine" */
+				/* use the "double slash as proxy engine", prefix of the "authority" */
 				return "//";
 			} else {
-				return engine;
+				/* use the "symbol as proxy engine"? or use "//" also? */
+				return "//";
 			}
 		} else {
 			return engine;
@@ -517,7 +518,6 @@ export class I4kFind {
 			userRequestWithoutSymbol = symbol
 				? tokens.splice(1, tokens.length).join(" ")
 				: userRequest;
-
 		const decodedRequest = {
 			tokens,
 			symbolGroup,
@@ -552,9 +552,9 @@ export class I4kFind {
 				/* if it is a URI from this protocol (not a "search text query"),
 					 build a result from the entire query (URI),
 					 using `//` as "protocol proxy engine ID" (of <scheme)://<info>) */
+				const encodeUserRequest = false;
 				if (symbolGroup.startsWith(`${symbol}${engineId}`)) {
 					/* do not encode the URI component (broken `/` for protocol ressource pathes) */
-					const encodeUserRequest = false;
 					decodedRequest.result = this.buildEngineResultUrl(
 						symbolGroup.split(`${symbol}${engineId}`)[1],
 						symbolsMapWithEngine,
@@ -563,6 +563,14 @@ export class I4kFind {
 						encodeUserRequest,
 					);
 				} else {
+					/* if there is not ["//" authority] part in the protocol scheme */
+					decodedRequest.result = this.buildEngineResultUrl(
+						symbolGroup.split(`${symbol}`)[1],
+						symbolsMapWithEngine,
+						symbol,
+						engineId,
+						encodeUserRequest,
+					);
 				}
 			} else if (symbol === "#") {
 				/* if the symbol is for a find "#command"  */
