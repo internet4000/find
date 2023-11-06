@@ -314,6 +314,13 @@ export class I4kFindSymbols {
 					"//": "https://doi.org/{}",
 				},
 			},
+			"did:": {
+				name: "did",
+				uri: encodeURIComponent("did:"),
+				engines: {
+					"//": "https://plc.directory/{}",
+				},
+			},
 		};
 	}
 	constructor(userSymbols = {}) {
