@@ -10,13 +10,13 @@ export default class I4kFindApp extends HTMLElement {
 		/* handle search (if it is a command) */
 		this.querySelector("i4k-find-search").addEventListener(
 			"findSearch",
-			this._onFindSearch.bind(this)
+			this._onFindSearch.bind(this),
 		);
 
 		/* if we "sync", also refresh the info */
 		this.querySelector("i4k-find-sync").addEventListener(
 			"submit",
-			this._onFindSync.bind(this)
+			this._onFindSync.bind(this),
 		);
 
 		Array.from(this.querySelectorAll("i4k-find-query")).forEach(($button) => {
@@ -55,7 +55,7 @@ export default class I4kFindApp extends HTMLElement {
 			.substr(1, 6)}`;
 		document.documentElement.style.setProperty(
 			"--c-bg--random",
-			this.randomColor
+			this.randomColor,
 		);
 	}
 	render() {
@@ -71,6 +71,13 @@ export default class I4kFindApp extends HTMLElement {
 								q="!?"
 								no-open="true"
 								title="Visit documentation"
+								></i4k-find-query>
+						</li>
+						<li>
+							<i4k-find-query
+								q="!m berlin"
+								no-open="true"
+								title="Open maps search"
 								></i4k-find-query>
 						</li>
 						<li>
