@@ -116,6 +116,7 @@ export class I4kFindSymbols {
 					"view-source": "data:,{}",
 					wr: "https://en.wikipedia.org/wiki/Special:Random",
 					wri: "https://commons.wikimedia.org/wiki/Special:Random/File",
+					wls: "https://en.wikipedia.org/wiki/Special:UrlShortener?url={}",
 					rtc: "https://sctlib.gitlab.io/rtc/?method={}&matrix-peers={}",
 					rtcmx:
 						"https://sctlib.gitlab.io/rtc/?matrix-peers={}&method=matrix-user-device",
