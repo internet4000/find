@@ -103,9 +103,9 @@ export default class I4kFindApp extends HTMLElement {
 						</li>
 						<li>
 							<i4k-find-query
-								q="+wr"
+								q="+wri"
 								no-open="true"
-								title="Find random wikipedia article (for lorem ipsum)"
+								title="Find random wikipedia image (for lorem ipsum)"
 								></i4k-find-query>
 						</li>
 						<li>
