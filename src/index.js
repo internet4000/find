@@ -22,7 +22,7 @@ export class I4kFindSymbols {
 				uri: encodeURIComponent("!"),
 				engines: {
 					"?": `${window.location.href}/#q=!docs%20{}`,
-					ai: "https://chat.openai.com/?q={}",
+					ai: "https://chat.com/?q={}",
 					arxiv: "https://arxiv.org/search/?query={}",
 					docs: "https://github.com/internet4000/find/#{}",
 					c: "https://contacts.google.com/search/{}",
