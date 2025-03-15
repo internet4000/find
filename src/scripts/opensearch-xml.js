@@ -25,29 +25,30 @@ const newUserConfig = async (baseUrl) => {
 	const userConfig = { ...userPkgConfig };
 	if (baseUrl) {
 		try {
-			new URL(baseUrl)
+			new URL(baseUrl);
 			const { queryParamName } = userConfig;
 			userConfig.templateHTML = `${baseUrl}/#${queryParamName}={searchTerms}`;
 			userConfig.templateXML = `${baseUrl}/${OSD_PATH}`;
 			userConfig.templateSuggestions = `${baseUrl}/api/suggestions/#${queryParamName}={searchTerms}`;
 			userConfig.image = `${baseUrl}/assets/favicon.ico`;
-		} catch(e) {
-			throw e
+		} catch (e) {
+			throw e;
 		}
 	}
 	return userConfig;
 };
 
 const openSearchXml = async () => {
-	const argumementsUrlHash = process.argv[2]
-	let userArgs
+	const argumementsUrlHash = process.argv[2];
+	let userArgs;
 	try {
-		userArgs = new URLSearchParams(argumementsUrlHash)
-	} catch(e) {}
-	const { generate = false } = userArgs
+		userArgs = Object.fromEntries(new URLSearchParams(argumementsUrlHash));
+	} catch (e) {}
+	const { generate = false } = userArgs;
 	const { I4K_FIND_URL } = process.env;
+
 	if (!I4K_FIND_URL) {
-		return
+		return;
 	}
 
 	let osdXml;
@@ -56,21 +57,20 @@ const openSearchXml = async () => {
 		const osd = new OpenSearchDescription(newConfig);
 		osdXml = osd.exportXML();
 	} catch (e) {
-		console.error(e);o
-		return
+		console.error(e);
+		return;
 	}
 
-	if (osdXml && generate && outputPath) {
+	if (osdXml && generate) {
 		try {
 			const localPath = path.join(process.cwd(), OSD_PATH);
-			await path.resolve(localPath);
 			await fs.writeFile(localPath, osdXml);
 		} catch (e) {
-			throw(e);
+			throw e;
 		}
 	}
-	return osdXml
-}
-openSearchXml()
+	return osdXml;
+};
+openSearchXml();
 
 export default openSearchXml;

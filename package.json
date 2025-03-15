@@ -28,9 +28,7 @@
     "serve": "^14.2.0"
   },
   "ava": {
-    "files": [
-      "src/tests/**/*"
-    ]
+    "files": ["src/tests/**/*"]
   },
   "i4k-find": {
     "localStorageKey": "i4find",
