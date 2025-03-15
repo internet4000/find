@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Set I4K_FIND_URL fallback
-        run: echo "I4K_FIND_URL=${{ vars.I4K_FIND_URL != '' ? vars.I4K_FIND_URL : steps.deployment.outputs.page_url }}" >> $GITHUB_ENV
-
       - name: Generate opensearch.xml
         run: npm run opensearch assets/opensearch.xml
 
