@@ -31,6 +31,7 @@ export class I4kFindSymbols {
 					d: "https://duckduckgo.com/?q={}",
 					dd: "https://devdocs.io/#q={}",
 					dr: "https://drive.google.com/drive/search?q={}",
+					eco: "https://www.ecosia.org/search?q={}",
 					fstv: "https://firesky.tv/?filter={}",
 					g: "https://encrypted.google.com/search?q={}",
 					gh: "https://github.com/search?q={}",
