@@ -105,7 +105,7 @@ export class I4kFindSymbols {
 					r4pr: "https://radio4000.com/{}/play/random",
 					scanurl: "https://radar.cloudflare.com/scan?url={}",
 					sheet: "https://docs.google.com/spreadsheets/create?title={}",
-					space: "https://goog.space/#input={}",
+					space: "https://space-element.pages.dev/#input={}",
 					sqlite: "https://sqlime.org/#{}",
 					gmail: "https://mail.google.com/mail/#inbox?compose=new&title={}",
 					gpt: "https://chat.openai.com/?model=gpt-4",
