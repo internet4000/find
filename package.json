@@ -23,6 +23,9 @@
     "url": "https://github.com/internet4000/find/issues"
   },
   "homepage": "https://github.com/internet4000/find#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "ava": "^6.4.1",
     "serve": "^14.2.5"
