@@ -15,9 +15,6 @@ concurrency:
   group: "deploy-pages"
   cancel-in-progress: false
 
-env:
-  I4K_FIND_URL: ${{ vars.I4K_FIND_URL }}
-
 jobs:
   deploy:
     environment:
@@ -28,6 +25,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -37,10 +38,10 @@ jobs:
         run: npm ci
 
       - name: Generate opensearch.xml
+        env:
+          # Use custom URL if set, otherwise use the GitHub Pages base URL
+          I4K_FIND_URL: ${{ vars.I4K_FIND_URL || steps.pages.outputs.base_url }}
         run: npm run opensearch assets/opensearch.xml
-
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

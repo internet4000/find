@@ -5,9 +5,14 @@ For more customization, see the development documentation.
 
 ## Methods
 There are diverse possibilities to deploy a new instance with a custom
-Find, generally it will need the correct values for the `I4K_FIND_URL`
-environment variable, `https://example.org/my-find`. As reference,
-check the different CI/CD workflow recipes.
+Find. The OpenSearch configuration is generated from the `I4K_FIND_URL`
+environment variable (e.g., `https://example.org/my-find`).
+
+**For GitHub Pages deployments**: The `I4K_FIND_URL` automatically defaults
+to your repository's GitHub Pages URL, so no manual configuration is needed.
+
+**For custom domains**: Set the `I4K_FIND_URL` environment variable to your
+deployment URL. As reference, check the different CI/CD workflow recipes.
 
 > The recommended method is to use a CI/CD recipe to deploy a custom
 > instance, to a custom server (or pages like the default
@@ -39,10 +44,12 @@ Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=
 ### github fork & actions (for own instance)
 - fork this repository
 - enable "pages from actions" in the settings
-- customize the `I4K_FIND_URL` env var (it will try to default to the
-  github pages deployment URL)
 - run the "static.yml" workflow
 - visit the fork's github page
+
+**Note**: The `I4K_FIND_URL` environment variable automatically defaults to
+your GitHub Pages URL (`https://{owner}.github.io/{repo}/`). You only need
+to set it manually in repository variables if deploying to a custom domain.
 
 ### gitlab pages
 - fork this repository on gitlab

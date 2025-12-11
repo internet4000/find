@@ -1,5 +1,5 @@
 import { OpenSearchDescription } from "../open-search.js";
-import packageJson from "../../package.json" assert { type: "json" };
+import packageJson from "../../package.json" with { type: "json" };
 import fs from "fs/promises";
 import path from "path";
 
@@ -48,8 +48,12 @@ const openSearchXml = async () => {
 	const { I4K_FIND_URL } = process.env;
 
 	if (!I4K_FIND_URL) {
+		console.error("ERROR: I4K_FIND_URL environment variable is not set");
+		console.error("The OpenSearch XML file will not be generated.");
 		return;
 	}
+
+	console.log(`Generating OpenSearch XML for: ${I4K_FIND_URL}`);
 
 	let osdXml;
 	try {
@@ -65,6 +69,7 @@ const openSearchXml = async () => {
 		try {
 			const localPath = path.join(process.cwd(), OSD_PATH);
 			await fs.writeFile(localPath, osdXml);
+			console.log(`✓ OpenSearch XML written to: ${localPath}`);
 		} catch (e) {
 			throw e;
 		}
