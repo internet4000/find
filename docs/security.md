@@ -59,7 +59,7 @@ It should be possible to:
 As Javasript (Class, web-components, node.js scripts), HTML, CSS
 code:
 - main instance demo site https://internet4000.github.io/find
-- npm package https://www.npmjs.com/package/i4k-find
+- npm package https://www.npmjs.com/package/@internet4000/find
 - git repository https://github.com/internet4000/find
 
 ### Query to Find

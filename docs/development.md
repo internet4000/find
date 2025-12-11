@@ -44,13 +44,13 @@ integration, testing, opensearch, hosting.
 
 ## NPM package
 Find is available as a javascript es6 NPM module [!npm
-i4k-find](https://www.npmjs.com/package/i4k-find).
+@internet4000/find](https://www.npmjs.com/package/@internet4000/find).
 
 ### Install
-In a new project use `npm instal i4k-find`.
+In a new project use `npm install @internet4000/find`.
 
 ```js
-import find from "https://cdn.jsdelivr.net/npm/i4k-find@latest";
+import find from "https://cdn.jsdelivr.net/npm/@internet4000/find@latest";
 
 const openWindow = false; ;; defaults to true
 const userQuery = "&gh internet4000 find"
@@ -67,14 +67,14 @@ version on npm).
 ## Node.js CLI utility
 To get a Find result from a shell, in node.js. Can run for example:
 - `node ../com.github/internet4000/find/src/scripts/i4k-find.js "&gh
-  i4k find"` (if downloaded loacally, from an other folder)
-- `npx i4k-find "my query in bash string"`, directly from npm
-- `npm link i4k-find` or `npm link <path_to_local_find_index_js>` (to test locally)
-- `npm run find "hello"` when developing in this repo (`package.json.scripts.fin`)
+  i4k find"` (if downloaded locally, from another folder)
+- `npx @internet4000/find "my query in bash string"`, directly from npm
+- `npm link @internet4000/find` or `npm link <path_to_local_find_index_js>` (to test locally)
+- `npm run find "hello"` when developing in this repo (`package.json.scripts.find`)
 - as a [shell alias](https://en.wikipedia.org/wiki/Alias_%28command%29)
 
-It is possible to bind i4k-find to a "shell environment variable", to
-use Find from a shortcut, and pipe its output to other program (ex:
+It is possible to bind the Find CLI to a "shell environment variable", to
+use Find from a shortcut, and pipe its output to other programs (ex:
 browser open URL of the result), or pipe other program's input to it.
 
 > Running from the shell, should only output the "translated query";
@@ -83,8 +83,8 @@ browser open URL of the result), or pipe other program's input to it.
 
 ```txt
 # feed "text string" to Find as arguments
-echo hello | xargs npx i4k-find
-npx i4k-find "&gh internet4000 find" | firefox
+echo hello | xargs npx @internet4000/find
+npx @internet4000/find "&gh internet4000 find" | firefox
 # the previous is currently not working @TODO
 ```
 
@@ -106,7 +106,7 @@ From a `queries.txt` file with the content:
 
 The following could be used to generate a Find result for each line:
 ```shell
-cat queries.txt | npx i4k-find
+cat queries.txt | npx @internet4000/find
 # will output
 https://github.com/internet4000/find
 https://goog.space/#input=hello%20world
@@ -117,7 +117,7 @@ data:application/json;charset=utf-8,%7B%22my_boolean%22%3A%20true%7D
 Notes: Not sure about many things here:
 - new lines `\n`, insert or not? difference with `ls` output
 - how to best pipe out to other programs? pipe in to recieve from
-  other programs, or user input `npx i4k-find "hello"` versus `npx i4k-find` then `hello \n world \n +space test \n +m tokyo \n C-d / C-d`
+  other programs, or user input `npx @internet4000/find "hello"` versus `npx @internet4000/find` then `hello \n world \n +space test \n +m tokyo \n C-d / C-d`
 - how to best read from files
 - how to best pass the result to the browser CLI command, to open a
   new tab with the result, or multiple tabs per "line result" ?
@@ -164,7 +164,7 @@ which can be called with the command `npm run opensearch`, (and is run
 for each new deploy in the CI/CD recipes).
 
 This should generate the correct `opensearch.xml`, from information
-that the scripts finds from the `package.json` file and `"i4k-find"`
+that the scripts finds from the `package.json` file and `"@internet4000/find"`
 key. As reference, check the project's own.
 
 ```shell

@@ -24,13 +24,13 @@
   },
   "homepage": "https://github.com/internet4000/find#readme",
   "devDependencies": {
-    "ava": "^5.3.1",
-    "serve": "^14.2.0"
+    "ava": "^6.4.1",
+    "serve": "^14.2.5"
   },
   "ava": {
     "files": ["src/tests/**/*"]
   },
-  "i4k-find": {
+  "@internet4000/find": {
     "localStorageKey": "i4find",
     "queryParamName": "q",
     "shortName": "Find",

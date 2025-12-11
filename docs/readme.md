@@ -9,7 +9,7 @@ run in web browsers and node.js javascript contexts.
 It is distributed as [a
 website](https://internet4000.github.io/find/), [javascript
 class](https://github.com/internet4000/find/blob/main/src/index.js),
-[npm package](https://www.npmjs.com/package/i4k-find) and [git
+[npm package](https://www.npmjs.com/package/@internet4000/find) and [git
 repository](https://github.com/internet4000/find).
 
 To install and use a personal/community instance, follow the
