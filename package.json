@@ -1,6 +1,6 @@
 {
   "name": "@internet4000/find",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "URL action engine",
   "main": "src/index.js",
   "type": "module",
