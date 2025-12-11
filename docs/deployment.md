@@ -1,72 +1,195 @@
-# Deployment
-To deploy a new Find instance, as a static website.
+# Deployment Guide
 
-For more customization, see the development documentation.
+Deploy your own Find instance to any static hosting platform.
 
-## Methods
-There are diverse possibilities to deploy a new instance with a custom
-Find. The OpenSearch configuration is generated from the `I4K_FIND_URL`
-environment variable (e.g., `https://example.org/my-find`).
+## GitHub Pages (Recommended)
 
-**For GitHub Pages deployments**: The `I4K_FIND_URL` automatically defaults
-to your repository's GitHub Pages URL, so no manual configuration is needed.
+**Zero configuration required** - just fork and deploy.
 
-**For custom domains**: Set the `I4K_FIND_URL` environment variable to your
-deployment URL. As reference, check the different CI/CD workflow recipes.
+### Steps
 
-> The recommended method is to use a CI/CD recipe to deploy a custom
-> instance, to a custom server (or pages like the default
-> insance). That way it regroups the code, the infrastructure that
-> deploys it and the server that hosts it together.
+1. **Fork** this repository on GitHub
+2. **Enable Pages**: Go to Settings → Pages → Source: "GitHub Actions"
+3. **Deploy**: Push to the `main` branch (or manually trigger the workflow)
+4. **Done**: Your instance is live at `https://your-username.github.io/find`
 
-### Drag and drop on a "static file server"
-Because the code of Find has no build pipeline, deploying a new
-instance of Find should be as simple as copying the entire `/find`
-folder (this repo) on a web server.
+The workflow automatically:
+- Detects your GitHub Pages URL
+- Generates the OpenSearch XML with the correct URLs
+- Deploys everything
 
-For a "clean deployment", it is better to copy the required files,
-into a new folder. See the CI/CD recipes references, which automate
-this process by listing the required steps and commands.
+### Custom Domain
 
-### static pages from providers
-Makes a fork of the project, and deploy to a "static pages provider"
-connected with the git repo. There is no `build` step, and the
-project's root folder is `.` for the current proejct folder (or `/`
-depending on the provider).
+If using a custom domain with GitHub Pages:
 
-[![Deploy to
-Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/internet4000/find)
+1. Configure your custom domain in Settings → Pages
+2. Add a repository variable:
+   - Go to Settings → Secrets and variables → Actions → Variables
+   - Click "New repository variable"
+   - Name: `I4K_FIND_URL`
+   - Value: `https://your-custom-domain.com`
+3. Re-run the workflow
 
-[![Deploy with
-Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/internet4000/find)
+## Netlify
 
+### One-Click Deploy
 
-### github fork & actions (for own instance)
-- fork this repository
-- enable "pages from actions" in the settings
-- run the "static.yml" workflow
-- visit the fork's github page
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/internet4000/find)
 
-**Note**: The `I4K_FIND_URL` environment variable automatically defaults to
-your GitHub Pages URL (`https://{owner}.github.io/{repo}/`). You only need
-to set it manually in repository variables if deploying to a custom domain.
+### Manual Setup
 
-### gitlab pages
-- fork this repository on gitlab
-- it should use the `pages` job/pipeline, that will deploy a new instance
+1. Fork this repository
+2. Connect your repository to Netlify
+3. Deploy settings:
+   - Build command: `npm run opensearch`
+   - Publish directory: `.` (root)
+   - Build environment: `I4K_FIND_URL` = your Netlify URL
 
-Gitlab offfer "private pages", so a page could be accessed only by
-users who are logged in to the repo
+## Vercel
 
-### local/private/VPN instance
+### One-Click Deploy
 
-Can run on `localhost:<port>` on any machine, with the dev server
-  (though maybe something more efficient could be nice).
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/internet4000/find)
 
-Can be served from a "private local machine" (ex: unused phone over
-4g, or raspi), runnin a wireguard VPN or private [Tailscale
-Tailnet](https://tailscale.com/kb/1136/tailnet/?q=tailnet).
+### Manual Setup
 
-That way requests should never leave the user network, until resolved
-by Find to a URL that the browser can resolve
+1. Fork this repository
+2. Import to Vercel
+3. Add environment variable:
+   - Key: `I4K_FIND_URL`
+   - Value: Your Vercel deployment URL
+4. Add build command: `npm run opensearch`
 
+## GitLab Pages
+
+1. Fork to GitLab
+2. The `.gitlab-ci.yml` pipeline will deploy automatically
+3. Available at `https://username.gitlab.io/find`
+
+GitLab offers private pages - restrict access to logged-in users.
+
+## Static File Hosting
+
+Find has no build step, so you can deploy by copying files.
+
+### Drag & Drop
+
+1. Download this repository
+2. Run locally:
+   ```bash
+   npm install
+   I4K_FIND_URL=https://your-domain.com npm run opensearch '?generate=true'
+   ```
+3. Upload the entire directory to your static host
+
+### Required Files
+
+At minimum, you need:
+- `index.html`
+- `src/` directory
+- `assets/` directory (including generated `opensearch.xml`)
+
+## Local / Private Instance
+
+### Development Server
+
+```bash
+npm install
+npm run dev
+```
+
+Visit `http://localhost:8000`
+
+### Private Network (VPN)
+
+Run Find on a private machine accessible via:
+- [Tailscale](https://tailscale.com) Tailnet
+- WireGuard VPN
+- Local network
+
+This keeps all queries within your private network until Find resolves them to destination URLs.
+
+## Environment Variables
+
+### `I4K_FIND_URL`
+
+The base URL where your Find instance is deployed.
+
+**When it's required:**
+- Custom domains
+- Non-GitHub-Pages deployments
+
+**When it's optional:**
+- GitHub Pages (auto-detected from workflow)
+
+**Examples:**
+```bash
+I4K_FIND_URL=https://find.example.com
+I4K_FIND_URL=https://user.github.io/find
+```
+
+### How It's Used
+
+The `I4K_FIND_URL` variable generates your `opensearch.xml` file with the correct URLs for:
+- Search template: `${I4K_FIND_URL}/#q={searchTerms}`
+- OpenSearch descriptor: `${I4K_FIND_URL}/assets/opensearch.xml`
+- Icon: `${I4K_FIND_URL}/assets/favicon.ico`
+
+## Testing Your Deployment
+
+After deploying:
+
+1. Visit your instance URL
+2. Try a search: `!g test`
+3. Check that it redirects correctly
+4. View source of `assets/opensearch.xml` to verify URLs are correct
+
+## Troubleshooting
+
+### OpenSearch URLs are wrong
+
+Check that `I4K_FIND_URL` is set correctly:
+
+```bash
+# Local test
+I4K_FIND_URL=https://your-url.com npm run opensearch
+```
+
+You should see:
+```
+Generating OpenSearch XML for: https://your-url.com
+✓ OpenSearch XML written to: /path/to/assets/opensearch.xml
+```
+
+### GitHub Actions deployment fails
+
+1. Verify Pages is enabled: Settings → Pages → Source: GitHub Actions
+2. Check workflow run logs in the Actions tab
+3. Ensure you have the correct permissions (Settings → Actions → General → Workflow permissions: "Read and write permissions")
+
+### Custom domain not working
+
+1. Set `I4K_FIND_URL` repository variable
+2. Verify DNS is configured correctly
+3. Wait for DNS propagation (can take 24-48 hours)
+4. Re-run the deployment workflow
+
+## Advanced
+
+### Multiple Instances
+
+Deploy different instances for different purposes:
+
+- Production: `find.domain.com`
+- Development: `find-dev.domain.com`
+- Personal: `find.personal.domain.com`
+
+Each can have different custom engines and configurations.
+
+### Custom Engines by Default
+
+Fork the repository and edit `src/index.js` to add your default engines to the `DEFAULT_SYMBOLS` object.
+
+### Offline-First PWA
+
+Find includes a `manifest.json` and service worker. When deployed with HTTPS, browsers can install it as a PWA for offline access.
